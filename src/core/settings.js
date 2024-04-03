@@ -1,16 +1,16 @@
 //  setttings for font family
 const fontElement = document.getElementById("fontStyle");
 const selectedFont = fontElement.options[fontElement.selectedIndex].value;
-const sendSettingsChannel = new BroadcastChannel("settings");
+const opacityRange = document.getElementById("opacity");
+const settingsChannel = new BroadcastChannel("settings");
+const roundedCorner = document.getElementById("rounded-corner");
 
 fontElement.addEventListener("change", function() {
     let selectedValue = fontElement.options[fontElement.selectedIndex].value;
-    sendSettingsChannel.postMessage({ selectedFont: selectedValue });
-    sendSettingsChannel.close();
+    settingsChannel.postMessage({ selectedFont: selectedValue });
 });
 
 //  Dealing with opacity color
-const opacityRange = document.getElementById("opacity");
 
 opacityRange.addEventListener("input", function () {
     let currentOpacity = opacityRange.value / 10;
@@ -23,17 +23,14 @@ opacityRange.addEventListener("input", function () {
     let newColor = `rgba(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]}, ${currentOpacity})`;
 
     settingsChannel.postMessage({ opacityColor: newColor });
-    settingsChannel.close();
 });
 
 //  handling rounded corner
-const roundedCorner = document.getElementById("rounded-corner");
 
 roundedCorner.addEventListener("input", function () {
     let currentRoundedCorner = roundedCorner.value;
     
     settingsChannel.postMessage({ roundedCorner: currentRoundedCorner });
-    settingsChannel.close();
 });
 
 
@@ -48,7 +45,6 @@ bgColorInput.addEventListener("input", function () {
     let newColor = hexToRgba(selectedColor, alphaValue);
     
     settingsChannel.postMessage({ selectedBgColor: newColor });
-    settingsChannel.close();
     
 });
 
@@ -59,7 +55,6 @@ fontColorInput.addEventListener("input", function () {
     let selectedColor = fontColorInput.value;
     
     settingsChannel.postMessage({ selectedFontColor: selectedColor });
-    settingsChannel.close();
 });
 
 // handle Title Color
@@ -68,7 +63,6 @@ titleColorInput.addEventListener("input", function () {
     let selectedColor = titleColorInput.value;
     
     settingsChannel.postMessage({ selectedTitleColor: selectedColor });
-    settingsChannel.close();
 });
 
 // handle Title Color
@@ -84,7 +78,6 @@ boldButton.addEventListener("click", function () {
     }
     
     settingsChannel.postMessage({ currentBoldState: newBoldState });
-    settingsChannel.close();
     console.log("Bold button");
 });
 
@@ -103,7 +96,6 @@ italicButton.addEventListener("click", function () {
     }
     
     settingsChannel.postMessage({ currentItalicState: newItalicState });
-    settingsChannel.close();
 });
 
 
@@ -122,7 +114,6 @@ underlineButton.addEventListener("click", function () {
     }
     
     settingsChannel.postMessage({ currentUnderlineState: newUnderlineState });
-    settingsChannel.close();
 });
 
 
@@ -133,7 +124,6 @@ const selectedAlignment = textAlignElement.options[textAlignElement.selectedInde
 textAlignElement.addEventListener("change", function() {
     let selectedValue = textAlignElement.options[textAlignElement.selectedIndex].value;
     
-    sendSettingsChannel.postMessage({ selectedTextAlignment: selectedValue });
-    sendSettingsChannel.close();
+    settingsChannel.postMessage({ selectedTextAlignment: selectedValue });
 });
 

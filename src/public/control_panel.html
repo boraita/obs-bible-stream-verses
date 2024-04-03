@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+  
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/css/cp_style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/css/cp_style.css" />
     <title>Remitente</title>
   </head>
   <body>
@@ -11,18 +12,24 @@
       <div class="tab-item">
         <div id="text" class="tab-area">
           <div class="container">
-            <textarea id="messageInput" placeholder="Escribe un mensaje"></textarea>
+            <textarea
+              id="messageInput"
+              placeholder="Escribe un mensaje"
+            ></textarea>
             <button id="sendButton">Mostrar texto</button>
           </div>
         </div>
-        <div id="bibleText" class="tab-area" style="display:none;">
+        <div id="bibleText" class="tab-area" style="display: none">
           <div class="container">
             <div class="bible-search">
               <div class="input-suggest">
-                <input id="bible-input" placeholder="Salmo 1:1 o cualquier contenido de versículo">
+                <input
+                  id="bible-input"
+                  placeholder="Salmo 1:1 o cualquier contenido de versículo"
+                />
                 <div id="suggestions"></div>
               </div>
-              <input type="submit" id="bible-submit" value="Buscar">
+              <input type="submit" id="bible-submit" value="Buscar" />
               <span id="history">Historia</span>
             </div>
             <div class="bible" id="bible">
@@ -36,48 +43,21 @@
             </div>
           </div>
         </div>
-        <div id="songs" class="tab-area" style="display:none;">
+        <div id="listText" class="tab-area" style="display: none">
           <div class="container">
-            <div class="add-song" id="add-song">
-              <input type="file" id="fileInput" accept=".txt">
-            </div>
-            <div class="song" id="song">
-              <div  class="song-verse" id="song-display">
-                
-                <div class="verse" id="verse1">
-                  <p>Quien conoce el destino al mirar</p>
-                  <p>El fin será en el momento</p>
-                  <p>La madre que vivió su tiempo</p>
-                  <p>El padre que vivió su tiempo</p>
-                  <p>Quien conoce el destino al mirar</p>
-                  <p>El fin será en el momento</p>
-                </div>
-                
-                <div class="chorus song-chorus"  id="chorus">
-                  <p>ESTRIBILLO</p>
-                  <p>Muchas cosas del mañana,</p>
-                  <p>No parecen entender;</p>
-                  <p>Pero sé quién sostiene el mañana,</p>
-                  <p>Y sé quién sostiene mi mano.</p>
-                </div>
-
-              </div>
-
-            </div>
-            <div class="next-prev">
-              <button class="prev" id="prev-line">Anterior</button>
-              <button class="next" id="next-line">Siguiente</button>
-            </div>
-          </div>
-        </div>
-        <div id="listText" class="tab-area" style="display:none;">
-          <div class="container">
-            <input type="text" id="listTitle" placeholder="Título de la Lista">
-            <textarea id="listItems" placeholder="Escribe un mensaje"></textarea>
+            <input
+              type="text"
+              id="listTitle"
+              placeholder="Título de la Lista"
+            />
+            <textarea
+              id="listItems"
+              placeholder="Escribe un mensaje"
+            ></textarea>
             <button id="sendList">Mostrar texto</button>
           </div>
         </div>
-        <div id="setBg" class="tab-area" style="display:none;">
+        <div id="setBg" class="tab-area" style="display: none">
           <div class="container">
             <div class="settings">
               <span class="font-settings" id="bold">N</span>
@@ -88,61 +68,71 @@
                 <option value="Right">Derecha</option>
                 <option value="Center">Centro</option>
                 <option value="Justify">Justificar</option>
-            </select>
+              </select>
             </div>
             <div class="settings">
               <div class="color-picker">
                 <label>Fondo</label>
-                <input type="color" id="bgColor">
+                <input type="color" id="bgColor" />
               </div>
               <div class="color-picker">
                 <label>Texto</label>
-                <input type="color" id="fontColor">
+                <input type="color" id="fontColor" />
               </div>
               <div class="color-picker">
                 <label>Título</label>
-                <input type="color" id="titleColor">
+                <input type="color" id="titleColor" />
               </div>
             </div>
             <div class="slidecontainer">
               <label>Esquinas redondeadas</label>
-              <input type="range" min="0" max="120" value="0" class="slider" id="rounded-corner">
+              <input
+                type="range"
+                min="0"
+                max="120"
+                value="0"
+                class="slider"
+                id="rounded-corner"
+              />
               <label>Opacidad</label>
-              <input type="range" min="0" max="10" value="10" class="slider" id="opacity">
+              <input
+                type="range"
+                min="0"
+                max="10"
+                value="10"
+                class="slider"
+                id="opacity"
+              />
             </div>
             <select id="fontStyle">
-                <option value="Arial">Arial</option>
-                <option value="Courier New">Courier New</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Helvetica">Helvetica</option>
-                <option value="Impact">Impact</option>
-                <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
-                <option value="sans-serif">Sans Serif</option>
-                <option value="Serif">Serif</option>
-                <option value="Tahoma">Tahoma</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Trebuchet MS">Trebuchet MS</option>
-                <option value="Verdana">Verdana</option>
+              <option value="Inter">Inter</option>
+              <option value="Arial">Arial</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Helvetica">Helvetica</option>
+              <option value="Impact">Impact</option>
+              <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+              <option value="sans-serif">Sans Serif</option>
+              <option value="Serif">Serif</option>
+              <option value="Tahoma">Tahoma</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Trebuchet MS">Trebuchet MS</option>
+              <option value="Verdana">Verdana</option>
             </select>
           </div>
         </div>
       </div>
       <div class="tabs">
         <button class="tab-button" onclick="openTab('text')">Texto</button>
-        <button class="tab-button" onclick="openTab('bibleText')">Biblia</button>
-        <button class="tab-button" onclick="openTab('songs')">Canciones</button>
+        <button class="tab-button" onclick="openTab('bibleText')">
+          Biblia
+        </button>
         <button class="tab-button" onclick="openTab('listText')">Lista</button>
         <button class="tab-button" onclick="openTab('setBg')">Ajustes</button>
       </div>
     </div>
-    <script src='../bibles/es_rvr/es_rvr.js'></script>
+    <script src="../bibles/es_rvr/es_rvr.js"></script>
     <script src="../core/control_app.js"></script>
     <script src="../core/sendMessage.js"></script>
     <script src="../core/settings.js"></script>
     <script src="../core/utils.js"></script>
-
-    <script src="../core/loadSong.js"></script>
-    <script src="../core/searchBible.js"></script>
-    <script src="../core/suggestBibleBooks.js"></script>
-  </body>
-</html>

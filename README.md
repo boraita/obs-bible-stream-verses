@@ -39,39 +39,4 @@ OBS Bible Plugin is now available in the following versions.
 2. Search for the Bible Passage with name such is **John 1:1** or with a passage from the scripture as: **Love your neighbor as yourself**
 3. Click on the Bible Verse to display it.
 
-## How to Add Song
-In order to add song
-1. Go to the **Song** tab
-2. Click on **Choose File** to upload a song a txt file that contains a song: **Example:** **song.txt**
-3. If you want to differentiate the chorus, make sure that the first line of the chorus is the word "CHORUS"
-4. Click on any line to display it.
-
-### Your _song.txt_ file should be arranged in this format.
-
-1.
-O soul, are you weary and troubled?  
-No light in the darkness you see?  
-There’s light for a look at the Savior,  
-And life more abundant and free!  
-
-CHORUS  
-Turn your eyes upon Jesus,  
-Look full in His wonderful face,  
-And the things of earth will grow strangely dim,  
-In the light of His glory and grace.  
-
-2.
-Through death into life everlasting  
-He passed, and we follow Him there;  
-O’er us sin no more hath dominion—  
-For more than conqu’rors we are!  
-
-3.
-His Word shall not fail you—He promised;  
-Believe Him, and all will be well:  
-Then go to a world that is dying,  
-His perfect salvation to tell!
-
-I hope that as time goes on, we would be able to add more translations. Thank you. God bless you.
-
 Made with ❤️.

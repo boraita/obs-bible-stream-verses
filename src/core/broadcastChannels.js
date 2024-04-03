@@ -18,15 +18,16 @@ channel.onmessage = (event) => {
 
 // settings channel
 settingsChannel.onmessage = (event) => {
-  console.log(event.data);
 
-  switch (event.data) {
+  switch (Object.keys(event.data)?.[0]) {
     case 'selectedFont':
-      bgContainer.style.fontFamily = event.data['selectedFont'];
+      const selectedFont = event.data['selectedFont'];
+      bgContainer.style.fontFamily = selectedFont;
       localStorage.setItem('fontFamily', selectedFont);
       break;
     case 'opacityColor':
-      bgContainer.style.backgroundColor = event.data['opacityColor'];
+      const opacityColor = event.data['opacityColor'];
+      bgContainer.style.backgroundColor = opacityColor;
       localStorage.setItem('bgColor', opacityColor);
       break;
     case 'roundedCorner':
@@ -51,17 +52,17 @@ settingsChannel.onmessage = (event) => {
       localStorage.setItem('titleColor', selectedTitleColor);
       break;
     case 'currentBoldState':
-      messageDisplay.style.fontWeight = event.data['currentBoldState'];
+      const currentBoldState = event.data['currentBoldState'];
       messageDisplay.style.fontWeight = currentBoldState;
       localStorage.setItem('boldState', currentBoldState);
       break;
     case 'currentItalicState':
-      messageDisplay.style.fontStyle = event.data['currentItalicState'];
+      const currentItalicState = event.data['currentItalicState'];
       messageDisplay.style.fontStyle = currentItalicState;
       localStorage.setItem('italicState', currentItalicState);
       break;
     case 'currentUnderlineState':
-      messageDisplay.style.textDecoration = event.data['currentUnderlineState'];
+      const currentUnderlineState = event.data['currentUnderlineState'];
       messageDisplay.style.textDecoration = currentUnderlineState;
       localStorage.setItem('underlineState', currentUnderlineState);
       break;
@@ -73,6 +74,6 @@ settingsChannel.onmessage = (event) => {
   }
 };
 
-window.addEventListener('beforeunload', () => {
-  settingsChannel.close();
-});
+// window.addEventListener('beforeunload', () => {
+//   settingsChannel.close();
+// });
