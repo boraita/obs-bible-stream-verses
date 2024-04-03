@@ -1,13 +1,12 @@
 //  setttings for font family
 const fontElement = document.getElementById("fontStyle");
 const selectedFont = fontElement.options[fontElement.selectedIndex].value;
+const sendSettingsChannel = new BroadcastChannel("settings");
 
 fontElement.addEventListener("change", function() {
     let selectedValue = fontElement.options[fontElement.selectedIndex].value;
-    
-    let sendSettingsChannel = new BroadcastChannel("settings");
     sendSettingsChannel.postMessage({ selectedFont: selectedValue });
-    sendSettingsChannel .close();
+    sendSettingsChannel.close();
 });
 
 //  Dealing with opacity color
@@ -15,12 +14,14 @@ const opacityRange = document.getElementById("opacity");
 
 opacityRange.addEventListener("input", function () {
     let currentOpacity = opacityRange.value / 10;
+    if (localStorage.getItem('bgColor') === null) {
+        localStorage.setItem('bgColor', 'rgba(0, 0, 0, 1)');
+    }
     let bgColor = localStorage.getItem('bgColor');
     
     let rgbValues = bgColor.match(/\d+/g);
     let newColor = `rgba(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]}, ${currentOpacity})`;
 
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ opacityColor: newColor });
     settingsChannel.close();
 });
@@ -31,7 +32,6 @@ const roundedCorner = document.getElementById("rounded-corner");
 roundedCorner.addEventListener("input", function () {
     let currentRoundedCorner = roundedCorner.value;
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ roundedCorner: currentRoundedCorner });
     settingsChannel.close();
 });
@@ -47,7 +47,6 @@ bgColorInput.addEventListener("input", function () {
     const alphaValue = rgbaParts.length === 4 ? parseFloat(rgbaParts[3]) : 1;
     let newColor = hexToRgba(selectedColor, alphaValue);
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ selectedBgColor: newColor });
     settingsChannel.close();
     
@@ -59,7 +58,6 @@ const fontColorInput = document.getElementById("fontColor");
 fontColorInput.addEventListener("input", function () {
     let selectedColor = fontColorInput.value;
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ selectedFontColor: selectedColor });
     settingsChannel.close();
 });
@@ -69,7 +67,6 @@ const titleColorInput = document.getElementById("titleColor");
 titleColorInput.addEventListener("input", function () {
     let selectedColor = titleColorInput.value;
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ selectedTitleColor: selectedColor });
     settingsChannel.close();
 });
@@ -86,7 +83,6 @@ boldButton.addEventListener("click", function () {
         boldButton.style.backgroundColor ='#55a' 
     }
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ currentBoldState: newBoldState });
     settingsChannel.close();
     console.log("Bold button");
@@ -106,7 +102,6 @@ italicButton.addEventListener("click", function () {
         italicButton.style.fontStyle  = 'italic';
     }
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ currentItalicState: newItalicState });
     settingsChannel.close();
 });
@@ -126,7 +121,6 @@ underlineButton.addEventListener("click", function () {
         underlineButton.style.textDecoration  = 'underline';
     }
     
-    let settingsChannel = new BroadcastChannel("settings");
     settingsChannel.postMessage({ currentUnderlineState: newUnderlineState });
     settingsChannel.close();
 });
@@ -139,9 +133,7 @@ const selectedAlignment = textAlignElement.options[textAlignElement.selectedInde
 textAlignElement.addEventListener("change", function() {
     let selectedValue = textAlignElement.options[textAlignElement.selectedIndex].value;
     
-    let sendSettingsChannel = new BroadcastChannel("settings");
     sendSettingsChannel.postMessage({ selectedTextAlignment: selectedValue });
     sendSettingsChannel.close();
-    console.log("Text Align")
 });
 
