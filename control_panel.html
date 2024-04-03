@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cp_style.css">
-    <title>Sender</title>
+    <title>Remitente</title>
   </head>
   <body>
     <div class="main">
       <div class="tab-item">
         <div id="text" class="tab-area">
           <div class="container">
-            <textarea id="messageInput" placeholder="Type a message"></textarea>
-            <button id="sendButton">Display Text</button>
+            <textarea id="messageInput" placeholder="Escribe un mensaje"></textarea>
+            <button id="sendButton">Mostrar texto</button>
           </div>
         </div>
         <div id="bibleText" class="tab-area" style="display:none;">
           <div class="container">
             <div class="bible-search">
               <div class="input-suggest">
-                <input id="bible-input" placeholder="Psalms 1:1 or Any Verse content">
+                <input id="bible-input" placeholder="Salmo 1:1 o cualquier contenido de versículo">
                 <div id="suggestions"></div>
               </div>
-              <input type="submit" id="bible-submit" value="Search">
-              <span id="history">History</span>
+              <input type="submit" id="bible-submit" value="Buscar">
+              <span id="history">Historia</span>
             </div>
             <div class="bible" id="bible">
               <div class="bible-verse" id="bible-verse">
-                <!-- This is the area for bible verses -->
+                <!-- Esta es el área para los versículos de la Biblia -->
               </div>
             </div>
             <div class="next-prev">
-              <button class="prev" id="prev-verse">Previous</button>
-              <button class="next" id="next-verse">Next</button>
+              <button class="prev" id="prev-verse">Anterior</button>
+              <button class="next" id="next-verse">Siguiente</button>
             </div>
           </div>
         </div>
@@ -45,69 +45,69 @@
               <div  class="song-verse" id="song-display">
                 
                 <div class="verse" id="verse1">
-                  <p>Omo to mo yare loju o</p>
-                  <p>Osi yio to mo na paa</p>
-                  <p>Iya to jiya po lori re</p>
-                  <p>Baba to ji ya po lori re</p>
-                  <p>Omo to mo ya re loju o</p>
-                  <p>Osi yio to mo na paa</p>
+                  <p>Quien conoce el destino al mirar</p>
+                  <p>El fin será en el momento</p>
+                  <p>La madre que vivió su tiempo</p>
+                  <p>El padre que vivió su tiempo</p>
+                  <p>Quien conoce el destino al mirar</p>
+                  <p>El fin será en el momento</p>
                 </div>
                 
                 <div class="chorus song-chorus"  id="chorus">
-                  <p>CHORUS</p>
-                  <p>Many things about tomorrow,</p>
-                  <p>I don’t seem to understand;</p>
-                  <p>But I know who holds tomorrow,</p>
-                  <p>And I know who holds my hand.</p>
+                  <p>ESTRIBILLO</p>
+                  <p>Muchas cosas del mañana,</p>
+                  <p>No parecen entender;</p>
+                  <p>Pero sé quién sostiene el mañana,</p>
+                  <p>Y sé quién sostiene mi mano.</p>
                 </div>
 
               </div>
 
             </div>
             <div class="next-prev">
-              <button class="prev" id="prev-line">Previous</button>
-              <button class="next" id="next-line">Next</button>
+              <button class="prev" id="prev-line">Anterior</button>
+              <button class="next" id="next-line">Siguiente</button>
             </div>
           </div>
         </div>
         <div id="listText" class="tab-area" style="display:none;">
           <div class="container">
-            <input type="text" id="listTitle" placeholder="Title of List">
-            <textarea id="listItems" placeholder="Type a message"></textarea>
-            <button id="sendList">Display Text</button>
+            <input type="text" id="listTitle" placeholder="Título de la Lista">
+            <textarea id="listItems" placeholder="Escribe un mensaje"></textarea>
+            <button id="sendList">Mostrar texto</button>
           </div>
         </div>
         <div id="setBg" class="tab-area" style="display:none;">
           <div class="container">
             <div class="settings">
-              <span class="font-settings" id="bold">B</span>
-              <span class="font-settings" id="italic">I</span>
-              <span class="font-settings" id="underline">U</span>
+              <span class="font-settings" id="bold">N</span>
+              <span class="font-settings" id="italic">C</span>
+              <span class="font-settings" id="underline">S</span>
               <select id="textAlign">
-                <option value="Left">Left</option>
-                <option value="Right">Right</option>
-                <option value="Center">Center</option>
-                <option value="Justify">Justify</option>
+                <option value="Left">Izquierda</option>
+                <option value="Right">Derecha</option>
+                <option value="Center">Centro</option>
+                <option value="Justify">Justificar</option>
             </select>
             </div>
             <div class="settings">
               <div class="color-picker">
-                <label>Background</label>
+                <label>Fondo</label>
                 <input type="color" id="bgColor">
               </div>
               <div class="color-picker">
-                <label>Font</label>
+                <label>Texto</label>
                 <input type="color" id="fontColor">
               </div>
               <div class="color-picker">
-                <label>Title</label>
+                <label>Título</label>
                 <input type="color" id="titleColor">
               </div>
             </div>
             <div class="slidecontainer">
-              <label>Rounded Corners</label>
+              <label>Esquinas redondeadas</label>
               <input type="range" min="0" max="120" value="0" class="slider" id="rounded-corner">
-              <label>Opacity</label>
+              <label>Opacidad</label>
               <input type="range" min="0" max="10" value="10" class="slider" id="opacity">
             </div>
             <select id="fontStyle">
@@ -128,20 +128,19 @@
         </div>
       </div>
       <div class="tabs">
-        <button class="tab-button" onclick="openTab('text')">Text</button>
-        <button class="tab-button" onclick="openTab('bibleText')">Bible</button>
-        <button class="tab-button" onclick="openTab('songs')">Songs</button>
-        <button class="tab-button" onclick="openTab('listText')">List</button>
-        <button class="tab-button" onclick="openTab('setBg')">Settings</button>
+        <button class="tab-button" onclick="openTab('text')">Texto</button>
+        <button class="tab-button" onclick="openTab('bibleText')">Biblia</button>
+        <button class="tab-button" onclick="openTab('songs')">Canciones</button>
+        <button class="tab-button" onclick="openTab('listText')">Lista</button>
+        <button class="tab-button" onclick="openTab('setBg')">Ajustes</button>
       </div>
     </div>
-    <script src='kjv_json/kjv.js'></script>
+    <!-- <script src='kjv_json/kjv.js'></script> -->
+    <script src='es_rvr/es_rvr.js'></script>
     <script src="js/control_app.js"></script>
     <script src="js/sendMessage.js"></script>
-    <script src="js/changeBg.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/utils.js"></script>
-
 
     <script src="js/loadSong.js"></script>
     <script src="js/searchBible.js"></script>
