@@ -29,6 +29,10 @@
                 />
                 <div id="suggestions"></div>
               </div>
+              <select class="select-bible-version" id="bible-version">
+                <!-- <option value="kadosh">kadosh</option> -->
+                <option value="rvr">rvr</option>
+              </select>
               <input type="submit" id="bible-submit" value="Buscar" />
               <span id="history">Historia</span>
             </div>
@@ -131,8 +135,13 @@
         <button class="tab-button" onclick="openTab('setBg')">Ajustes</button>
       </div>
     </div>
-    <script src="../bibles/es_rvr/es_rvr.js"></script>
+    <script src="../bibles/rvr.js"></script>
+    <script src="../core/filesHandle.js"></script>
     <script src="../core/control_app.js"></script>
     <script src="../core/sendMessage.js"></script>
     <script src="../core/settings.js"></script>
     <script src="../core/utils.js"></script>
+    <script src="../core/searchBible.js"></script>
+    <script src="../core/suggestBibleBooks.js"></script>
+  </body>
+</html>

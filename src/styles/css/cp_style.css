@@ -211,7 +211,6 @@ button:active {
   margin-bottom: 10px;
 }
 
-
 .next-prev{
   display: flex;
   flex-direction: row;
@@ -223,7 +222,6 @@ button:active {
   margin: 2px;
 
 }
-
 
 /* Styling for the scroll bar */
 ::-webkit-scrollbar {
@@ -357,4 +355,8 @@ button:active {
 
 .font-settings #italic{
   font-style: italic;
+}
+
+.select-bible-version{
+  width: 40%;
 }

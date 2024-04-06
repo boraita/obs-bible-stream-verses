@@ -10,7 +10,7 @@ const booksOfTheBible = [
   "Mateo ", "Marcos ", "Lucas ", "Juan ", "Hechos ",
   "Romanos ", "1 Corintios ", "2 Corintios ", "Gálatas ",
   "Efesios ", "Filipenses ", "Colosenses ", "1 Tesalonicenses ", "2 Tesalonicenses ",
-  "1 Timoteo ",  "2 Timoteo ", "Tito ", "Filemón ", "Hebreos ", "Santiago ", "1 Pedro ",
+  "1 Timoteo ", "2 Timoteo ", "Tito ", "Filemón ", "Hebreos ", "Santiago ", "1 Pedro ",
   "2 Pedro ", "1 Juan ", "2 Juan ", "3 Juan ", "Judas ", "Apocalipsis "
 ];
 
@@ -27,7 +27,7 @@ function updateInput(index) {
     for (let item = suggestionsList.children.length - 1; item >= 0; item--) {
       suggestionsList.children[item].style.backgroundColor = "#222";
     }
-    
+
     const selectedSuggestion = suggestionsList.children[index];
     bibleInput.value = selectedSuggestion.textContent;
     selectedSuggestion.style.backgroundColor = "#444";
@@ -39,9 +39,10 @@ function updateInput(index) {
   }
 }
 
-bibleInput.addEventListener("input", function() {
+bibleInput.addEventListener("input", function () {
   const inputValue = bibleInput.value.toLowerCase();
-  const filteredBooks = booksOfTheBible.filter(book => book.toLowerCase().includes(inputValue));
+  const inputSearch = removeAccents(inputValue)
+  const filteredBooks = booksOfTheBible.filter(book => removeAccents(book).toLowerCase().includes(inputSearch));
 
   suggestionsList.innerHTML = "";
 
@@ -60,9 +61,9 @@ bibleInput.addEventListener("input", function() {
   selectedSuggestionIndex = -1;
 });
 
-bibleInput.addEventListener("keydown", function(event) {
+bibleInput.addEventListener("keydown", function (event) {
   if (event.key === "ArrowDown") {
-    
+
     event.preventDefault();
     selectedSuggestionIndex =
       (selectedSuggestionIndex + 1) % suggestionsList.children.length;
@@ -80,3 +81,7 @@ bibleInput.addEventListener("keydown", function(event) {
     suggestionsList.innerHTML = "";
   }
 });
+
+function removeAccents(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
