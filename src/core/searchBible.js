@@ -1,24 +1,40 @@
 function searchBible(query) {
-  bblVerseDiv.innerHTML = ""; 
+  bblVerseDiv.innerHTML = "";
   const lowercaseQuery = query.toLowerCase();
-  const bibleData = getBibleData();
-  for (let i = 0; i < bibleData.length; i++) {
-    const name = bibleData[i].name.toLowerCase(); 
-    const verse = bibleData[i].verse.toLowerCase();
+  const versicles = filterVersicles(lowercaseQuery);
+  versicles.forEach((verse) => {
+    const cleanedName = verse.name
+      .replace(/:/g, "-")
+      .replace(/\s/g, "")
+      .toLowerCase();
 
-    if (name.includes(lowercaseQuery) || verse.includes(lowercaseQuery)) {
-      const cleanedName = bibleData[i].name.replace(/:/g, '-').replace(/\s/g, '').toLowerCase();
-      // const ariParts = bibleData[i].ari.split(':');
-      // const middleAriPart = ariParts[2];
-
-      const pElement = document.createElement('p');
-      pElement.id = cleanedName;
-      pElement.innerHTML = `<span>${name.toUpperCase()}</span> ${bibleData[i].verse}`;
-      bblVerseDiv.appendChild(pElement);
-    }
-  }
+    const pElement = document.createElement("p");
+    pElement.id = cleanedName;
+    pElement.innerHTML = `<span>${verse.name.toUpperCase()}</span> ${
+      verse.verse
+    }`;
+    bblVerseDiv.appendChild(pElement);
+  });
 }
 
+function filterVersicles(query) {
+  const versicles = getBibleData().filter((verseFiltered) => {
+    const name = verseFiltered.name.toLowerCase();
+    const verse = verseFiltered.verse.toLowerCase();
+    if (name.includes(query) && /\d/.test(query)) {
+      const numberMatchQuery = query.match(/\d+/g);
+      const number = numberMatchQuery?.[numberMatchQuery.length - 1];
+      const verseMatchQuery = verseFiltered.name.match(/\d+/g);
+      const verseNumber = verseMatchQuery?.[verseMatchQuery.length - 2];
+      return number === verseNumber;
+    } else if (name.includes(query)) {
+      return name;
+    } else if (verse.includes(query)) {
+      return verse;
+    }
+  });
+  return versicles;
+}
 
 const submitButton = document.getElementById("bible-submit");
 submitButton.addEventListener("click", function (event) {
@@ -32,7 +48,6 @@ submitButton.addEventListener("click", function (event) {
     displayBible();
   }
 });
-
 
 const inputField = document.getElementById("bible-input");
 
