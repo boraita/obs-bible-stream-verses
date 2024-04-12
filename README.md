@@ -8,13 +8,8 @@ You can modify it for your use.
 
 OBS Bible Plugin is now available in the following versions.
 
-1. Authorized King James Version (KJV)
-2. New King James Version (NKJV)
-3. Louis Segond 1920 (French Version)
-4. Reina-Valera Revision 1960 (RV60) (Spanish Version)
-
-![alt text](https://github.com/Tosin-JD/obs-bible-plugin/blob/main/Screenshot_20230918_110233.png)  
-
+1. Reina-Valera Revision 1960 (RV60) (Spanish Version)
+2. Biblia Mesiánica (Spanish Version)
 
 # How to Install the plugin
 1. Download the **obs-bible-plugin.zip**, **obs-bible-french.zip**, **obs-bibl-multi-lang.zip**.

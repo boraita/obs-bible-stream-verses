@@ -10,7 +10,7 @@ var savedItalicState = localStorage.getItem('italicState');
 var savedUnderlineState = localStorage.getItem('underlineState');
 var savedTextAlign = localStorage.getItem('textAlign');
 
-if (savedMessage){
+if (savedMessage) {
     messageDisplay.innerHTML = savedMessage;
 }
 

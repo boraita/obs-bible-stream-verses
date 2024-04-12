@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-  
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,7 +29,7 @@
                 <div id="suggestions"></div>
               </div>
               <select class="select-bible-version" id="bible-version">
-                <!-- <option value="kadosh">kadosh</option> -->
+                <option value="kadosh">kadosh</option>
                 <option value="rvr">rvr</option>
               </select>
               <input type="submit" id="bible-submit" value="Buscar" />
@@ -111,20 +110,14 @@
             <select id="fontStyle">
               <option value="Inter">Inter</option>
               <option value="Arial">Arial</option>
-              <option value="Courier New">Courier New</option>
-              <option value="Georgia">Georgia</option>
-              <option value="Helvetica">Helvetica</option>
-              <option value="Impact">Impact</option>
-              <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
-              <option value="sans-serif">Sans Serif</option>
-              <option value="Serif">Serif</option>
-              <option value="Tahoma">Tahoma</option>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="Trebuchet MS">Trebuchet MS</option>
-              <option value="Verdana">Verdana</option>
             </select>
           </div>
         </div>
+      </div>
+      <div class="handle-container-button">
+        <button id="bg-container-btn" onclick="handleBgContent()">
+          Ocultar
+        </button>
       </div>
       <div class="tabs">
         <button class="tab-button" onclick="openTab('text')">Texto</button>
@@ -136,6 +129,7 @@
       </div>
     </div>
     <script src="../bibles/rvr.js"></script>
+    <script src="../bibles/kadosh.js"></script>
     <script src="../core/filesHandle.js"></script>
     <script src="../core/control_app.js"></script>
     <script src="../core/sendMessage.js"></script>

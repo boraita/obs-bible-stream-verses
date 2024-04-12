@@ -119,6 +119,13 @@ button:active {
   min-width: 100%;
 }
 
+.handle-container-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .tab-area{
   height: 100%;
   min-height: 100%;

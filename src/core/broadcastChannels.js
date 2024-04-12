@@ -1,8 +1,9 @@
 const bgContainer = document.getElementById("bg-container");
 const messageDisplay = document.getElementById("messageDisplay");
+const bgContainerBtn = document.getElementById('bg-container-btn');
 const channel = new BroadcastChannel("myChannel");
+const bgContent = new BroadcastChannel("bgContent");
 const settingsChannel = new BroadcastChannel("settings");
-// const messageTitle = document.getElementById("messageTitle");
 
 // Text channel
 channel.onmessage = (event) => {
@@ -74,6 +75,11 @@ settingsChannel.onmessage = (event) => {
   }
 };
 
-// window.addEventListener('beforeunload', () => {
-//   settingsChannel.close();
-// });
+// container hidden or shown
+bgContent.onmessage = (event) => {
+  if (event.data === 'hidden') {
+    bgContainer.style.display = 'none';
+  } else {
+    bgContainer.style.display = 'inline';
+  }
+};
