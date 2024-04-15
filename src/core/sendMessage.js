@@ -20,16 +20,6 @@ function doc_keyUp(e) {
   }
 }
 
-function doc_keyUp(e) {
-
-  // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
-  if (e.ctrlKey && e.code === 'ArrowDown') {
-      // call your function to do the thing
-      const message = document.getElementById("messageInput").value;
-      channel.postMessage(message);
-  }
-}
-
 
 document.getElementById("sendList").addEventListener("click", () => {
   const listTitle = document.getElementById("listTitle").value;
@@ -99,46 +89,6 @@ function displayBible() {
     });
   });
 
-  // // Event listener for arrow up key
-  // window.addEventListener("keydown", (event) => {
-  //   if (event.key === "ArrowDown") {
-  //     if(currentVerseIndex < bibleVerses.length){
-  //       currentVerseIndex++;
-  //       const message = bibleVerses[currentVerseIndex].innerText;
-  //       channel.postMessage(message);
-  //     }else{
-  //       currentVerseIndex = 0;
-  //     }
-      
-  //   }
-  //   if (event.key === "ArrowUp") {
-  //     if(currentVerseIndex >= 0){
-  //       currentVerseIndex--;
-  //       const message = bibleVerses[currentVerseIndex].innerText;
-  //       channel.postMessage(message);
-  //     }else{
-  //       currentVerseIndex = 0;
-  //     }
-  //   }
-  //   if (event.key === "ArrowDown" && event.ctrlKey) {
-  //     if (currentVerseIndex < bibleVerses.length) {
-  //       currentVerseIndex++;
-  //       const message = bibleVerses[currentVerseIndex].innerText;
-  //       channel.postMessage(message);
-  //     } else {
-  //       currentVerseIndex = 0;
-  //     }
-  //   }
-  //   if (event.key === "ArrowUp" && event.ctrlKey) {
-  //     if(currentVerseIndex >= 0){
-  //       currentVerseIndex--;
-  //       const message = bibleVerses[currentVerseIndex].innerText;
-  //       channel.postMessage(message);
-  //     }else{
-  //       currentVerseIndex = 0;
-  //     }
-  //   }
-  // });
     // Event listener for Previous button
   document.getElementById("prev-verse").addEventListener("click", () => {
     if(currentVerseIndex >= 0){
@@ -205,6 +155,7 @@ function displayBible() {
 displayBible();
 
 btnHistory.addEventListener("click", function () {
+  const bblVerseDiv = document.getElementById("bible-verse");
   bblVerseDiv.innerHTML = "";
   historyOfBibleVerse.forEach(entry => {
     const pElement = document.createElement('p');
@@ -215,4 +166,5 @@ btnHistory.addEventListener("click", function () {
   });
 });
 
+export { displayBible };
 

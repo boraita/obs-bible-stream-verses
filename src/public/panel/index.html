@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="tab-item">
+        <div id="text" class="tab-area">
+          <div class="container">
+            <textarea
+              id="messageInput"
+              placeholder="Escribe un mensaje"
+            ></textarea>
+            <button id="sendButton">Mostrar texto</button>
+          </div>
+        </div>
+        <div id="bibleText" class="tab-area" style="display: none">
+          <div class="container">
+            <div class="bible-search">
+              <div class="input-suggest">
+                <input
+                  id="bible-input"
+                  placeholder="Salmo 1:1 o cualquier contenido de versículo"
+                />
+                <div id="suggestions"></div>
+              </div>
+              <select class="select-bible-version" id="bible-version">
+                <option value="kadosh">kadosh</option>
+                <option value="rvr">rvr</option>
+              </select>
+              <input type="submit" id="bible-submit" value="Buscar" />
+              <span id="history">Historia</span>
+            </div>
+            <div class="bible" id="bible">
+              <div class="bible-verse" id="bible-verse">
+                <!-- Esta es el área para los versículos de la Biblia -->
+              </div>
+            </div>
+            <div class="next-prev">
+              <button class="prev" id="prev-verse">Anterior</button>
+              <button class="next" id="next-verse">Siguiente</button>
+            </div>
+          </div>
+        </div>
+        <div id="listText" class="tab-area" style="display: none">
+          <div class="container">
+            <input
+              type="text"
+              id="listTitle"
+              placeholder="Título de la Lista"
+            />
+            <textarea
+              id="listItems"
+              placeholder="Escribe un mensaje"
+            ></textarea>
+            <button id="sendList">Mostrar texto</button>
+          </div>
+        </div>
+        <div id="setBg" class="tab-area" style="display: none">
+          <div class="container">
+            <div class="settings">
+              <span class="font-settings" id="bold">N</span>
+              <span class="font-settings" id="italic">C</span>
+              <span class="font-settings" id="underline">S</span>
+              <select id="textAlign">
+                <option value="Left">Izquierda</option>
+                <option value="Right">Derecha</option>
+                <option value="Center">Centro</option>
+                <option value="Justify">Justificar</option>
+              </select>
+            </div>
+            <div class="settings">
+              <div class="color-picker">
+                <label>Fondo</label>
+                <input type="color" id="bgColor" />
+              </div>
+              <div class="color-picker">
+                <label>Texto</label>
+                <input type="color" id="fontColor" />
+              </div>
+              <div class="color-picker">
+                <label>Título</label>
+                <input type="color" id="titleColor" />
+              </div>
+            </div>
+            <div class="slidecontainer">
+              <label>Esquinas redondeadas</label>
+              <input
+                type="range"
+                min="0"
+                max="120"
+                value="0"
+                class="slider"
+                id="rounded-corner"
+              />
+              <label>Opacidad</label>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                value="10"
+                class="slider"
+                id="opacity"
+              />
+            </div>
+            <select id="fontStyle">
+              <option value="Inter">Inter</option>
+              <option value="Poppins">Poppins</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="handle-container-button">
+        <button id="bg-container-btn">
+          Ocultar
+        </button>
+      </div>
+      <div class="tabs">
+        <button class="tab-button" id="tab-text">Texto</button>
+        <button class="tab-button" id="tab-bibleText">Biblia</button>
+        <button class="tab-button" id="tab-listText">Lista</button>
+        <button class="tab-button" id="tab-setBg">Ajustes</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,7 +1,15 @@
+import { getBibleData } from "./filesHandle";
+
 const bgContent = new BroadcastChannel("bgContent");
 const bgContentBtn = document.getElementById("bg-container-btn");
+bgContentBtn.addEventListener("click", handleBgContent);
+document.getElementById('tab-text').addEventListener('click', openTab)
+document.getElementById('tab-bibleText').addEventListener('click', openTab)
+document.getElementById('tab-listText').addEventListener('click', openTab)
+document.getElementById('tab-setBg').addEventListener('click', openTab)
 
-function openTab(tabName) {
+function openTab(event) {
+  const tabName = event.target.id.replace("tab-", "");
   var tabs = document.getElementsByClassName("tab-area");
   for (var i = 0; i < tabs.length; i++) {
     tabs[i].style.display = "none";
@@ -13,7 +21,7 @@ function openTab(tabName) {
 }
 
 const bblVerseDiv = document.getElementById("bible-verse");
-bibleData = getBibleData();
+const bibleData = getBibleData();
 for (let i = 0; i < 31; i++) {
   const name = bibleData[i].name;
   const cleanedName = name.replace(/:/g, "-").replace(/\s/g, "").toLowerCase();
@@ -32,3 +40,5 @@ function handleBgContent() {
   bgContentBtn.innerHTML =
     bgContentBtn.innerHTML === "Mostrar" ? "Ocultar" : "Mostrar";
 }
+
+export { openTab };

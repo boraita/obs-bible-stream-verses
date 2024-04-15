@@ -1,4 +1,8 @@
+import { getBibleData } from "./filesHandle";
+import { displayBible } from "./sendMessage";
+
 function searchBible(query) {
+  const bblVerseDiv = document.getElementById("bible-verse");
   bblVerseDiv.innerHTML = "";
   const lowercaseQuery = query.toLowerCase();
   const versicles = filterVersicles(lowercaseQuery);
@@ -61,3 +65,5 @@ inputField.addEventListener("keydown", function (event) {
     }
   }
 });
+
+export { searchBible };

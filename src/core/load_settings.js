@@ -9,6 +9,7 @@ var savedBoldState = localStorage.getItem('boldState');
 var savedItalicState = localStorage.getItem('italicState');
 var savedUnderlineState = localStorage.getItem('underlineState');
 var savedTextAlign = localStorage.getItem('textAlign');
+const bgContainer = document.getElementById("bg-container");
 
 if (savedMessage) {
     messageDisplay.innerHTML = savedMessage;
