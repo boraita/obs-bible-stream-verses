@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Remitente</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <div class="main">
@@ -114,19 +114,16 @@
         </div>
       </div>
       <div class="handle-container-button">
-        <button id="bg-container-btn" onclick="handleBgContent()">
+        <button id="bg-container-btn">
           Ocultar
         </button>
       </div>
       <div class="tabs">
-        <button class="tab-button" onclick="openTab('text')">Texto</button>
-        <button class="tab-button" onclick="openTab('bibleText')">
-          Biblia
-        </button>
-        <button class="tab-button" onclick="openTab('listText')">Lista</button>
-        <button class="tab-button" onclick="openTab('setBg')">Ajustes</button>
+        <button class="tab-button" id="tab-text">Texto</button>
+        <button class="tab-button" id="tab-bibleText">Biblia</button>
+        <button class="tab-button" id="tab-listText">Lista</button>
+        <button class="tab-button" id="tab-setBg">Ajustes</button>
       </div>
     </div>
   </body>
-  <script type="module" src="panel.js"></script>
 </html>

@@ -4,4 +4,5 @@ import '../../core/sendMessage.js';
 import '../../core/utils.js';
 import '../../core/searchBible.js';
 import '../../core/suggestBibleBooks.js';
+import '../../core/settings.js';
 

@@ -2,8 +2,14 @@ import { getBibleData } from "./filesHandle";
 
 const bgContent = new BroadcastChannel("bgContent");
 const bgContentBtn = document.getElementById("bg-container-btn");
+bgContentBtn.addEventListener("click", handleBgContent);
+document.getElementById('tab-text').addEventListener('click', openTab)
+document.getElementById('tab-bibleText').addEventListener('click', openTab)
+document.getElementById('tab-listText').addEventListener('click', openTab)
+document.getElementById('tab-setBg').addEventListener('click', openTab)
 
-function openTab(tabName) {
+function openTab(event) {
+  const tabName = event.target.id.replace("tab-", "");
   var tabs = document.getElementsByClassName("tab-area");
   for (var i = 0; i < tabs.length; i++) {
     tabs[i].style.display = "none";
@@ -35,4 +41,4 @@ function handleBgContent() {
     bgContentBtn.innerHTML === "Mostrar" ? "Ocultar" : "Mostrar";
 }
 
-export { openTab, handleBgContent };
+export { openTab };

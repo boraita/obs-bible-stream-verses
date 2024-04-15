@@ -1,9 +1,9 @@
 const bgContainer = document.getElementById("bg-container");
 const messageDisplay = document.getElementById("messageDisplay");
-const bgContainerBtn = document.getElementById('bg-container-btn');
 const channel = new BroadcastChannel("myChannel");
 const bgContent = new BroadcastChannel("bgContent");
 const settingsChannel = new BroadcastChannel("settings");
+const savedTitleColor = localStorage.getItem('titleColor');
 
 // Text channel
 channel.onmessage = (event) => {

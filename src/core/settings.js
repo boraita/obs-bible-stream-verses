@@ -2,7 +2,6 @@ import { hexToRgba } from "./utils";
 
 //  setttings for font family
 const fontElement = document.getElementById("fontStyle");
-const selectedFont = fontElement.options[fontElement.selectedIndex].value;
 const opacityRange = document.getElementById("opacity");
 const settingsChannel = new BroadcastChannel("settings");
 const roundedCorner = document.getElementById("rounded-corner");
@@ -14,7 +13,7 @@ fontElement.addEventListener("change", function() {
 
 //  Dealing with opacity color
 
-opacityRange.addEventListener("input", function () {
+opacityRange.addEventListener("input", () => {
     let currentOpacity = opacityRange.value / 10;
     if (localStorage.getItem('bgColor') === null) {
         localStorage.setItem('bgColor', 'rgba(0, 0, 0, 1)');
@@ -29,7 +28,7 @@ opacityRange.addEventListener("input", function () {
 
 //  handling rounded corner
 
-roundedCorner.addEventListener("input", function () {
+roundedCorner.addEventListener("input", () => {
     let currentRoundedCorner = roundedCorner.value;
     
     settingsChannel.postMessage({ roundedCorner: currentRoundedCorner });
@@ -38,7 +37,7 @@ roundedCorner.addEventListener("input", function () {
 
 // handle backgroundColor
 const bgColorInput = document.getElementById("bgColor");
-bgColorInput.addEventListener("input", function () {
+bgColorInput.addEventListener("input", () => {
     let selectedColor = bgColorInput.value;
     let collectdBgColor = localStorage.getItem('bgColor');
 

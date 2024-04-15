@@ -155,6 +155,7 @@ function displayBible() {
 displayBible();
 
 btnHistory.addEventListener("click", function () {
+  const bblVerseDiv = document.getElementById("bible-verse");
   bblVerseDiv.innerHTML = "";
   historyOfBibleVerse.forEach(entry => {
     const pElement = document.createElement('p');
