@@ -1,3 +1,5 @@
+import { hexToRgba } from "./utils";
+
 //  setttings for font family
 const fontElement = document.getElementById("fontStyle");
 const selectedFont = fontElement.options[fontElement.selectedIndex].value;

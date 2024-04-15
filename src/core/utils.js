@@ -11,3 +11,5 @@ function hexToRgba(hex, alpha) {
   }
   return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
+
+export { hexToRgba };

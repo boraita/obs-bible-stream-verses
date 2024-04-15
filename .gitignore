@@ -1,1 +1,21 @@
+
+/build/
 bibles/
+
+# Ignore dependencies
+/node_modules/
+
+# Ignore IDE files
+/.vscode/
+/.idea/
+
+# Ignore log files
+*.log
+
+# Ignore compiled binaries
+*.exe
+*.dll
+
+# Ignore package lock files
+package-lock.json
+yarn.lock

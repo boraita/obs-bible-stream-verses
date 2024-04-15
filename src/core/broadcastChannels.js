@@ -83,3 +83,5 @@ bgContent.onmessage = (event) => {
     bgContainer.style.display = 'inline';
   }
 };
+
+export { channel, bgContent, settingsChannel };

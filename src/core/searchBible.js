@@ -1,3 +1,6 @@
+import { getBibleData } from "./filesHandle";
+import { displayBible } from "./sendMessage";
+
 function searchBible(query) {
   bblVerseDiv.innerHTML = "";
   const lowercaseQuery = query.toLowerCase();
@@ -61,3 +64,5 @@ inputField.addEventListener("keydown", function (event) {
     }
   }
 });
+
+export { searchBible };

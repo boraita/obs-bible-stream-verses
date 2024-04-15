@@ -1,3 +1,5 @@
+import { getBibleData } from "./filesHandle";
+
 const bgContent = new BroadcastChannel("bgContent");
 const bgContentBtn = document.getElementById("bg-container-btn");
 
@@ -13,7 +15,7 @@ function openTab(tabName) {
 }
 
 const bblVerseDiv = document.getElementById("bible-verse");
-bibleData = getBibleData();
+const bibleData = getBibleData();
 for (let i = 0; i < 31; i++) {
   const name = bibleData[i].name;
   const cleanedName = name.replace(/:/g, "-").replace(/\s/g, "").toLowerCase();
@@ -32,3 +34,5 @@ function handleBgContent() {
   bgContentBtn.innerHTML =
     bgContentBtn.innerHTML === "Mostrar" ? "Ocultar" : "Mostrar";
 }
+
+export { openTab, handleBgContent };
