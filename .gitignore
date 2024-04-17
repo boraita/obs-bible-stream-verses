@@ -1,6 +1,6 @@
 
-/build/
-bibles/
+/dist/
+db/
 
 # Ignore dependencies
 /node_modules/

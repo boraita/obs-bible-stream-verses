@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 const path = require("path");
-const buildPath = path.resolve(__dirname, "dist/");
+const buildPath = path.resolve(__dirname, "dist/src");
 module.exports = {
   mode: "none",
   entry: {
@@ -12,10 +14,14 @@ module.exports = {
     path: buildPath,
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, "dist/src"),
   },
   module: {
     rules: [
+      {
+        test: /\.sqlite$/i,
+        use: 'arraybuffer-loader',
+      },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
@@ -48,6 +54,12 @@ module.exports = {
       filename: "./panel.html", //relative to root of the application
       chunks: ["panel"],
       inject: true,
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "src/db", to: "src/db" },
+        { from: "src/lib", to: "src/lib" },
+      ],
     }),
   ],
 };
