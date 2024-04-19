@@ -10,7 +10,7 @@
 
   },
   "keywords": [],
-  "author": "",
+  "author": "Rafael Montaño",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.24.4",
