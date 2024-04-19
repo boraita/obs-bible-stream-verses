@@ -8,7 +8,7 @@
   <body>
     <div class="main">
       <div class="tab-item">
-        <div id="text" class="tab-area">
+        <div id="text" class="tab-area" style="display: none">
           <div class="container">
             <textarea
               id="messageInput"
@@ -17,7 +17,7 @@
             <button id="sendButton">Mostrar texto</button>
           </div>
         </div>
-        <div id="bibleText" class="tab-area" style="display: none">
+        <div id="bibleText" class="tab-area">
           <div class="container">
             <div class="bible-search">
               <div class="input-suggest">
@@ -29,7 +29,10 @@
               </div>
               <select class="select-bible-version" id="bible-version">
                 <option value="kdsh">Kadosh</option>
-                <option value="rvr">ReinaValera</option>
+                <option value="nvi">Nueva V. Inter</option>
+                <option value="nvic">Nueva V. Inter C</option>
+                <option value="btx">Textual</option>
+                <option value="btx4">Textual 4</option>
               </select>
               <input type="submit" id="bible-submit" value="Buscar" />
               <span id="history">Historia</span>
@@ -39,9 +42,16 @@
                 <!-- Esta es el área para los versículos de la Biblia -->
               </div>
             </div>
-            <div class="next-prev">
-              <button class="prev" id="prev-verse">Anterior</button>
-              <button class="next" id="next-verse">Siguiente</button>
+            <div class="handle-container-button">
+              <button id="bg-container-btn">
+                Ocultar
+              </button>
+            </div>
+            <div class="tabs">
+              <button class="tab-button" id="tab-text">Texto</button>
+              <button class="tab-button" id="tab-bibleText">Biblia</button>
+              <button class="tab-button" id="tab-listText">Lista</button>
+              <button class="tab-button" id="tab-setBg">Ajustes</button>
             </div>
           </div>
         </div>
@@ -113,17 +123,7 @@
           </div>
         </div>
       </div>
-      <div class="handle-container-button">
-        <button id="bg-container-btn">
-          Ocultar
-        </button>
-      </div>
-      <div class="tabs">
-        <button class="tab-button" id="tab-text">Texto</button>
-        <button class="tab-button" id="tab-bibleText">Biblia</button>
-        <button class="tab-button" id="tab-listText">Lista</button>
-        <button class="tab-button" id="tab-setBg">Ajustes</button>
-      </div>
+      
     </div>
   </body>
 </html>

@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const path = require("path");
 const buildPath = path.resolve(__dirname, "dist");
@@ -11,9 +12,6 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: buildPath,
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "src"),
   },
   resolve: {
     fallback: {
