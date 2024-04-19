@@ -1,4 +1,4 @@
-import initSqlJs from "/src/lib/sql-asm.js";
+import initSqlJs from '../lib/sql-asm.js';
 
 export function openDb(dbFile) {
   return initSqlJs().then((SQL) => {

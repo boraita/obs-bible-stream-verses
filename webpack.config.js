@@ -1,8 +1,10 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 
 const path = require("path");
-const buildPath = path.resolve(__dirname, "dist/src");
+const buildPath = path.resolve(__dirname, "dist");
 module.exports = {
   mode: "none",
   entry: {
@@ -14,7 +16,13 @@ module.exports = {
     path: buildPath,
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist/src"),
+    contentBase: path.join(__dirname, "src"),
+  },
+  resolve: {
+    fallback: {
+      fs: false,
+      path: false,
+    },
   },
   module: {
     rules: [
@@ -39,6 +47,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       hash: true,
       title: "Browser source",
@@ -57,8 +66,8 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "src/db", to: "src/db" },
-        { from: "src/lib", to: "src/lib" },
+        { from: "src/db", to: "db" },
+        { from: "src/lib", to: "lib" },
       ],
     }),
   ],
