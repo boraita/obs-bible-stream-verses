@@ -1,8 +1,8 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const path = require("path");
-const buildPath = path.resolve(__dirname, "dist/src");
+const buildPath = path.resolve(__dirname, "dist");
 module.exports = {
   mode: "none",
   entry: {
@@ -13,14 +13,22 @@ module.exports = {
     filename: "[name].js",
     path: buildPath,
   },
-  devServer: {
-    contentBase: path.join(__dirname, "dist/src"),
+  resolve: {
+    fallback: {
+      fs: false,
+      path: false,
+    },
   },
   module: {
     rules: [
       {
         test: /\.sqlite$/i,
-        use: 'arraybuffer-loader',
+        use: "arraybuffer-loader",
+      },
+      {
+        test: /strings\.json$/,
+        use: ["webpack-json-access-optimizer"],
+        type: "json",
       },
       {
         test: /\.css$/,
@@ -39,6 +47,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       hash: true,
       title: "Browser source",
@@ -54,12 +63,6 @@ module.exports = {
       filename: "./panel.html", //relative to root of the application
       chunks: ["panel"],
       inject: true,
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: "src/db", to: "src/db" },
-        { from: "src/lib", to: "src/lib" },
-      ],
     }),
   ],
 };

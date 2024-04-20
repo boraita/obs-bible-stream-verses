@@ -1,4 +1,5 @@
-import { getBibleData } from "./filesHandle";
+import { searchCharacters, selectBible } from "../api/getData";
+import { displayBible } from "./sendMessage";
 
 const bgContent = new BroadcastChannel("bgContent");
 const bgContentBtn = document.getElementById("bg-container-btn");
@@ -7,6 +8,9 @@ document.getElementById('tab-text').addEventListener('click', openTab)
 document.getElementById('tab-bibleText').addEventListener('click', openTab)
 document.getElementById('tab-listText').addEventListener('click', openTab)
 document.getElementById('tab-setBg').addEventListener('click', openTab)
+document.getElementById("bible-version").addEventListener("change", async () => {
+  selectBible(document.getElementById("bible-version").value);
+});
 
 function openTab(event) {
   const tabName = event.target.id.replace("tab-", "");
@@ -21,7 +25,7 @@ function openTab(event) {
 }
 
 const bblVerseDiv = document.getElementById("bible-verse");
-const bibleData = getBibleData();
+const bibleData = await searchCharacters('Génesis 1');
 for (let i = 0; i < 31; i++) {
   const name = bibleData[i].name;
   const cleanedName = name.replace(/:/g, "-").replace(/\s/g, "").toLowerCase();
@@ -32,6 +36,7 @@ for (let i = 0; i < 31; i++) {
     bibleData[i].verse
   }`;
   bblVerseDiv.appendChild(pElement);
+  displayBible(pElement, i);
 }
 
 function handleBgContent() {

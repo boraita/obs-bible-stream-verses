@@ -1,4 +1,4 @@
-import { getBibleData } from "./filesHandle";
+import { getBibleChapterBooksList } from "../api/getData";
 
 let selectedBibleVersion;
 let bookOfBibles;
@@ -6,17 +6,10 @@ const bibleInput = document.getElementById("bible-input");
 const suggestionsList = document.getElementById("suggestions");
 let selectedSuggestionIndex = -1;
 
-function getBooksOfTheBible() {
-  if (document.getElementById('bible-version').value !== selectedBibleVersion) {
-    const bibleData = getBibleData();
-    const bibleBooks = bibleData.map(book => {
-      const books = book.name.split(" ");
-      const verses = books.pop();
-      books.push(verses.split(":")[0])
-      return books.join(" ");
-    });
-    bookOfBibles = [...new Set(bibleBooks)];
-    selectedBibleVersion = document.getElementById('bible-version').value;
+async function getBooksOfTheBible() {
+  if (document.getElementById("bible-version").value !== selectedBibleVersion) {
+    bookOfBibles = await getBibleChapterBooksList();
+    selectedBibleVersion = document.getElementById("bible-version").value;
   }
   return bookOfBibles;
 }
@@ -33,15 +26,17 @@ function updateInput(index) {
 
     // Calculate the scroll position to ensure the selected item is visible
     const suggestionHeight = selectedSuggestion.offsetHeight;
-    const scrollTop = selectedSuggestion.offsetTop - (suggestionHeight * 2); // Adjust as needed
+    const scrollTop = selectedSuggestion.offsetTop - suggestionHeight * 2; // Adjust as needed
     suggestionsList.scrollTop = scrollTop;
   }
 }
 
-bibleInput.addEventListener("input", function () {
+bibleInput.addEventListener("input", async function () {
   const inputValue = bibleInput.value.toLowerCase();
   const inputSearch = removeAccents(inputValue);
-  const filteredBooks = getBooksOfTheBible().filter(book => removeAccents(book).toLowerCase().includes(inputSearch));
+  const filteredBooks = (await getBooksOfTheBible()).filter((book) =>
+    removeAccents(book).toLowerCase().includes(inputSearch)
+  );
 
   suggestionsList.innerHTML = "";
 
@@ -82,7 +77,7 @@ bibleInput.addEventListener("keydown", function (event) {
 });
 
 function removeAccents(str) {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 export { getBooksOfTheBible, updateInput };

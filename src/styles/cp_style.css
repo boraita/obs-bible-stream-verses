@@ -218,18 +218,6 @@ button:active {
   margin-bottom: 10px;
 }
 
-.next-prev{
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-}
-
-.next, .prev{
-  padding: 2px 5px;
-  margin: 2px;
-
-}
-
 /* Styling for the scroll bar */
 ::-webkit-scrollbar {
   width: 12px;
