@@ -36,7 +36,6 @@ submitButton.addEventListener("click", async function (event) {
 
   if (searchQuery !== "") {
     await searchBible(searchQuery);
-    // displayBible();
   }
 });
 
@@ -48,7 +47,6 @@ inputField.addEventListener("keydown", async function (event) {
 
     if (searchQuery !== "") {
       await searchBible(searchQuery);
-      // displayBible();
     }
   }
 });

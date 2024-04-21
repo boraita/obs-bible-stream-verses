@@ -65,15 +65,14 @@ export async function getBibleChapterBooksList() {
   }
   const db = openedDb ?? null;
   if (db) {
-    const query = await db.exec(
-      `SELECT books.long_name || ' ' || verses.chapter as bookVerse
-      FROM books
-      JOIN verses
-      ON books.book_number = verses.book_number
-      GROUP BY books.book_number, verses.chapter
-      ORDER BY books.book_number, verses.chapter;`
-    );
-    return query?.[0].values.flatMap((p) => p) ?? [];
+    const query = `SELECT books.long_name || ' ' || verses.chapter as bookVerse
+    FROM books
+    JOIN verses
+    ON books.book_number = verses.book_number
+    GROUP BY books.book_number, verses.chapter
+    ORDER BY books.book_number, verses.chapter;`;
+    const result = await db.exec(query);
+    return result?.[0].values.flatMap((p) => p) ?? [];
   }
 }
 export async function searchCharacters(chapterBook) {
@@ -84,9 +83,14 @@ export async function searchCharacters(chapterBook) {
   if (db) {
     const splitted = chapterBook.split(" ");
     const isVerseNumber = !isNaN(+splitted?.[splitted.length - 1]);
-    const book = isVerseNumber
-      ? splitted.slice(0, splitted.length - 1).join(" ")
-      : splitted.join(" ");
+    let book;
+    if (isVerseNumber) {
+      const bookName = splitted.slice(0, splitted.length - 1).join(" ")
+      const firstLetter = bookName.charAt(0).toUpperCase();
+      book = firstLetter + bookName.slice(1);
+    } else {
+      book = splitted.join(" ");
+    }
     const verse = isVerseNumber
       ? ` and verses.chapter LIKE '${+splitted?.[splitted.length - 1]}'`
       : "";
@@ -94,7 +98,7 @@ export async function searchCharacters(chapterBook) {
     FROM books
     JOIN verses
     ON books.book_number = verses.book_number
-    WHERE books.long_name LIKE '%${book}%'${verse}
+    WHERE books.long_name LIKE '${book}'${verse}
     ORDER BY verses.verse;`;
     const result = await openedDb.exec(query);
     return (
