@@ -4,6 +4,7 @@ import btx from "../db/BTX.sqlite";
 import nvi from "../db/NVI.sqlite";
 import nvic from "../db/NVIC.sqlite";
 import btx4 from "../db/BTX4.sqlite";
+import lbla from "../db/LBLA.sqlite";
 
 export let openedDb;
 export let selectedBibleName = "kdsh";
@@ -32,6 +33,10 @@ export async function selectBible(name) {
     case "btx4":
       openedDb = await openDb(btx4);
       selectedBibleName = "btx4";
+      break;
+    case "lbla":
+      openedDb = await openDb(lbla);
+      selectedBibleName = "lbla";
       break;
   }
   return openedDb;
@@ -85,7 +90,7 @@ export async function searchCharacters(chapterBook) {
     const isVerseNumber = !isNaN(+splitted?.[splitted.length - 1]);
     let book;
     if (isVerseNumber) {
-      const bookName = splitted.slice(0, splitted.length - 1).join(" ")
+      const bookName = splitted.slice(0, splitted.length - 1).join(" ");
       const firstLetter = bookName.charAt(0).toUpperCase();
       book = firstLetter + bookName.slice(1);
     } else {
@@ -104,7 +109,7 @@ export async function searchCharacters(chapterBook) {
     return (
       result?.[0]?.values.flatMap((p) => ({
         name: `${p[3]} ${p[0]}:${p[1]}`,
-        verse: p[2],
+        verse: selectedBibleName === 'lbla' ? removeTags(p[2]) : p[2],
       })) ?? []
     );
   }
@@ -127,8 +132,17 @@ export async function searchInBibleText(text) {
     return (
       response?.[0]?.values.flatMap((p) => ({
         name: `${p[3]} ${p[0]}:${p[1]}`,
-        verse: p[2],
+        verse: selectedBibleName === 'lbla' ? removeTags(p[2]) : p[2],
       })) ?? []
     );
   }
 }
+
+const removeTags = (str) => {
+  if (str === null || str === "") return false;
+  else str = str.toString();
+  return str.replace(
+    /<(?!\/?i>)(?!i>).*?<\/(?!\/?i>)(?!i>).*?>|<i>|<\/i>/g,
+    ""
+  );
+};
