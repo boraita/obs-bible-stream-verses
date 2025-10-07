@@ -6,6 +6,11 @@ async function searchBible(query) {
   bblVerseDiv.innerHTML = "";
   const lowercaseQuery = query.toLowerCase();
   const versicles = await filterVersicles(lowercaseQuery);
+  
+  // Obtener la versión de Biblia seleccionada para mostrar en la interfaz
+  const bibleVersionSelect = document.getElementById('bible-version');
+  const selectedVersionDisplay = getVersionDisplayName(bibleVersionSelect ? bibleVersionSelect.value : 'kdsh');
+  
   versicles.forEach((verse, index) => {
     const cleanedName = verse.name
       .replace(/:/g, "-")
@@ -50,5 +55,18 @@ inputField.addEventListener("keydown", async function (event) {
     }
   }
 });
+
+// Función helper para obtener nombres descriptivos de las versiones
+function getVersionDisplayName(versionCode) {
+  const versionNames = {
+    'kdsh': 'KADOSH',
+    'lbla': 'LBLA',
+    'nvi': 'NVI',
+    'nvic': 'NVIC',
+    'btx': 'BTX',
+    'btx4': 'BTX4'
+  };
+  return versionNames[versionCode] || versionCode.toUpperCase();
+}
 
 export { searchBible };

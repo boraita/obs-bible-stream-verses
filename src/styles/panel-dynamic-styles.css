@@ -1,0 +1,218 @@
+/* ========================================
+   ESTILOS DINÁMICOS PARA PANEL DE CONTROL
+   Estilos que se aplican dinámicamente desde JavaScript
+   ======================================== */
+
+/* ========================================
+   CLASES PARA MOSTRAR/OCULTAR ELEMENTOS
+   ======================================== */
+
+.element-visible {
+    display: block !important;
+}
+
+.element-hidden {
+    display: none !important;
+}
+
+.element-flex-visible {
+    display: flex !important;
+}
+
+.element-grid-visible {
+    display: grid !important;
+}
+
+/* ========================================
+   ESTILOS PARA TABS
+   ======================================== */
+
+.tab-area-active {
+    display: block;
+}
+
+.tab-area-inactive {
+    display: none;
+}
+
+/* ========================================
+   GRUPOS DE CONFIGURACIÓN DINÁMICOS
+   ======================================== */
+
+.config-group-visible {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.config-group-hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Grupos específicos para título */
+.title-shadow-controls {
+    /* Controles de sombra del título */
+    transition: all 0.3s ease-in-out;
+}
+
+.title-shadow-controls.visible {
+    display: block;
+    animation: fadeInConfig 0.3s ease-in-out;
+}
+
+.title-shadow-controls.hidden {
+    display: none;
+}
+
+/* Grupos específicos para recuadro del título */
+.title-box-controls {
+    /* Controles del recuadro del título */
+    transition: all 0.3s ease-in-out;
+}
+
+.title-box-controls.visible {
+    display: block;
+    animation: fadeInConfig 0.3s ease-in-out;
+}
+
+.title-box-controls.hidden {
+    display: none;
+}
+
+/* ========================================
+   CONTROLES DE GRADIENTE
+   ======================================== */
+
+.gradient-controls {
+    transition: all 0.3s ease-in-out;
+}
+
+.gradient-controls.enabled {
+    display: block;
+    opacity: 1;
+}
+
+.gradient-controls.disabled {
+    display: none;
+    opacity: 0;
+}
+
+/* Contenedores de colores */
+.color-container {
+    transition: all 0.3s ease-in-out;
+}
+
+.color-container.visible {
+    display: block;
+    opacity: 1;
+}
+
+.color-container.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* ========================================
+   EFECTOS DE TEXTO DINÁMICOS
+   ======================================== */
+
+.text-effect-controls {
+    transition: all 0.3s ease-in-out;
+}
+
+.text-effect-controls.enabled {
+    display: block;
+    opacity: 1;
+    max-height: 500px;
+}
+
+.text-effect-controls.disabled {
+    display: none;
+    opacity: 0;
+    max-height: 0;
+}
+
+/* Controles específicos de efectos */
+.text-shadow-controls.enabled {
+    display: block;
+}
+
+.text-stroke-controls.enabled {
+    display: block;
+}
+
+.text-glow-controls.enabled {
+    display: block;
+}
+
+/* ========================================
+   ANIMACIONES PARA TRANSICIONES
+   ======================================== */
+
+@keyframes fadeInConfig {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDownConfig {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+    to {
+        max-height: 200px;
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   ESTADOS DE ELEMENTOS DE CONFIGURACIÓN
+   ======================================== */
+
+.setting-section.expanded {
+    /* Sección expandida */
+    max-height: none;
+    overflow: visible;
+}
+
+.setting-section.collapsed {
+    /* Sección colapsada */
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.setting-control.active {
+    /* Control activo */
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.setting-control.inactive {
+    /* Control inactivo */
+    opacity: 0.6;
+}
+
+/* ========================================
+   RESPONSIVE PARA PANEL
+   ======================================== */
+
+@media (max-width: 768px) {
+    .config-group {
+        margin-bottom: 15px;
+    }
+    
+    .element-responsive-hidden {
+        display: none !important;
+    }
+    
+    .element-responsive-visible {
+        display: block !important;
+    }
+}

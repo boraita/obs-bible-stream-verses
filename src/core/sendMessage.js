@@ -7,6 +7,13 @@ var historyOfBibleVerse = [];
 document.getElementById("sendButton").addEventListener("click", () => {
   const message = document.getElementById("messageInput").value;
   channel.postMessage(message);
+  
+  // Ajustar tamaño después de enviar texto libre
+  setTimeout(() => {
+    const adjustChannel = new BroadcastChannel("adjustFont");
+    adjustChannel.postMessage("adjust");
+    adjustChannel.close();
+  }, 200);
 });
 
 function doc_keyUp(e) {
@@ -43,36 +50,103 @@ document.getElementById("sendList").addEventListener("click", () => {
   // Create a string to represent the entire message
   const message = `<span>${listTitle}</span>\n${ulHtml}`;
   channel.postMessage(message);
+  
+  // Ajustar tamaño después de enviar lista
+  setTimeout(() => {
+    const adjustChannel = new BroadcastChannel("adjustFont");
+    adjustChannel.postMessage("adjust");
+    adjustChannel.close();
+  }, 200);
 });
 
 document.addEventListener("keyup", doc_keyUp, false);
 
+// Función para manejar la selección visual de versículos
+function updateVerseSelection(selectedVerse, selectedIndex) {
+  const bibleVerseDiv = document.getElementById("bible-verse");
+  const pElements = bibleVerseDiv.querySelectorAll("p");
+  
+  // Remover selección de todos los versículos
+  pElements.forEach((verse, i) => {
+    verse.classList.remove('selected');
+    if (i !== selectedIndex) {
+      verse.style.backgroundColor = "#222222";
+    }
+  });
+  
+  // Aplicar selección al versículo actual
+  selectedVerse.classList.add('selected');
+  selectedVerse.style.backgroundColor = "#222255";
+  
+  console.log(`✨ Versículo seleccionado: ${selectedVerse.id}`);
+}
+
 function displayBible(verse, index) {
 
   verse.addEventListener("click", (event) => {
-    if (event.target.tagName === "P") {
-      const message = event.target.innerHTML;
-      channel.postMessage(message);
-      event.target.style.backgroundColor = "#222255";
+    // Encontrar el elemento P clickeado, sin importar dónde se hizo click dentro del área
+    const clickedVerse = event.target.tagName === "P" ? event.target : event.target.closest('p');
+    
+    if (clickedVerse) {
+      console.log(`📖 Versículo seleccionado: ${clickedVerse.id}`);
+      
+      // Obtener la versión de Biblia seleccionada
+      const bibleVersionSelect = document.getElementById('bible-version');
+      const selectedVersion = bibleVersionSelect ? bibleVersionSelect.value.toUpperCase() : '';
+      
+      // Obtener el mensaje original
+      const originalMessage = clickedVerse.innerHTML;
+      
+      // Modificar el título para incluir la versión
+      let enhancedMessage = originalMessage;
+      if (selectedVersion && originalMessage.includes('<span>')) {
+        enhancedMessage = originalMessage.replace(
+          /(<span>)([^<]+)(<\/span>)/,
+          `$1$2 - ${selectedVersion}$3`
+        );
+      }
+      
+      // Efecto visual de click
+      clickedVerse.classList.add('clicked');
+      setTimeout(() => {
+        clickedVerse.classList.remove('clicked');
+      }, 300);
+      
+      // Enviar el mensaje con la versión incluida
+      channel.postMessage(enhancedMessage);
+      
+      console.log(`📚 Enviando versículo con versión: ${selectedVersion}`);
+      
+      // Enviar señal para ajustar tamaño después de mostrar el texto
+      setTimeout(() => {
+        const adjustChannel = new BroadcastChannel("adjustFont");
+        adjustChannel.postMessage("adjust");
+        adjustChannel.close();
+      }, 200);
+      
+      // Actualizar selección visual
+      updateVerseSelection(clickedVerse, index);
 
-      historyOfBibleVerse.push({ name: event.target.id, verse: message });
+      historyOfBibleVerse.push({ name: clickedVerse.id, verse: originalMessage });
 
       const maxHistorySize = 20;
       if (historyOfBibleVerse.length > maxHistorySize) {
         historyOfBibleVerse.shift();
       }
     }
-    let bibleVerseDiv = document.getElementById("bible-verse");
-
-    let pElements = bibleVerseDiv.querySelectorAll("p");
-
-    let bibleVerses = Array.from(pElements);
-    // Set background color of all verses to #222222
-    bibleVerses.forEach((v, i) => {
-      if (i !== index) {
-        v.style.backgroundColor = "#222222";
-      }
-    });
+  });
+  
+  // Mejorar accesibilidad
+  verse.setAttribute('role', 'button');
+  verse.setAttribute('tabindex', '0');
+  verse.setAttribute('aria-label', `Seleccionar versículo ${verse.textContent.substring(0, 50)}...`);
+  
+  // Soporte para teclado
+  verse.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      verse.click();
+    }
   });
 
 }
@@ -80,6 +154,11 @@ function displayBible(verse, index) {
 btnHistory.addEventListener("click", function () {
   const bblVerseDiv = document.getElementById("bible-verse");
   bblVerseDiv.innerHTML = "";
+  
+  // Obtener la versión actual para mostrar en el historial
+  const bibleVersionSelect = document.getElementById('bible-version');
+  const currentVersionDisplay = getVersionDisplayName(bibleVersionSelect ? bibleVersionSelect.value : 'kdsh');
+  
   historyOfBibleVerse.forEach((entry, index) => {
     const pElement = document.createElement("p");
     pElement.id = entry.name;
@@ -88,5 +167,18 @@ btnHistory.addEventListener("click", function () {
     displayBible(pElement, index);
   });
 });
+
+// Función helper para obtener nombres descriptivos de las versiones
+function getVersionDisplayName(versionCode) {
+  const versionNames = {
+    'kdsh': 'KADOSH',
+    'lbla': 'LBLA', 
+    'nvi': 'NVI',
+    'nvic': 'NVIC',
+    'btx': 'BTX',
+    'btx4': 'BTX4'
+  };
+  return versionNames[versionCode] || versionCode.toUpperCase();
+}
 
 export { displayBible };
