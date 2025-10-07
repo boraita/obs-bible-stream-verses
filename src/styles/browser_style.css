@@ -1,10 +1,14 @@
+/* ========================================
+   ESTILOS POR DEFECTO
+   ======================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
 
-body{
+body {
     background-color: rgba(0, 0, 0, 0);
     color: #fff;
     display: flex;
@@ -18,13 +22,25 @@ body{
     overflow-y: hidden;
 }
 
-.bg-container{
+/* Transiciones suaves globales */
+#messageDisplay,
+.bg-container {
+    transition: all 0.3s ease-in-out;
+}
+
+/* ========================================
+   CONTENEDOR
+   ======================================== */
+
+.bg-container {
     width: 100%;
     height: 100%;
     background-color: rgb(201, 201, 201);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .container {
@@ -37,30 +53,266 @@ body{
     justify-content: center;
     align-items: center;
 }
-   
+
+/* ========================================
+   TEXTO
+   ======================================== */
+
 #messageDisplay {
     opacity: 1;
-    font-size: 5em;
+    font-size: 48px;
     font-weight: bold;
     text-align: center;
     margin: 0;
-    padding: 50px 100px;
+    padding: 45px 30px 15px 30px;
     width: 100%;
+    height: 100%;
     white-space: pre-wrap;
-    overflow-y: hidden;
+    overflow: hidden;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    hyphens: none;
+    word-break: normal;
+    line-break: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1.1;
+    text-overflow: clip;
+    word-spacing: normal;
+    letter-spacing: normal;
+    position: relative;
 }
 
-#messageDisplay span{
-    color: #ff6450;
-    overflow-y: hidden;
-    opacity: 1;
-}
-
-#messageDisplay ul{
+#messageDisplay ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow-y: hidden;
+}
+
+/* Efectos de texto especiales - Minimalistas para streaming */
+.glow-effect {
+    filter: drop-shadow(0 0 3px currentColor);
+}
+
+.neon-effect {
+    text-shadow: 
+        0 0 2px currentColor,
+        0 0 4px currentColor;
+}
+
+.gradient-text {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-outline {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000000;
+}
+
+/* ========================================
+   TÍTULO
+   ======================================== */
+
+/* Configuración base del título */
+#messageDisplay span {
+    overflow-y: hidden;
+    opacity: 1;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.1;
+    white-space: nowrap;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    max-width: calc(100% - 20px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background: transparent;
+    text-shadow: none; /* Asegurar que no herede ninguna sombra */
+}
+
+/* Título con recuadro activado */
+#messageDisplay span.title-with-box {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid currentColor;
+    backdrop-filter: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 6px;
+}
+
+/* Variaciones de tamaño del título */
+#messageDisplay span.title-with-box.size-small {
+    padding: 2px 6px;
+    margin-bottom: 4px;
+}
+
+#messageDisplay span.title-with-box.size-medium {
+    padding: 4px 8px;
+    margin-bottom: 6px;
+}
+
+#messageDisplay span.title-with-box.size-large {
+    padding: 6px 12px;
+    margin-bottom: 8px;
+}
+
+/* Título en ancho completo */
+#messageDisplay span.title-with-box.full-width {
+    border-radius: 0 !important;
+    border-left: none !important;
+    transform-origin: left center;
+    box-sizing: border-box;
+    /* El ancho y transform se aplican via JavaScript */
+}
+
+/* Soporte para navegadores que no soportan text-stroke en títulos */
+@supports not (-webkit-text-stroke: 1px) {
+    #messageDisplay span.title-with-box {
+        text-shadow: 
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000,
+            2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+
+/* Animación de aparición gradual */
+.fade-in {
+    animation: fadeIn ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Animaciones de deslizamiento */
+.slide-in-left {
+    animation: slideInFromLeft ease-out;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-right {
+    animation: slideInFromRight ease-out;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-top {
+    animation: slideInFromTop ease-out;
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in-bottom {
+    animation: slideInFromBottom ease-out;
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Animación de zoom */
+.zoom-in {
+    animation: zoomIn ease-out;
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animación de máquina de escribir */
+.typewriter {
+    animation: typewriter steps(40) forwards;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid;
+    animation-fill-mode: both;
+}
+
+@keyframes typewriter {
+    0% { width: 0; }
+    99% { border-right: 2px solid; }
+    100% {
+        width: 100%;
+        border-right: none;
+    }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    #messageDisplay {
+        font-size: 3em;
+        padding: 30px 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    #messageDisplay {
+        font-size: 2em;
+        padding: 20px 30px;
+    }
 }
 
 

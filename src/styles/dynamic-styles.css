@@ -1,0 +1,84 @@
+/* ========================================
+   ESTILOS DINÁMICOS PARA MESSAGEDISPLAY
+   Estilos que se aplican dinámicamente desde JavaScript
+   ======================================== */
+
+/* Clases base para diferentes estados del messageDisplay */
+.message-display-base {
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    white-space: pre-wrap;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    hyphens: none;
+    word-break: normal;
+    word-spacing: normal;
+    letter-spacing: normal;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.message-display-cached {
+    /* Optimización: elemento ya calculado */
+    opacity: 1;
+}
+
+.message-display-calculating {
+    /* Estado durante cálculo de tamaño */
+    opacity: 0.9;
+}
+
+/* ========================================
+   ESTILOS DINÁMICOS PARA TÍTULO  
+   ======================================== */
+
+.title-span-base {
+    /* Estilos base del título */
+    color: #ffffff;
+}
+
+.title-span-with-background {
+    /* Estilos cuando el título tiene fondo habilitado */
+    position: relative;
+    z-index: 15;
+}
+
+/* ========================================
+   ESPACIADO Y LAYOUT
+   ======================================== */
+
+.message-with-title {
+    padding-top: 60px;
+}
+
+.message-without-title {
+    padding-top: 15px;
+}
+
+/* ========================================
+   CLASES PARA PREVENIR OVERLAP
+   ======================================== */
+
+.title-no-overlap {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.message-display-no-overlap {
+    position: relative;
+    z-index: 5;
+}
+
+/* ========================================
+   CLASES PARA WORD WRAP CUANDO ES NECESARIO
+   ======================================== */
+
+.message-word-wrap-enabled {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

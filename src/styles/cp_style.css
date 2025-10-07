@@ -15,14 +15,98 @@ body {
   padding: 0;
   height: 100vh;
   overflow: hidden;
+  font-size: 12px;
 }
 
 .main{
+  width: 100%;
   height: 100vh;
-  overflow: hidden;
+  background-color: #222;
+  color: #fff;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+/* Estructura del tab item */
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Hacer que el contenido del tab sea scrollable */
+.tab-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+/* Scroll personalizado */
+.tab-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tab-area::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 4px;
+}
+
+.tab-area::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.tab-area::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Mejorar el responsive del contenedor */
+.container {
+  width: 100%;
+  min-height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Grid especial para el tab de ajustes */
+#setBg .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
+/* En pantallas muy pequeñas, usar una sola columna */
+@media (max-width: 320px) {
+  #setBg .container {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Para pantallas medianas, ajustar el tamaño mínimo */
+@media (max-width: 600px) {
+  #setBg .container {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+/* Para pantallas grandes, permitir hasta 3 columnas */
+@media (min-width: 900px) {
+  #setBg .container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+  }
 }
 
 .container {
@@ -48,16 +132,472 @@ textarea{
   margin-top: 10px;
 }
 
+/* ========== ESTILOS PARA NUEVAS FUNCIONALIDADES ========== */
+
+/* Secciones de configuración - Más compactas */
+.settings-section {
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #2a2a2a;
+  border-radius: 6px;
+  border-left: 3px solid #007acc;
+  flex-shrink: 0;
+  height: fit-content;
+  min-width: 0;
+}
+
+/* Para el grid de ajustes, optimizar altura */
+#setBg .settings-section {
+  margin-bottom: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-section h3 {
+  color: #007acc;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* Subsecciones para mejor organización */
+.settings-subsection {
+  margin-top: 8px;
+  padding: 6px;
+  background-color: #333;
+  border-radius: 4px;
+  border-left: 2px solid #555;
+}
+
+.settings-subsection h4 {
+  color: #ccc;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.1;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-height: 600px) {
+  .settings-section {
+    margin-bottom: 6px;
+    padding: 6px;
+  }
+  
+  #setBg .settings-section {
+    margin-bottom: 0;
+  }
+  
+  .settings-section h3 {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  
+  .slidecontainer {
+    margin-bottom: 4px;
+  }
+  
+  .settings-subsection {
+    padding: 4px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-height: 500px) {
+  .settings-section {
+    margin-bottom: 4px;
+    padding: 4px;
+  }
+  
+  #setBg .settings-section {
+    margin-bottom: 0;
+  }
+  
+  .settings-section h3 {
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+  
+  .slidecontainer, .color-picker, .effect-toggle {
+    margin-bottom: 3px;
+  }
+  
+  .tab-area {
+    padding: 4px;
+  }
+  
+  /* En pantallas muy bajas, reducir gap del grid */
+  #setBg .container {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 300px) {
+  .main {
+    font-size: 10px;
+  }
+  
+  .settings-section {
+    padding: 4px;
+  }
+  
+  .container {
+    padding: 3px;
+    gap: 4px;
+  }
+}
+
+/* Botones de presets */
+/* Botones de presets optimizados para grid */
+.preset-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.preset-btn {
+  padding: 8px 16px;
+  background: linear-gradient(45deg, #007acc, #005c99);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preset-btn:hover {
+  background: linear-gradient(45deg, #0099ff, #007acc);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+}
+
+.preset-btn:active {
+  transform: translateY(0);
+}
+
+/* Controles de degradado */
+.gradient-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gradient-type select {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #363636;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 13px;
+  min-height: 36px;
+  min-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.color-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.color-picker {
+  flex: 1;
+  min-width: 120px;
+}
+
+.color-picker label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.color-picker input[type="color"] {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+}
+
+/* Controles de texto con degradado */
+.gradient-text-controls {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+}
+
+.gradient-text-controls select {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #363636;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  min-height: 36px;
+  min-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Efectos de texto */
+.text-effects {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.effect-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.effect-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #007acc;
+}
+
+.effect-toggle label {
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Controles específicos de efectos */
+#textShadowControls,
+#textStrokeControls,
+#textGlowControls {
+  margin-left: 26px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  border-left: 3px solid #007acc;
+}
+
+/* Sliders mejorados con displays */
+.slidecontainer {
+  margin: 10px 0;
+}
+
+.slidecontainer label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #444;
+  outline: none;
+  -webkit-appearance: none;
+  margin-bottom: 5px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #007acc, #0099ff);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #007acc, #0099ff);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Displays de valores */
+#gradientAngleDisplay,
+#shadowXDisplay,
+#shadowYDisplay,
+#shadowBlurDisplay,
+#strokeWidthDisplay,
+#glowIntensityDisplay,
+#roundedCornerDisplay,
+#opacityDisplay,
+#paddingDisplay,
+#animationDurationDisplay {
+  color: #007acc;
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+/* Controles de animación */
+.animation-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.animation-controls select {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #363636;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 13px;
+  min-height: 36px;
+  min-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mejoras para el scroll cuando hay mucho contenido */
+.container {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #007acc #2a2a2a;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #007acc, #0099ff);
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #0099ff, #007acc);
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 600px) {
+  .color-row {
+    flex-direction: column;
+  }
+  
+  .preset-buttons {
+    justify-content: center;
+  }
+  
+  .preset-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+}
+
+/* Animaciones para transiciones suaves */
+.settings-section,
+.effect-toggle,
+.slider,
+.preset-btn {
+  transition: all 0.3s ease;
+}
+
+/* Estados hover para mejor UX */
+.settings-section:hover {
+  background-color: #333;
+  border-left-color: #0099ff;
+}
+
+/* Indicadores visuales para estados activos */
+.effect-toggle input[type="checkbox"]:checked + label {
+  color: #007acc;
+  font-weight: bold;
+}
+
 #colorPicker{
   margin: 10px;
 }
 
 select{
   width: 100%;
-  font-size: 1em;
+  font-size: 12px;
   background-color: #363636;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
+  padding: 6px 8px;
+  border: 1px solid #555;
+  box-sizing: border-box;
+  margin-bottom: 6px;
+  height: 32px;
+  min-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+select:focus {
+  outline: 1px solid #007acc;
+  border-color: #007acc;
+}
+
+/* Botones más compactos */
+button {
+  margin-top: 6px;
+  padding: 6px 8px;
+  font-size: 10px;
+  background-color: #363636;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* Inputs de texto más compactos */
+input[type="text"], textarea {
+  font-size: 10px;
+  padding: 6px;
+  margin-bottom: 6px;
+}
+
+/* Preset buttons más compactos */
+.preset-btn {
+  padding: 4px 8px;
+  font-size: 9px;
+  margin: 2px;
 }
 
 #listTitle{
@@ -107,16 +647,60 @@ button:active {
 }
 
 .tab-item{
-  min-height: 90%;
-  max-height: 90%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .tabs {
   display: flex;
-  flex-direction: row;
-  padding: 0 5px;
-  width: 100%;
-  min-width: 100%;
+  justify-content: space-around;
+  background-color: #333;
+  border-top: 1px solid #555;
+  flex-shrink: 0;
+  min-height: 40px;
+  max-height: 40px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 8px 4px;
+  background-color: #333;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s;
+  min-width: 0;
+  word-wrap: break-word;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.tab-button:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.tab-button.active {
+  background-color: #007acc;
+  color: #fff;
+}
+
+/* Responsive para tabs */
+@media (max-width: 320px) {
+  .tab-button {
+    padding: 6px 2px;
+    font-size: 9px;
+  }
+  
+  .tabs {
+    min-height: 35px;
+    max-height: 35px;
+  }
 }
 
 .handle-container-button {
@@ -125,23 +709,7 @@ button:active {
   justify-content: center;
   align-items: center;
   width: 100%;
-}
-
-.tab-area{
-  height: 100%;
-  min-height: 100%;
-  min-width: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.tab-button {
-  margin: 0px;
-  padding: 5px 10px;
-  color: #ccc;
-  background-color: #222;
-  font-size: 0.8em;
+  padding: 10px;
 }
 
 .tab-button:not(:last-child) {
@@ -207,8 +775,60 @@ button:active {
 .bible p{
   margin: 5px 0px;
   background-color: #222;
-  border-radius: 5px;
-  padding: 2px;
+  border-radius: 8px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  border-left: 4px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.bible p:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-left-color: #007acc;
+}
+
+.bible p:active {
+  transform: translateY(0);
+  background-color: #444;
+}
+
+.bible p.selected {
+  background-color: #222255 !important;
+  border-left-color: #007acc !important;
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.4);
+}
+
+.bible p:focus {
+  outline: 2px solid #007acc;
+  outline-offset: 2px;
+}
+
+/* Efecto de ondas al hacer click */
+.bible p::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 122, 204, 0.3);
+  transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.bible p.clicked::before {
+  width: 200%;
+  height: 200%;
 }
 
 .bible-verse{
@@ -355,4 +975,112 @@ button:active {
 
 .select-bible-version{
   width: 40%;
+}
+
+/* ========== FIXES ADICIONALES PARA SCROLL ========== */
+
+/* Asegurar que todos los tabs tengan scroll */
+#text, #bibleText, #listText, #setBg {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Mejorar el handle del contenedor de botones */
+.handle-container-button {
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+/* Asegurar que la biblia tenga scroll apropiado */
+.bible {
+  flex: 1;
+  overflow-y: auto;
+  max-height: none;
+  min-height: 200px;
+}
+
+/* Ajustes finales para el responsive */
+@media (max-height: 400px) {
+  .settings-section {
+    margin-bottom: 3px;
+    padding: 3px;
+  }
+  
+  #setBg .settings-section {
+    margin-bottom: 0;
+    padding: 4px;
+  }
+  
+  .settings-section h3 {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+  
+  .slidecontainer, .color-picker, .effect-toggle {
+    margin-bottom: 2px;
+  }
+  
+  .slider {
+    height: 3px;
+  }
+  
+  .color-picker input[type="color"] {
+    height: 24px;
+  }
+  
+  /* Grid ultra-compacto */
+  #setBg .container {
+    gap: 3px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+/* Fix para -webkit-appearance warning */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ========== GRID RESPONSIVE AVANZADO ========== */
+
+/* Asegurar que las secciones de ajustes no se estiren demasiado */
+#setBg .settings-section {
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Para pantallas extra grandes, limitar a 4 columnas máximo */
+@media (min-width: 1200px) {
+  #setBg .container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Ajuste especial para tablets en horizontal */
+@media (min-width: 768px) and (max-width: 1024px) {
+  #setBg .container {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Asegurar que los elementos dentro de las secciones se adapten bien */
+#setBg .slidecontainer,
+#setBg .color-picker,
+#setBg .effect-toggle {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Optimizar los elementos de texto para que no causen overflow */
+#setBg .settings-section h3,
+#setBg .settings-subsection h4,
+#setBg .slidecontainer label,
+#setBg .color-picker label {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }

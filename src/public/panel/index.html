@@ -66,55 +66,365 @@
         </div>
         <div id="setBg" class="tab-area" style="display: none">
           <div class="container">
-            <div class="settings">
-              <span class="font-settings" id="bold">N</span>
-              <span class="font-settings" id="italic">C</span>
-              <span class="font-settings" id="underline">S</span>
-              <select id="textAlign">
-                <option value="Left">Izquierda</option>
-                <option value="Right">Derecha</option>
-                <option value="Center">Centro</option>
-                <option value="Justify">Justificar</option>
-              </select>
-            </div>
-            <div class="settings">
-              <div class="color-picker">
-                <label>Fondo</label>
-                <input type="color" id="bgColor" />
+            
+            <!-- ==========================================
+                 🎨 ESTILOS POR DEFECTO
+                 ========================================== -->
+            <div class="settings-section">
+              <h3>🎨 Estilos por Defecto</h3>
+              
+              <!-- Presets Rápidos -->
+              <div class="preset-buttons">
+                <button class="preset-btn" data-preset="sombra">🌫️ Sombra</button>
+                <button class="preset-btn" data-preset="claro">☀️ Claro</button>
+                <button class="preset-btn" data-preset="blanco">⚪ Blanco</button>
+                <button class="preset-btn" data-preset="grueso">� Grueso</button>
+                <button class="preset-btn" data-preset="suave">🌸 Suave</button>
               </div>
-              <div class="color-picker">
-                <label>Texto</label>
-                <input type="color" id="fontColor" />
-              </div>
-              <div class="color-picker">
-                <label>Título</label>
-                <input type="color" id="titleColor" />
+              
+              <!-- Formato básico de texto -->
+              <div class="settings">
+                <span class="font-settings" id="bold">💪 N</span>
+                <span class="font-settings" id="italic">🔤 C</span>
+                <span class="font-settings" id="underline">📝 S</span>
+                <select id="textAlign">
+                  <option value="Left">⬅️ Izq</option>
+                  <option value="Right">➡️ Der</option>
+                  <option value="Center">⬅️➡️ Centro</option>
+                  <option value="Justify">📐 Justif</option>
+                </select>
+                <select id="fontStyle">
+                  <option value="Inter">🔤 Inter</option>
+                  <option value="Poppins">🔤 Poppins</option>
+                  <option value="Georgia">🔤 Georgia</option>
+                  <option value="Arial">🔤 Arial</option>
+                  <option value="Times New Roman">🔤 Times New Roman</option>
+                </select>
               </div>
             </div>
-            <div class="slidecontainer">
-              <label>Esquinas redondeadas</label>
-              <input
-                type="range"
-                min="0"
-                max="120"
-                value="0"
-                class="slider"
-                id="rounded-corner"
-              />
-              <label>Opacidad</label>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value="10"
-                class="slider"
-                id="opacity"
-              />
+
+            <!-- ==========================================
+                 🏷️ TÍTULO
+                 ========================================== -->
+            <div class="settings-section">
+                <h3>�️ Título</h3>
+                
+                <!-- Configuración básica del título -->
+                <h4>🎯 Configuración Básica</h4>
+                
+                <!-- Color del título -->
+                <div class="config-group">
+                    <label for="titleColor">🎨 Color del título:</label>
+                    <input type="color" id="titleColor" value="#ffffff">
+                    <button id="autoTitleColor" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">🔄 Auto</button>
+                </div>
+
+                <!-- Tamaño de fuente del título -->
+                <div class="config-group">
+                    <label for="titleFontSize">📏 Tamaño de fuente: <span id="titleFontSizeDisplay">20px</span></label>
+                    <input type="range" id="titleFontSize" min="12" max="48" value="20" step="1">
+                </div>
+
+                <!-- Posición X del título -->
+                <div class="config-group">
+                    <label for="titlePositionX">↔️ Posición X: <span id="titlePositionXDisplay">10px</span></label>
+                    <input type="range" id="titlePositionX" min="0" max="200" value="10" step="1">
+                </div>
+
+                <!-- Posición Y del título -->
+                <div class="config-group">
+                    <label for="titlePositionY">↕️ Posición Y: <span id="titlePositionYDisplay">10px</span></label>
+                    <input type="range" id="titlePositionY" min="0" max="200" value="10" step="1">
+                </div>
+
+                <!-- Espaciado entre letras -->
+                <div class="config-group">
+                    <label for="titleSpacing">📝 Espaciado entre letras: <span id="titleSpacingDisplay">0px</span></label>
+                    <input type="range" id="titleSpacing" min="-2" max="10" value="0" step="0.5">
+                </div>
+
+                <!-- Peso de fuente -->
+                <div class="config-group">
+                    <label for="titleFontWeight">💪 Peso de fuente:</label>
+                    <select id="titleFontWeight">
+                        <option value="normal">📝 Normal</option>
+                        <option value="bold">💪 Bold</option>
+                        <option value="bolder">💪💪 Extra</option>
+                        <option value="lighter">📄 Light</option>
+                    </select>
+                </div>
+
+                <!-- Sombra del título -->
+                <div class="config-group">
+                    <label for="titleShadow">
+                        <input type="checkbox" id="titleShadow">
+                        🌑 Sombra del título
+                    </label>
+                </div>
+
+                <!-- Color de sombra -->
+                <div class="config-group" id="titleShadowColorGroup" style="display: none;">
+                    <label for="titleShadowColor">🎨 Color de sombra:</label>
+                    <input type="color" id="titleShadowColor" value="#000000">
+                </div>
+
+                <!-- Tamaño de sombra -->
+                <div class="config-group" id="titleShadowSizeGroup" style="display: none;">
+                    <label for="titleShadowSize">📐 Tamaño de sombra: <span id="titleShadowSizeDisplay">2px</span></label>
+                    <input type="range" id="titleShadowSize" min="1" max="10" value="2" step="1">
+                </div>
+
+                <!-- Separador visual -->
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid #444;">
+                
+                <!-- Recuadro del título -->
+                <h4>📦 Recuadro del Título</h4>
+                
+                <!-- Activar recuadro -->
+                <div class="config-group">
+                    <label for="titleBoxEnabled">
+                        <input type="checkbox" id="titleBoxEnabled">
+                        ✅ Activar recuadro del título
+                    </label>
+                </div>
+
+                <!-- Tamaño del recuadro -->
+                <div class="config-group">
+                    <label for="titleBoxSize">📐 Tamaño: <span id="titleBoxSizeDisplay">Medium</span></label>
+                    <select id="titleBoxSize">
+                        <option value="small">🔸 S</option>
+                        <option value="medium" selected>🔹 M</option>
+                        <option value="large">🔶 L</option>
+                        <option value="custom">⚙️ Custom</option>
+                    </select>
+                </div>
+
+                <!-- Padding personalizado -->
+                <div class="config-group" id="customBoxSize" style="display: none;">
+                    <label for="titleBoxPadding">🎚️ Padding: <span id="titleBoxPaddingDisplay">8px</span></label>
+                    <input type="range" id="titleBoxPadding" min="4" max="30" value="8" step="1">
+                </div>
+
+                <!-- Ancho completo -->
+                <div class="config-group">
+                    <label for="titleBoxFullWidth">
+                        <input type="checkbox" id="titleBoxFullWidth">
+                        ↔️ Ancho completo
+                    </label>
+                </div>
+
+                <!-- Ancho personalizado (solo visible cuando ancho completo está activo) -->
+                <div class="config-group" id="titleBoxWidthGroup" style="display: none;">
+                    <label for="titleBoxWidth">📏 Ancho: <span id="titleBoxWidthDisplay">100%</span></label>
+                    <input type="range" id="titleBoxWidth" min="20" max="100" value="100" step="5">
+                </div>
+
+                <!-- Alineación de texto (solo visible cuando ancho completo está activo) -->
+                <div class="config-group" id="titleAlignmentGroup" style="display: none;">
+                    <label for="titleFullWidthAlignment">📐 Alineación del texto:</label>
+                    <select id="titleFullWidthAlignment">
+                        <option value="left">⬅️ Izquierda</option>
+                        <option value="center">⬇️ Centrado</option>
+                        <option value="right">➡️ Derecha</option>
+                    </select>
+                </div>
+
+                <!-- Color de fondo -->
+                <div class="config-group">
+                    <label for="titleBoxColor">🎨 Color de fondo:</label>
+                    <input type="color" id="titleBoxColor" value="#ffffff">
+                </div>
+
+                <!-- Opacidad -->
+                <div class="config-group">
+                    <label for="titleBoxOpacity">👻 Opacidad: <span id="titleBoxOpacityDisplay">80%</span></label>
+                    <input type="range" id="titleBoxOpacity" min="0" max="100" value="80" step="5">
+                </div>
+
+                <!-- Borde -->
+                <div class="config-group">
+                    <label for="titleBoxBorder">🔳 Grosor del borde: <span id="titleBoxBorderDisplay">1px</span></label>
+                    <input type="range" id="titleBoxBorder" min="0" max="5" value="1" step="1">
+                </div>
+
+                <!-- Radio de esquinas -->
+                <div class="config-group">
+                    <label for="titleBoxRadius">🔘 Radio de esquinas: <span id="titleBoxRadiusDisplay">6px</span></label>
+                    <input type="range" id="titleBoxRadius" min="0" max="20" value="6" step="1">
+                </div>
+
+                <!-- Efecto blur -->
+                <div class="config-group">
+                    <label for="titleBoxBlur">
+                        <input type="checkbox" id="titleBoxBlur" checked>
+                        🌊 Efecto blur de fondo
+                    </label>
+                </div>
+            </div>            <!-- ==========================================
+                 📝 TEXTO
+                 ========================================== -->
+            <div class="settings-section">
+              <h3>📝 Texto</h3>
+              
+              <!-- Colores y Degradados -->
+              <h4>🌈 Colores y Degradados</h4>
+              <div class="gradient-controls">
+                <div class="gradient-type">
+                  <label>🎨 Tipo de Fondo:</label>
+                  <select id="backgroundType">
+                    <option value="solid">⚫ Sólido</option>
+                    <option value="linear">📐 Lineal</option>
+                    <option value="radial">🔘 Radial</option>
+                  </select>
+                </div>
+                
+                <!-- Colores básicos -->
+                <div class="color-row">
+                  <div class="color-picker">
+                    <label>🎨 Fondo/Color 1</label>
+                    <input type="color" id="bgColor" />
+                  </div>
+                  <div class="color-picker" id="gradientColor2Container" style="display: none;">
+                    <label>🌈 Color 2</label>
+                    <input type="color" id="gradientColor2" value="#ff6b6b" />
+                  </div>
+                  <div class="color-picker" id="gradientColor3Container" style="display: none;">
+                    <label>🌈 Color 3</label>
+                    <input type="color" id="gradientColor3" value="#4ecdc4" />
+                  </div>
+                </div>
+
+                <!-- Controles de degradado -->
+                <div id="gradientControls" style="display: none;">
+                  <div class="slidecontainer">
+                    <label>🔄 Dirección del Degradado</label>
+                    <input type="range" min="0" max="360" value="90" class="slider" id="gradientAngle" />
+                    <span id="gradientAngleDisplay">90°</span>
+                  </div>
+                </div>
+
+                <!-- Tipo de degradado de texto -->
+                <div class="gradient-text-controls">
+                  <label>🔤 Texto:</label>
+                  <select id="textColorType">
+                    <option value="solid">⚫ Sólido</option>
+                    <option value="gradient">🌈 Degradado</option>
+                  </select>
+                  <div class="color-row">
+                    <div class="color-picker">
+                      <label>🔤 Texto/Color 1</label>
+                      <input type="color" id="fontColor" />
+                    </div>
+                    <div class="color-picker" id="textGradientColor2Container" style="display: none;">
+                      <label>🌈 Color 2</label>
+                      <input type="color" id="textGradientColor2" value="#ff9a9a" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Efectos de Texto -->
+              <h4>✨ Efectos de Texto</h4>
+              <div class="text-effects">
+                <div class="effect-toggle">
+                  <label><input type="checkbox" id="textShadowEnabled"> 🌑 Sombra de Texto</label>
+                </div>
+                <div id="textShadowControls" style="display: none;">
+                  <div class="color-picker">
+                    <label>🎨 Color Sombra</label>
+                    <input type="color" id="textShadowColor" value="#000000" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>↔️ Desplazamiento X: <span id="shadowXDisplay">2px</span></label>
+                    <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowX" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>↕️ Desplazamiento Y: <span id="shadowYDisplay">2px</span></label>
+                    <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowY" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>🌊 Difuminado: <span id="shadowBlurDisplay">4px</span></label>
+                    <input type="range" min="0" max="20" value="4" class="slider" id="textShadowBlur" />
+                  </div>
+                </div>
+
+                <div class="effect-toggle">
+                  <label><input type="checkbox" id="textStrokeEnabled"> 🔳 Borde de Texto</label>
+                </div>
+                <div id="textStrokeControls" style="display: none;">
+                  <div class="color-picker">
+                    <label>🎨 Color Borde</label>
+                    <input type="color" id="textStrokeColor" value="#000000" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>📏 Grosor: <span id="strokeWidthDisplay">1px</span></label>
+                    <input type="range" min="0" max="5" value="1" step="0.5" class="slider" id="textStrokeWidth" />
+                  </div>
+                </div>
+
+                <div class="effect-toggle">
+                  <label><input type="checkbox" id="textGlowEnabled"> 💡 Resplandor</label>
+                </div>
+                <div id="textGlowControls" style="display: none;">
+                  <div class="color-picker">
+                    <label>🎨 Color Resplandor</label>
+                    <input type="color" id="textGlowColor" value="#ffffff" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>⚡ Intensidad: <span id="glowIntensityDisplay">10px</span></label>
+                    <input type="range" min="0" max="30" value="10" class="slider" id="textGlowIntensity" />
+                  </div>
+                </div>
+              </div>
             </div>
-            <select id="fontStyle">
-              <option value="Inter">Inter</option>
-              <option value="Poppins">Poppins</option>
-            </select>
+
+            <!-- ==========================================
+                 📦 CONTENEDOR
+                 ========================================== -->
+            <div class="settings-section">
+              <h3>📦 Contenedor</h3>
+              
+              <div class="slidecontainer">
+                <label>🔄 Esquinas redondeadas: <span id="roundedCornerDisplay">0px</span></label>
+                <input type="range" min="0" max="120" value="5" class="slider" id="rounded-corner" />
+              </div>
+              
+              <div class="slidecontainer">
+                <label>👻 Opacidad: <span id="opacityDisplay">100%</span></label>
+                <input type="range" min="0" max="10" value="5" class="slider" id="opacity" />
+              </div>
+              
+              <div class="slidecontainer">
+                <label>📏 Padding: <span id="paddingDisplay">20px</span></label>
+                <input type="range" min="0" max="50" value="2" class="slider" id="containerPadding" />
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 🎬 ANIMACIONES
+                 ========================================== -->
+            <div class="settings-section">
+              <h3>🎬 Animaciones</h3>
+              
+              <div class="animation-controls">
+                <label>✨ Tipo de Animación:</label>
+                <select id="textAnimation">
+                  <option value="none">⚫ Ninguna</option>
+                  <option value="fadeIn">🌅 Fade In</option>
+                  <option value="slideInFromLeft">⬅️ Izquierda</option>
+                  <option value="slideInFromRight">➡️ Derecha</option>
+                  <option value="slideInFromTop">⬆️ Arriba</option>
+                  <option value="slideInFromBottom">⬇️ Abajo</option>
+                  <option value="zoomIn">🔍 Zoom</option>
+                  <option value="typewriter">⌨️ Escribir</option>
+                </select>
+                
+                <div class="slidecontainer">
+                  <label>⏱️ Duración: <span id="animationDurationDisplay">1s</span></label>
+                  <input type="range" min="0.5" max="5" value="1" step="0.1" class="slider" id="animationDuration" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import btx from "../db/BTX.sqlite";
 import nvi from "../db/NVI.sqlite";
 import nvic from "../db/NVIC.sqlite";
 import btx4 from "../db/BTX4.sqlite";
-import lbla from "../db/LBLA.sqlite";
+// import lbla from "../db/LBLA.sqlite";
 
 export let openedDb;
 export let selectedBibleName = "kdsh";
@@ -34,10 +34,10 @@ export async function selectBible(name) {
       openedDb = await openDb(btx4);
       selectedBibleName = "btx4";
       break;
-    case "lbla":
-      openedDb = await openDb(lbla);
-      selectedBibleName = "lbla";
-      break;
+    // case "lbla":
+    //   openedDb = await openDb(lbla);
+    //   selectedBibleName = "lbla";
+    //   break;
   }
   return openedDb;
 }
