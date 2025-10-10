@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="tab-item">
+        <div id="text" class="tab-area" style="display: none">
+          <div class="container">
+            <textarea
+              id="messageInput"
+              placeholder="Escribe un mensaje"
+            ></textarea>
+            <button id="sendButton">Mostrar texto</button>
+          </div>
+        </div>
+        <div id="bibleText" class="tab-area">
+          <div class="container">
+            <div class="bible-search">
+              <div class="input-suggest">
+                <input
+                  id="bible-input"
+                  placeholder="Salmo 1:1 o cualquier contenido de versículo"
+                />
+                <div id="suggestions"></div>
+              </div>
+              <select class="select-bible-version" id="bible-version">
+                <!-- Options populated dynamically from bibleConfig.js -->
+              </select>
+              <input type="submit" id="bible-submit" value="Buscar" />
+              <span id="history">Historia</span>
+            </div>
+            <div class="bible" id="bible">
+              <div class="bible-verse" id="bible-verse">
+                <!-- Esta es el área para los versículos de la Biblia -->
+              </div>
+            </div>
+            <div class="handle-container-button">
+              <button id="bg-container-btn">
+                Ocultar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="listText" class="tab-area" style="display: none">
+          <div class="container">
+            <input
+              type="text"
+              id="listTitle"
+              placeholder="Título de la Lista"
+            />
+            <textarea
+              id="listItems"
+              placeholder="Escribe un mensaje"
+            ></textarea>
+            <button id="sendList">Mostrar texto</button>
+          </div>
+        </div>
+        <div id="setBg" class="tab-area" style="display: none">
+          <div class="container settings-layout">
+            <div class="settings-section settings-section--wide">
+              <h3>⚡ Ajustes Rápidos</h3>
+              <p class="settings-description">
+                Elige un preset minimalista como punto de partida y ajusta el formato básico antes de afinar los detalles.
+              </p>
+              <div class="preset-buttons">
+                <button class="preset-btn" data-preset="sombra">🌫️ Sombra</button>
+                <button class="preset-btn" data-preset="claro">☀️ Claro</button>
+                <button class="preset-btn" data-preset="blanco">⚪ Blanco</button>
+                <button class="preset-btn" data-preset="grueso">🧱 Grueso</button>
+                <button class="preset-btn" data-preset="suave">🌸 Suave</button>
+                <button class="preset-btn" id="resetAllSettings" style="background: #dc2626; color: white;">🔄 Reset Todo</button>
+              </div>
+              <div class="quick-controls">
+                <div class="quick-toggles">
+                  <span class="font-settings" id="bold">💪 N</span>
+                  <span class="font-settings" id="italic">🔤 C</span>
+                  <span class="font-settings" id="underline">📝 S</span>
+                </div>
+                <div class="quick-selects">
+                  <label for="textAlign" class="quick-label">📐 Alineación:</label>
+                  <select id="textAlign">
+                    <option value="Left">⬅️ Izq</option>
+                    <option value="Right">➡️ Der</option>
+                    <option value="Center">⬅️➡️ Centro</option>
+                    <option value="Justify">📐 Justif</option>
+                  </select>
+                  <label for="fontStyle" class="quick-label">🔤 Fuente:</label>
+                  <select id="fontStyle">
+                    <option value="Inter">Inter</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="settings-column">
+                <div class="settings-section">
+                  <h3>🏷️ Título</h3>
+                  <p class="settings-description">
+                    Controla la cabecera que acompaña al versículo y decide si se muestra dentro de un recuadro.
+                  </p>
+
+                  <div class="settings-subsection">
+                    <h4>🎯 Configuración Título</h4>
+                    <div class="config-grid">
+                      <div class="config-group config-group--inline">
+                        <label for="titleColor">🎨 Color del título:</label>
+                        <div class="config-inline">
+                          <input type="color" id="titleColor" value="#ffffff" />
+                          <button id="autoTitleColor" class="button-inline">🔄 Auto</button>
+                        </div>
+                      </div>
+                      <div class="config-group">
+                        <label for="titleFontSize">📏 Tamaño: <span id="titleFontSizeDisplay">20px</span></label>
+                        <input type="range" id="titleFontSize" min="12" max="48" value="20" step="1" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleFontWeight">💪 Peso:</label>
+                        <select id="titleFontWeight">
+                          <option value="normal">📝 Normal</option>
+                          <option value="bold">💪 Bold</option>
+                          <option value="bolder">💪💪 Extra</option>
+                          <option value="lighter">📄 Light</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-subsection">
+                    <h4>🧭 Posición y Espaciado</h4>
+                    <div class="config-grid">
+                      <div class="config-group">
+                        <label for="titlePositionX">↔️ Posición X: <span id="titlePositionXDisplay">10px</span></label>
+                        <input type="range" id="titlePositionX" min="0" max="200" value="10" step="1" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titlePositionY">↕️ Posición Y: <span id="titlePositionYDisplay">10px</span></label>
+                        <input type="range" id="titlePositionY" min="0" max="200" value="10" step="1" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleSpacing">📝 Espaciado: <span id="titleSpacingDisplay">0px</span></label>
+                        <input type="range" id="titleSpacing" min="-2" max="10" value="0" step="0.5" />
+                      </div>
+                      <div class="config-group" id="titleAlignmentNoBoxGroup">
+                        <label for="titleAlignment">📐 Alineación:</label>
+                        <select id="titleAlignment">
+                          <option value="left" selected>⬅️ Izquierda</option>
+                          <option value="center">⬇️ Centrado</option>
+                          <option value="right">➡️ Derecha</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-subsection">
+                    <h4>🌑 Sombra del título</h4>
+                    <div class="config-group">
+                      <label for="titleShadow">
+                        <input type="checkbox" id="titleShadow" />
+                        Activar sombra
+                      </label>
+                    </div>
+                    <div class="config-grid" id="titleShadowAdvanced">
+                      <div class="config-group" id="titleShadowColorGroup" style="display: none;">
+                        <label for="titleShadowColor">🎨 Color de sombra:</label>
+                        <input type="color" id="titleShadowColor" value="#000000" />
+                      </div>
+                      <div class="config-group" id="titleShadowSizeGroup" style="display: none;">
+                        <label for="titleShadowSize">📐 Tamaño: <span id="titleShadowSizeDisplay">2px</span></label>
+                        <input type="range" id="titleShadowSize" min="1" max="10" value="2" step="1" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-subsection">
+                    <h4>✏️ Contorno del Título</h4>
+                    <div class="config-group">
+                      <label for="titleStroke">
+                        <input type="checkbox" id="titleStroke" />
+                        Activar contorno
+                      </label>
+                    </div>
+                    <div class="config-grid" id="titleStrokeAdvanced" style="display: none;">
+                      <div class="config-group">
+                        <label for="titleStrokeColor">🎨 Color del contorno:</label>
+                        <input type="color" id="titleStrokeColor" value="#000000" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleStrokeWidth">📏 Grosor: <span id="titleStrokeWidthDisplay">1px</span></label>
+                        <input type="range" id="titleStrokeWidth" min="1" max="5" value="1" step="0.5" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-subsection">
+                    <h4>📦 Recuadro del Título</h4>
+                    <div class="config-group">
+                      <label for="titleBoxEnabled">
+                        <input type="checkbox" id="titleBoxEnabled" />
+                        ✅ Activar recuadro del título
+                      </label>
+                    </div>
+                    <div class="config-grid" id="titleBoxControls" style="display: none;">
+                      <div class="config-group">
+                        <label for="titleBoxSize">📐 Tamaño: <span id="titleBoxSizeDisplay">Medium</span></label>
+                        <select id="titleBoxSize">
+                          <option value="small">🔸 S</option>
+                          <option value="medium" selected>🔹 M</option>
+                          <option value="large">🔶 L</option>
+                          <option value="custom">⚙️ Custom</option>
+                        </select>
+                      </div>
+                      <div class="config-group" id="customBoxSize" style="display: none;">
+                        <label for="titleBoxPadding">🎚️ Padding: <span id="titleBoxPaddingDisplay">8px</span></label>
+                        <input type="range" id="titleBoxPadding" min="4" max="30" value="8" step="1" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleBoxFullWidth">
+                          <input type="checkbox" id="titleBoxFullWidth" />
+                          ↔️ Ancho completo
+                        </label>
+                      </div>
+                      <div class="config-group" id="titleBoxWidthGroup" style="display: none;">
+                        <label for="titleBoxWidth">📏 Ancho: <span id="titleBoxWidthDisplay">100%</span></label>
+                        <input type="range" id="titleBoxWidth" min="20" max="100" value="100" step="5" />
+                      </div>
+                      <div class="config-group" id="titleAlignmentGroup" style="display: none;">
+                        <label for="titleFullWidthAlignment">📐 Alineación del texto:</label>
+                        <select id="titleFullWidthAlignment">
+                          <option value="left">⬅️ Izquierda</option>
+                          <option value="center">⬇️ Centrado</option>
+                      <option value="right">➡️ Derecha</option>
+                    </select>
+                  </div>
+                  <div class="config-group">
+                    <label for="titleBoxColor">🎨 Color de fondo:</label>
+                    <input type="color" id="titleBoxColor" value="#ffffff" />
+                  </div>
+                  <div class="config-group config-group--inline">
+                    <label for="titleBoxStroke" class="checkbox-inline">
+                      <input type="checkbox" id="titleBoxStroke" />
+                      ✏️ Contorno del texto
+                    </label>
+                  </div>
+                  <div class="config-group">
+                    <label for="titleBoxOpacity">👻 Opacidad: <span id="titleBoxOpacityDisplay">80%</span></label>
+                    <input type="range" id="titleBoxOpacity" min="0" max="100" value="80" step="5" />
+                  </div>
+                      <div class="config-group">
+                        <label for="titleBoxBorder">🔳 Borde: <span id="titleBoxBorderDisplay">1px</span></label>
+                        <input type="range" id="titleBoxBorder" min="0" max="5" value="1" step="1" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleBoxBorderColor">🎨 Color del borde:</label>
+                        <input type="color" id="titleBoxBorderColor" value="#ffffff" />
+                      </div>
+                      <div class="config-group">
+                        <label for="titleBoxRadius">🔘 Esquinas: <span id="titleBoxRadiusDisplay">6px</span></label>
+                        <input type="range" id="titleBoxRadius" min="0" max="20" value="6" step="1" />
+                      </div>
+                      <div class="config-group config-group--inline">
+                        <label for="titleBoxBlur">🌊 Efecto blur</label>
+                        <div class="config-inline">
+                          <input type="checkbox" id="titleBoxBlur" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-section">
+                  <h3>🎬 Animaciones</h3>
+                  <p class="settings-description">
+                    Define la entrada del texto en pantalla sin perder la estética minimalista del overlay.
+                  </p>
+                  <div class="animation-controls">
+                    <label for="textAnimation">✨ Tipo de Animación:</label>
+                    <select id="textAnimation">
+                      <option value="none">⚫ Ninguna</option>
+                      <option value="fadeIn">🌅 Fade In</option>
+                      <option value="slideInFromLeft">⬅️ Izquierda</option>
+                      <option value="slideInFromRight">➡️ Derecha</option>
+                      <option value="slideInFromTop">⬆️ Arriba</option>
+                      <option value="slideInFromBottom">⬇️ Abajo</option>
+                      <option value="zoomIn">🔍 Zoom</option>
+                      <option value="typewriter">⌨️ Escribir</option>
+                    </select>
+                    <div class="slidecontainer">
+                      <label>⏱️ Duración: <span id="animationDurationDisplay">1s</span></label>
+                      <input type="range" min="0.5" max="5" value="1" step="0.1" class="slider" id="animationDuration" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-column">
+                <div class="settings-section">
+                  <h3>📝 Texto Principal y Efectos</h3>
+                  <p class="settings-description">
+                    Ajusta el color, degradados y efectos del contenido que verá la audiencia.
+                  </p>
+
+                  <h4>🔤 Colores del Texto</h4>
+                  <div class="gradient-text-controls">
+                    <label for="textColorType">Modo de color:</label>
+                    <select id="textColorType">
+                      <option value="solid">⚫ Sólido</option>
+                      <option value="gradient">🌈 Degradado</option>
+                    </select>
+                    <div class="color-row">
+                      <div class="color-picker">
+                        <label for="fontColor">Color principal</label>
+                        <input type="color" id="fontColor" />
+                      </div>
+                      <div class="color-picker" id="textGradientColor2Container" style="display: none;">
+                        <label for="textGradientColor2">Color 2</label>
+                        <input type="color" id="textGradientColor2" value="#ff9a9a" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4>✨ Efectos de Texto</h4>
+                  <p class="settings-description" style="font-size: 12px; margin-top: 5px;">
+                    Aplica sombra, borde o resplandor al texto para mejorar la legibilidad sobre cualquier fondo.
+                  </p>
+
+                  <div class="text-effects">
+                    <div class="effect-toggle">
+                      <label><input type="checkbox" id="textShadowEnabled" /> 🌑 Sombra de Texto</label>
+                    </div>
+                    <div id="textShadowControls" style="display: none;">
+                      <div class="color-picker">
+                        <label for="textShadowColor">Color sombra</label>
+                        <input type="color" id="textShadowColor" value="#000000" />
+                      </div>
+                      <div class="slidecontainer">
+                        <label>↔️ Desplazamiento X: <span id="shadowXDisplay">2px</span></label>
+                        <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowX" />
+                      </div>
+                      <div class="slidecontainer">
+                        <label>↕️ Desplazamiento Y: <span id="shadowYDisplay">2px</span></label>
+                        <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowY" />
+                      </div>
+                      <div class="slidecontainer">
+                        <label>🌫️ Difuminado: <span id="shadowBlurDisplay">4px</span></label>
+                        <input type="range" min="0" max="20" value="4" class="slider" id="textShadowBlur" />
+                      </div>
+                    </div>
+
+                    <div class="effect-toggle">
+                      <label><input type="checkbox" id="textStrokeEnabled" /> 🖊️ Borde del Texto</label>
+                    </div>
+                    <div id="textStrokeControls" style="display: none;">
+                      <div class="color-picker">
+                        <label for="textStrokeColor">Color borde</label>
+                        <input type="color" id="textStrokeColor" value="#000000" />
+                      </div>
+                      <div class="slidecontainer">
+                        <label>📏 Grosor: <span id="strokeWidthDisplay">1px</span></label>
+                        <input type="range" min="0" max="5" value="1" step="0.5" class="slider" id="textStrokeWidth" />
+                      </div>
+                    </div>
+
+                    <div class="effect-toggle">
+                      <label><input type="checkbox" id="textGlowEnabled" /> 💡 Resplandor</label>
+                    </div>
+                    <div id="textGlowControls" style="display: none;">
+                      <div class="color-picker">
+                        <label for="textGlowColor">Color resplandor</label>
+                        <input type="color" id="textGlowColor" value="#ffffff" />
+                      </div>
+                      <div class="slidecontainer">
+                        <label>⚡ Intensidad: <span id="glowIntensityDisplay">10px</span></label>
+                        <input type="range" min="0" max="30" value="10" class="slider" id="textGlowIntensity" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-section">
+                  <h3>🎨 Fondo y Contenedor</h3>
+                  <p class="settings-description">
+                    Define el color base, degradados y márgenes del cuadro que aparece en OBS.
+                  </p>
+
+                  <h4>🌈 Fondo</h4>
+                  <div class="gradient-controls">
+                    <div class="gradient-type">
+                      <label for="backgroundType">Tipo de fondo:</label>
+                      <select id="backgroundType">
+                        <option value="solid">⚫ Sólido</option>
+                        <option value="linear">📐 Lineal</option>
+                        <option value="radial">🔘 Radial</option>
+                      </select>
+                    </div>
+                    <div class="color-row">
+                      <div class="color-picker">
+                        <label for="bgColor">Color base</label>
+                        <input type="color" id="bgColor" />
+                      </div>
+                      <div class="color-picker" id="gradientColor2Container" style="display: none;">
+                        <label for="gradientColor2">Color 2</label>
+                        <input type="color" id="gradientColor2" value="#ff6b6b" />
+                      </div>
+                      <div class="color-picker" id="gradientColor3Container" style="display: none;">
+                        <label for="gradientColor3">Color 3</label>
+                        <input type="color" id="gradientColor3" value="#4ecdc4" />
+                      </div>
+                    </div>
+                    <div id="gradientControls" style="display: none;">
+                      <div class="slidecontainer">
+                        <label>🔄 Dirección: <span id="gradientAngleDisplay">90°</span></label>
+                        <input type="range" min="0" max="360" value="90" class="slider" id="gradientAngle" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4>📦 Contenedor</h4>
+                  <div class="slidecontainer">
+                    <label>🔄 Esquinas redondeadas: <span id="roundedCornerDisplay">0px</span></label>
+                    <input type="range" min="0" max="120" value="5" class="slider" id="rounded-corner" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>👻 Opacidad: <span id="opacityDisplay">100%</span></label>
+                    <input type="range" min="0" max="10" value="5" class="slider" id="opacity" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>📏 Padding interno: <span id="paddingDisplay">20px</span></label>
+                    <input type="range" min="0" max="100" value="20" class="slider" id="containerPadding" />
+                  </div>
+                  <div class="slidecontainer">
+                    <label>📐 Margin externo: <span id="marginDisplay">0px</span></label>
+                    <input type="range" min="0" max="200" value="0" class="slider" id="containerMargin" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab-button" id="tab-text">Texto</button>
+        <button class="tab-button" id="tab-bibleText">Biblia</button>
+        <button class="tab-button" id="tab-listText">Lista</button>
+        <button class="tab-button" id="tab-setBg">Ajustes</button>
+      </div>
+    </div>
+  </body>
+</html>

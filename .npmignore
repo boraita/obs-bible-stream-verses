@@ -1,0 +1,42 @@
+# NPM/Distribution ignore file
+# This file specifies which files should NOT be included when creating distribution packages
+
+# Source code (users only need the built dist/ folder)
+/src/
+/testing/
+webpack.config.js
+.babelrc
+
+# Development dependencies
+/node_modules/
+
+# IDE files
+/.vscode/
+/.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
+
+# Documentation for developers (keep user-facing docs)
+AGENTS.md
+BUILD_INFO.md
+RELEASE_CHECKLIST.md
+OBS_FORUM_SUBMISSION.md
+NUEVAS_FUNCIONALIDADES.md
+
+# Keep only these files in distribution:
+# - dist/ folder (all built files)
+# - DISTRIBUTION_README.md (rename to README.md in package)
+# - INSTALLATION.md
+# - SECURITY.md
+# - LICENSE
+# - package.json

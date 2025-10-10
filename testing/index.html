@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing de Consistencia - OBS Bible Plugin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        
+        .testing-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .panel {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .panel h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #45a049;
+        }
+        
+        .button.warning {
+            background-color: #ff9800;
+        }
+        
+        .button.warning:hover {
+            background-color: #e68900;
+        }
+        
+        .button.danger {
+            background-color: #f44336;
+        }
+        
+        .button.danger:hover {
+            background-color: #da190b;
+        }
+        
+        .versiculos-list {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            margin-bottom: 20px;
+        }
+        
+        .versiculo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #444;
+        }
+        
+        .versiculo-item:last-child {
+            border-bottom: none;
+        }
+        
+        .versiculo-text {
+            flex: 1;
+        }
+        
+        .versiculo-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .console-output {
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ok { background-color: #4CAF50; }
+        .status-warning { background-color: #ff9800; }
+        .status-error { background-color: #f44336; }
+        
+        .instructions {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .small-button {
+            padding: 6px 12px;
+            font-size: 12px;
+            background-color: #666;
+        }
+        
+        .small-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 Testing de Consistencia del Algoritmo</h1>
+        <p>Herramienta para probar la consistencia del algoritmo de ajuste de fuentes con versículos específicos</p>
+    </div>
+
+    <div class="instructions">
+        <h3>📋 Instrucciones de Uso</h3>
+        <p><strong>1.</strong> Abre las herramientas de desarrollador (F12) y ve a la pestaña <strong>Console</strong></p>
+        <p><strong>2.</strong> Usa los botones de abajo o ejecuta comandos directamente en la consola</p>
+        <p><strong>3.</strong> Los resultados aparecerán en la consola del navegador</p>
+        <p><strong>4.</strong> Si encuentras inconsistencias, el algoritmo necesitará ajustes</p>
+    </div>
+
+    <div class="testing-container">
+        <div class="panel">
+            <h3>🚀 Testing Automático</h3>
+            <p>Ejecuta pruebas automáticas en todos los versículos</p>
+            <button class="button" onclick="ejecutarTestRapido()">
+                🏃‍♂️ Test Rápido (3 iter.)
+            </button>
+            <button class="button warning" onclick="ejecutarTestExhaustivo()">
+                🔬 Test Exhaustivo (10 iter.)
+            </button>
+        </div>
+        
+        <div class="panel">
+            <h3>🔧 Utilidades</h3>
+            <p>Herramientas adicionales de testing</p>
+            <button class="button" onclick="mostrarListaVersiculos()">
+                📋 Ver Lista Completa
+            </button>
+            <button class="button" onclick="mostrarAyuda()">
+                🆘 Ayuda
+            </button>
+            <button class="button danger" onclick="limpiarConsola()">
+                🗑️ Limpiar Consola
+            </button>
+        </div>
+    </div>
+
+    <div class="versiculos-list">
+        <h3>📖 Lista de Versículos para Testing</h3>
+        <div id="versiculos-container">
+            <!-- Los versículos se cargarán dinámicamente -->
+        </div>
+    </div>
+
+    <div class="console-output" id="console-mirror">
+        <div style="color: #4CAF50; font-weight: bold;">💡 Consola del navegador reflejada aquí...</div>
+        <div style="color: #999; font-size: 12px; margin-top: 10px;">
+            Los resultados del testing aparecerán en la consola del navegador (F12 → Console)
+        </div>
+    </div>
+
+    <!-- Cargar las funciones del algoritmo principal -->
+    <script src="testVersiculos.js"></script>
+    
+    <script>
+        // Lista de versículos (debe coincidir con testVersiculos.js)
+        const versiculos = [
+            "Juan 3:16",
+            "Salmos 23:1", 
+            "Romanos 8:28",
+            "Filipenses 4:13",
+            "Proverbios 3:5-6",
+            "Mateo 5:14",
+            "Salmos 119:105",
+            "Isaías 40:31",
+            "Efesios 2:8-9",
+            "1 Corintios 13:4-7",
+            "Salmos 46:1",
+            "Gálatas 5:22-23",
+            "2 Timoteo 1:7",
+            "Hebreos 11:1",
+            "Salmos 37:4",
+            "Mateo 6:33",
+            "1 Pedro 5:7",
+            "Salmos 121:1-2",
+            "Romanos 12:2",
+            "Colosenses 3:2"
+        ];
+
+        // Cargar la lista de versículos en la interfaz
+        function cargarVersiculos() {
+            const container = document.getElementById('versiculos-container');
+            
+            versiculos.forEach((versiculo, index) => {
+                const div = document.createElement('div');
+                div.className = 'versiculo-item';
+                div.innerHTML = `
+                    <div class="versiculo-text">
+                        <span class="status-indicator status-ok"></span>
+                        <strong>${index + 1}.</strong> ${versiculo}
+                    </div>
+                    <div class="versiculo-actions">
+                        <button class="button small-button" onclick="testearVersiculoIndividual(${index})">
+                            🧪 Test Individual
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Funciones para los botones
+        function ejecutarTestRapido() {
+            console.log('🏃‍♂️ Iniciando test rápido...');
+            if (typeof window.testRapido === 'function') {
+                window.testRapido();
+            } else {
+                console.error('❌ Función testRapido() no encontrada. ¿Está cargado testVersiculos.js?');
+            }
+        }
+
+        function ejecutarTestExhaustivo() {
+            console.log('🔬 Iniciando test exhaustivo...');
+            if (typeof window.testExhaustivo === 'function') {
+                window.testExhaustivo();
+            } else {
+                console.error('❌ Función testExhaustivo() no encontrada. ¿Está cargado testVersiculos.js?');
+            }
+        }
+
+        function testearVersiculoIndividual(indice) {
+            console.log(`🎯 Testeando versículo individual #${indice + 1}...`);
+            if (typeof window.testVersiculoPorIndice === 'function') {
+                window.testVersiculoPorIndice(indice);
+            } else {
+                console.error('❌ Función testVersiculoPorIndice() no encontrada.');
+            }
+        }
+
+        function mostrarListaVersiculos() {
+            if (typeof window.mostrarVersiculos === 'function') {
+                window.mostrarVersiculos();
+            } else {
+                console.log('📋 Lista de versículos cargada en la interfaz arriba');
+            }
+        }
+
+        function mostrarAyuda() {
+            if (typeof window.ayudaTesting === 'function') {
+                window.ayudaTesting();
+            } else {
+                console.log('🆘 Las funciones de testing no están disponibles. Asegúrate de que testVersiculos.js esté cargado.');
+            }
+        }
+
+        function limpiarConsola() {
+            console.clear();
+            console.log('🗑️ Consola limpiada');
+        }
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarVersiculos();
+            console.log('🧪 Página de testing cargada. Usa los botones para comenzar las pruebas.');
+        });
+
+        // Verificar si las funciones de testing están disponibles
+        setTimeout(() => {
+            if (typeof window.testRapido !== 'function') {
+                console.warn('⚠️ Las funciones de testing no están cargadas. Asegúrate de incluir testVersiculos.js');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

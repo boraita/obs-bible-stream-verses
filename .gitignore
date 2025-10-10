@@ -1,0 +1,32 @@
+
+
+/dist/
+/testing/
+db/
+
+# Ignore dependencies
+/node_modules/
+
+# Ignore IDE files
+/.vscode/
+/.idea/
+
+# Ignore log files
+*.log
+
+# Ignore compiled binaries
+*.exe
+*.dll
+
+# Ignore webpack stats
+stats.json
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore backup files
+*.bak
+*.swp
+*~
+

@@ -1,0 +1,51 @@
+{
+  "name": "obs-bible-stream-verses",
+  "version": "2.0.0",
+  "description": "Plugin to display Bible verses in streaming with OBS Studio. Real-time Bible selection and search.",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development webpack --mode development --config webpack.config.js",
+    "build": "NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "build:analyze": "NODE_ENV=production webpack --mode production --config webpack.config.js --profile --json > stats.json",
+    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js --mode development --host localhost --port 8080 --open",
+    "package": "pnpm build && ./scripts/package-release.sh",
+    "release": "pnpm package"
+  },
+  "keywords": [
+    "obs",
+    "obs-studio",
+    "bible",
+    "streaming",
+    "overlay",
+    "custom-browser-dock",
+    "spanish",
+    "scripture",
+    "verses"
+  ],
+  "author": "Rafael Montaño",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boraita/obs-bible-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/boraita/obs-bible-plugin/issues"
+  },
+  "homepage": "https://github.com/boraita/obs-bible-plugin#readme",
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.2",
+    "arraybuffer-loader": "^1.0.8",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "node-polyfill-webpack-plugin": "^4.1.0",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.102.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-json-access-optimizer": "^1.1.0"
+  },
+  "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
+}
