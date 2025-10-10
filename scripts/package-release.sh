@@ -49,9 +49,12 @@ echo ""
 
 # Step 4: Copy documentation files
 echo -e "${YELLOW}[4/7] Copying documentation...${NC}"
-cp DISTRIBUTION_README.md "${RELEASE_DIR}/README.md"
-cp INSTALLATION.md "${RELEASE_DIR}/"
+cp README.md "${RELEASE_DIR}/"
+if [ -f "INSTALLATION.md" ]; then
+    cp INSTALLATION.md "${RELEASE_DIR}/"
+fi
 cp SECURITY.md "${RELEASE_DIR}/"
+cp CONTRIBUTING.md "${RELEASE_DIR}/"
 if [ -f "LICENSE" ]; then
     cp LICENSE "${RELEASE_DIR}/"
 fi
@@ -66,7 +69,7 @@ REQUIRED_FILES=(
     "dist/panel.js"
     "dist/browser.js"
     "README.md"
-    "INSTALLATION.md"
+    "SECURITY.md"
 )
 
 ALL_PRESENT=true
