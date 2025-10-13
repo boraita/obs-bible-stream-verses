@@ -194,6 +194,37 @@ function calculateEstimatedLines(text, fontSize, containerWidth) {
   };
 }
 
+/**
+ * Pre-calcula el tamaño de fuente óptimo ANTES de inyectar en el DOM
+ * @param {string} text - Texto completo (puede incluir HTML)
+ * @param {number} containerWidth - Ancho del contenedor (opcional, usa default si no hay)
+ * @param {number} containerHeight - Alto del contenedor (opcional, usa default si no hay)
+ * @param {boolean} hasTitle - Si el texto incluye título
+ * @returns {Object} - Información del cálculo incluyendo fontSize
+ */
+function preCalculateFontSize(text, containerWidth = null, containerHeight = null, hasTitle = false) {
+  // Obtener dimensiones del contenedor si no se proporcionan
+  if (!containerWidth || !containerHeight) {
+    const container = document.getElementById('bg-container');
+    if (container) {
+      containerWidth = container.clientWidth || 1920;
+      containerHeight = container.clientHeight || 1080;
+    } else {
+      // Valores por defecto (1080p)
+      containerWidth = containerWidth || 1920;
+      containerHeight = containerHeight || 1080;
+    }
+  }
+  
+  console.log(`📐 Pre-cálculo: ${containerWidth}×${containerHeight}px, hasTitle: ${hasTitle}`);
+  
+  // Usar el algoritmo existente
+  return calculateOptimalFontSize(text, containerWidth, containerHeight, hasTitle);
+}
+
+// Exponer la función globalmente para usarla desde otros módulos
+window.preCalculateFontSize = preCalculateFontSize;
+
 // ALGORITMO INTELIGENTE MEJORADO CON MEMORIA CONTEXTUAL Y TRANSICIONES SUAVES
 function calculateOptimalFontSize(text, containerWidth, containerHeight, hasTitle = false) {
   // Limpiar texto y contar caracteres
@@ -392,6 +423,8 @@ let adjustTimeout = null;
 let cachedFontSize = null; // Cache del tamaño calculado
 let lastTextContent = ''; // Para detectar si el contenido cambió realmente
 let lastContainerDimensions = null; // Para detectar cambios de tamaño del contenedor
+let lastAdjustmentTime = 0; // Timestamp del último ajuste
+const MIN_ADJUSTMENT_INTERVAL = 500; // Mínimo 500ms entre ajustes
 
 // Inicializar el gestor de estilos cuando el DOM esté listo
 function initializeStyleManager() {
@@ -404,9 +437,17 @@ function initializeStyleManager() {
 }
 
 function adjustFontSizeBasedOnContent() {
+  const currentTime = Date.now();
+  
+  // Throttle: Evitar ajustes demasiado frecuentes
+  if (currentTime - lastAdjustmentTime < MIN_ADJUSTMENT_INTERVAL) {
+    console.log(`⏸️ Ajuste ignorado (muy reciente, ${currentTime - lastAdjustmentTime}ms desde el último)`);
+    return;
+  }
+  
   // Evitar múltiples ejecuciones simultáneas
   if (isAdjusting) {
-    console.log('Ajuste ya en progreso, saltando...');
+    console.log('⏸️ Ajuste ya en progreso, saltando...');
     return;
   }
   
@@ -415,24 +456,18 @@ function adjustFontSizeBasedOnContent() {
   
   // Si no hay texto, no hacer nada
   if (!messageDisplay || !messageDisplay.textContent.trim()) {
-    console.log('No hay texto para ajustar');
-    // cachedFontSize = null; // DESHABILITADO
-    // lastTextContent = ''; // DESHABILITADO
+    console.log('⚠️ No hay texto para ajustar');
     return;
   }
 
   const currentTextContent = messageDisplay.textContent || messageDisplay.innerText || '';
   const currentContainerDimensions = `${container.clientWidth}x${container.clientHeight}`;
   
-  // SISTEMA DE CACHÉ DESHABILITADO PARA COMPORTAMIENTO COMPLETAMENTE DINÁMICO
-  // El caché puede causar que textos diferentes mantengan tamaños anteriores
-  console.log(`🔄 Recalculando dinámicamente (caché deshabilitado): "${currentTextContent.substring(0, 30)}..."`);
-  
-  // Forzar recálculo siempre para comportamiento completamente dinámico
-  // El código de caché ha sido completamente deshabilitado
+  console.log(`🔄 Recalculando dinámicamente: "${currentTextContent.substring(0, 30)}..."`);
 
   console.log('🚀 Iniciando cálculo inteligente de fuente...');
   isAdjusting = true;
+  lastAdjustmentTime = currentTime;
   
   // 🔧 RESET TOTAL: Asegurar que no hay fontSize previo que interfiera
   messageDisplay.style.fontSize = '';
@@ -472,6 +507,19 @@ function adjustFontSizeBasedOnContent() {
   
   // Usar el tamaño calculado como punto de partida
   let fontSize = analysis.fontSize;
+  
+  // Suavizar cambios: Si hay un tamaño anterior, limitar el cambio máximo
+  const maxChangePerAdjustment = 5; // Máximo cambio de 5px por ajuste
+  if (cachedFontSize && Math.abs(fontSize - cachedFontSize) > maxChangePerAdjustment) {
+    const direction = fontSize > cachedFontSize ? 1 : -1;
+    fontSize = cachedFontSize + (maxChangePerAdjustment * direction);
+    console.log(`🎚️ Cambio suavizado: ${cachedFontSize}px → ${fontSize}px (objetivo: ${analysis.fontSize}px)`);
+  }
+  
+  // Guardar el tamaño calculado en cache
+  cachedFontSize = fontSize;
+  lastTextContent = currentTextContent;
+  lastContainerDimensions = currentContainerDimensions;
   
   console.log(`✅ Tamaño calculado: ${fontSize}px`);
   
@@ -558,10 +606,8 @@ function adjustFontSizeBasedOnContent() {
   
   console.log(`✅ FINAL: ${fontSize}px aplicado DIRECTAMENTE (sin ajustes iterativos)`);
   
-  // Liberar el bloqueo
-  setTimeout(() => {
-    isAdjusting = false;
-  }, 200);
+  // Liberar el bloqueo inmediatamente (no necesitamos esperar)
+  isAdjusting = false;
 }
 
 
@@ -590,10 +636,15 @@ function handleTextChange() {
 }
 
 // Manejar cambios en las propiedades de estilo que puedan afectar el tamaño
+let resizeTimeout = null;
 const resizeObserver = new ResizeObserver(() => {
-  setTimeout(() => {
+  // Debounce para evitar múltiples ajustes por resize
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout);
+  }
+  resizeTimeout = setTimeout(() => {
     adjustFontSizeBasedOnContent();
-  }, 100);
+  }, 300); // Mayor delay para resize
 });
 
 // Observar cambios en el contenedor

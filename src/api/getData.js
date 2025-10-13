@@ -241,23 +241,23 @@ function removeTags(str) {
   );
 }
 
-function cleanVerseText(text) {
-  if (!text) return "";
-  
-  return text
-    .replace(/<\/?br\s*\/?>/gi, " ")
-    .replace(/•/g, "")
-    .replace(/°/g, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
-
-function processVerseText(text) {
+/**
+ * Central function to clean and normalize verse text.
+ * This is the single source of truth for text cleaning.
+ * Removes: HTML tags (conditional), line breaks, special chars, extra spaces
+ * @param {string} text - Raw text from database
+ * @returns {string} - Clean, normalized text ready for display
+ */
+export function processVerseText(text) {
   if (!text) return "";
   
   const textWithoutTags = requiresTagCleaning(selectedBibleName)
     ? removeTags(text) 
     : text;
   
-  return cleanVerseText(textWithoutTags);
+  return textWithoutTags
+    .replace(/<\/?br\s*\/?>/gi, " ")                     // HTML line breaks
+    .replace(/[\r\n•°]+|\\['"][0-9a-fA-F]{2}|\[\d+†?\]/g, "")  // Line breaks, bullets, degrees, hex codes, footnotes
+    .replace(/\s{2,}/g, " ")                             // Multiple spaces to single
+    .trim();                           
 }

@@ -4,10 +4,8 @@ import { hexToRgba } from "./utils";
    🎛️ ELEMENTOS DEL DOM - CONFIGURACIÓN
    ========================================== */
 
-// 📡 Canal de comunicación
 const settingsChannel = new BroadcastChannel("settings");
 
-// 🎨 ESTILOS BÁSICOS
 const fontElement = document.getElementById("fontStyle");
 const opacityRange = document.getElementById("opacity");
 const roundedCorner = document.getElementById("rounded-corner");
@@ -16,7 +14,6 @@ const fontColorInput = document.getElementById("fontColor");
 const containerPadding = document.getElementById("containerPadding");
 const containerMargin = document.getElementById("containerMargin");
 
-// 🏷️ CONFIGURACIÓN DEL TÍTULO
 const titleColor = document.getElementById("titleColor");
 const autoTitleColor = document.getElementById("autoTitleColor");
 const titleFontSize = document.getElementById("titleFontSize");
@@ -32,13 +29,11 @@ const titleShadowSizeGroup = document.getElementById("titleShadowSizeGroup");
 const titleAlignment = document.getElementById("titleAlignment");
 const titleAlignmentNoBoxGroup = document.getElementById("titleAlignmentNoBoxGroup");
 
-// ✏️ CONTORNO DEL TÍTULO
 const titleStroke = document.getElementById("titleStroke");
 const titleStrokeColor = document.getElementById("titleStrokeColor");
 const titleStrokeWidth = document.getElementById("titleStrokeWidth");
 const titleStrokeAdvanced = document.getElementById("titleStrokeAdvanced");
 
-// 📦 RECUADRO DEL TÍTULO
 const titleBoxEnabled = document.getElementById("titleBoxEnabled");
 const titleBoxControls = document.getElementById("titleBoxControls");
 const titleBoxSize = document.getElementById("titleBoxSize");
@@ -55,14 +50,12 @@ const titleBoxBlur = document.getElementById("titleBoxBlur");
 const titleBoxStroke = document.getElementById("titleBoxStroke");
 const customBoxSize = document.getElementById("customBoxSize");
 
-// 🌈 EFECTOS AVANZADOS Y DEGRADADOS
 const backgroundTypeSelect = document.getElementById("backgroundType");
 const gradientColor2 = document.getElementById("gradientColor2");
 const gradientColor3 = document.getElementById("gradientColor3");
 const gradientAngle = document.getElementById("gradientAngle");
 const textColorType = document.getElementById("textColorType");
 const textGradientColor2 = document.getElementById("textGradientColor2");
-// 🎭 ANIMACIONES
 const textAnimation = document.getElementById("textAnimation");
 const animationDuration = document.getElementById("animationDuration");
 
@@ -70,20 +63,15 @@ const animationDuration = document.getElementById("animationDuration");
    🔧 FUNCIONES AUXILIARES
    ========================================== */
 
-// 🎨 Función para obtener el color opuesto basado en luminancia
 function getOppositeColor(hexColor) {
-    // Remover el # si existe
     const hex = hexColor.replace('#', '');
     
-    // Convertir hex a RGB
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
     
-    // Calcular luminancia usando la fórmula estándar
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
     
-    // Retornar negro para fondos claros, blanco para fondos oscuros
     return luminance > 0.5 ? '#000000' : '#ffffff';
 }
 
@@ -95,13 +83,11 @@ function getOppositeColor(hexColor) {
    🎨 ESTILOS BÁSICOS
    ------------------------------------------ */
 
-// 🔤 Familia de fuentes
 fontElement.addEventListener("change", function() {
     let selectedValue = fontElement.options[fontElement.selectedIndex].value;
     settingsChannel.postMessage({ selectedFont: selectedValue });
 });
 
-// 👻 Opacidad del contenedor
 opacityRange.addEventListener("input", () => {
     let currentOpacity = opacityRange.value / 10;
     
@@ -115,7 +101,6 @@ opacityRange.addEventListener("input", () => {
         bgColor = `rgba(${r}, ${g}, ${b}, 1)`;
     }
     
-    // Actualizar display de opacidad
     const percentage = Math.round(currentOpacity * 100);
     const opacityDisplay = document.getElementById('opacityDisplay');
     if (opacityDisplay) {
@@ -129,11 +114,9 @@ opacityRange.addEventListener("input", () => {
     }
 });
 
-// 🔄 Esquinas redondeadas
 roundedCorner.addEventListener("input", () => {
     let currentCorner = roundedCorner.value;
     
-    // Actualizar display
     const roundedCornerDisplay = document.getElementById('roundedCornerDisplay');
     if (roundedCornerDisplay) {
         roundedCornerDisplay.textContent = currentCorner + 'px';
@@ -142,7 +125,6 @@ roundedCorner.addEventListener("input", () => {
     settingsChannel.postMessage({ roundedCorner: currentCorner });
 });
 
-// 🎨 Color de fondo
 if (bgColorInput) {
     bgColorInput.addEventListener("input", function() {
         const color = bgColorInput.value;
@@ -151,7 +133,6 @@ if (bgColorInput) {
     });
 }
 
-// 🖋️ Color de fuente
 if (fontColorInput) {
     fontColorInput.addEventListener("input", function() {
         const color = fontColorInput.value;
@@ -164,18 +145,14 @@ if (fontColorInput) {
    🏷️ CONFIGURACIÓN DEL TÍTULO
    ------------------------------------------ */
 
-// 🔄 Botón de color automático (inteligente)
 if (autoTitleColor) {
     autoTitleColor.addEventListener("click", function() {
-        // Verificar si el recuadro del título está activo
         const titleBoxEnabled = localStorage.getItem('titleBoxEnabled') === 'true';
         let referenceColor;
         
         if (titleBoxEnabled) {
-            // Si hay recuadro, usar el color del recuadro
             referenceColor = localStorage.getItem('titleBoxColor') || '#ffffff';
         } else {
-            // Si no hay recuadro, usar el color del fondo del contenedor
             referenceColor = localStorage.getItem('bgColor') || '#000000';
         }
         
@@ -189,7 +166,6 @@ if (autoTitleColor) {
     });
 }
 
-// 🎨 Color del título
 if (titleColor) {
     titleColor.addEventListener("input", function() {
         const color = titleColor.value;
@@ -198,7 +174,6 @@ if (titleColor) {
     });
 }
 
-// 📏 Tamaño de fuente del título
 if (titleFontSize) {
     titleFontSize.addEventListener('input', function() {
         const size = titleFontSize.value;
@@ -208,7 +183,6 @@ if (titleFontSize) {
     });
 }
 
-// ↔️ Posición X del título
 if (titlePositionX) {
     titlePositionX.addEventListener('input', function() {
         const posX = titlePositionX.value;
@@ -218,7 +192,6 @@ if (titlePositionX) {
     });
 }
 
-// ↕️ Posición Y del título
 if (titlePositionY) {
     titlePositionY.addEventListener('input', function() {
         const posY = titlePositionY.value;
@@ -228,7 +201,6 @@ if (titlePositionY) {
     });
 }
 
-// 📝 Espaciado entre letras
 if (titleSpacing) {
     titleSpacing.addEventListener('input', function() {
         const spacing = titleSpacing.value;
@@ -238,7 +210,6 @@ if (titleSpacing) {
     });
 }
 
-// 💪 Peso de fuente del título
 if (titleFontWeight) {
     titleFontWeight.addEventListener('change', function() {
         const weight = titleFontWeight.value;
@@ -247,16 +218,13 @@ if (titleFontWeight) {
     });
 }
 
-// 🌑 Sombra del título
 if (titleShadow) {
     titleShadow.addEventListener('change', function() {
         const enabled = titleShadow.checked;
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTitleShadowControls(enabled);
         } else {
-            // Fallback al método tradicional
             if (titleShadowColorGroup) titleShadowColorGroup.style.display = enabled ? 'block' : 'none';
             if (titleShadowSizeGroup) titleShadowSizeGroup.style.display = enabled ? 'block' : 'none';
         }
@@ -266,7 +234,6 @@ if (titleShadow) {
     });
 }
 
-// 🎨 Color de sombra del título
 if (titleShadowColor) {
     titleShadowColor.addEventListener('input', function() {
         const color = titleShadowColor.value;
@@ -275,7 +242,6 @@ if (titleShadowColor) {
     });
 }
 
-// 📐 Tamaño de sombra del título
 if (titleShadowSize) {
     titleShadowSize.addEventListener('input', function() {
         const size = titleShadowSize.value;
@@ -289,7 +255,6 @@ if (titleShadowSize) {
    ✏️ CONTORNO DEL TÍTULO
    ------------------------------------------ */
 
-// ✅ Activar contorno del título
 if (titleStroke) {
     titleStroke.addEventListener('change', function() {
         const enabled = titleStroke.checked;
@@ -303,7 +268,6 @@ if (titleStroke) {
     });
 }
 
-// 🎨 Color del contorno del título
 if (titleStrokeColor) {
     titleStrokeColor.addEventListener('input', function() {
         const color = titleStrokeColor.value;
@@ -312,7 +276,6 @@ if (titleStrokeColor) {
     });
 }
 
-// 📏 Grosor del contorno del título
 if (titleStrokeWidth) {
     titleStrokeWidth.addEventListener('input', function() {
         const width = titleStrokeWidth.value;
@@ -326,7 +289,6 @@ if (titleStrokeWidth) {
    📦 RECUADRO DEL TÍTULO
    ------------------------------------------ */
 
-// 📐 Alineación del título sin recuadro
 if (titleAlignment) {
     titleAlignment.addEventListener("change", function () {
         const alignment = titleAlignment.value;
@@ -335,36 +297,30 @@ if (titleAlignment) {
     });
 }
 
-// ✅ Activar recuadro del título
 if (titleBoxEnabled) {
     titleBoxEnabled.addEventListener("change", function () {
         const isEnabled = titleBoxEnabled.checked;
         localStorage.setItem('titleBoxEnabled', isEnabled);
         settingsChannel.postMessage({ titleBoxEnabled: isEnabled });
         
-        // Mostrar/ocultar los controles del recuadro
         if (titleBoxControls) {
             titleBoxControls.style.display = isEnabled ? 'grid' : 'none';
         }
         
-        // Mostrar/ocultar el control de alineación según el estado del recuadro
         if (titleAlignmentNoBoxGroup) {
             titleAlignmentNoBoxGroup.style.display = isEnabled ? 'none' : 'block';
         }
     });
 }
 
-// 📐 Tamaño del recuadro
 if (titleBoxSize) {
     titleBoxSize.addEventListener('change', function() {
         const size = titleBoxSize.value;
         document.getElementById('titleBoxSizeDisplay').textContent = size.charAt(0).toUpperCase() + size.slice(1);
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTitleBoxCustomSize(size === 'custom');
         } else {
-            // Fallback al método tradicional
             if (customBoxSize) {
                 customBoxSize.style.display = size === 'custom' ? 'block' : 'none';
             }
@@ -375,7 +331,6 @@ if (titleBoxSize) {
     });
 }
 
-// 🎚️ Padding del recuadro
 if (titleBoxPadding) {
     titleBoxPadding.addEventListener('input', function() {
         const padding = titleBoxPadding.value;
@@ -385,18 +340,15 @@ if (titleBoxPadding) {
     });
 }
 
-// ↔️ Ancho completo
 if (titleBoxFullWidth) {
     titleBoxFullWidth.addEventListener('change', function() {
         const fullWidth = titleBoxFullWidth.checked;
         localStorage.setItem('titleBoxFullWidth', fullWidth);
         settingsChannel.postMessage({ titleBoxFullWidth: fullWidth });
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTitleBoxFullWidthControls(fullWidth);
         } else {
-            // Fallback al método tradicional
             if (titleBoxWidthGroup) {
                 titleBoxWidthGroup.style.display = fullWidth ? 'block' : 'none';
             }
@@ -408,7 +360,6 @@ if (titleBoxFullWidth) {
     });
 }
 
-// 📏 Ancho personalizado
 if (titleBoxWidth) {
     titleBoxWidth.addEventListener('input', function() {
         const width = titleBoxWidth.value;
@@ -419,18 +370,16 @@ if (titleBoxWidth) {
     });
 }
 
-// 📐 Alineación de texto en ancho completo
 const titleFullWidthAlignment = document.getElementById('titleFullWidthAlignment');
 if (titleFullWidthAlignment) {
     titleFullWidthAlignment.addEventListener('change', function() {
         const alignment = titleFullWidthAlignment.value;
         localStorage.setItem('titleFullWidthAlignment', alignment);
         settingsChannel.postMessage({ titleFullWidthAlignment: alignment });
-        console.log(`📐 Alineación del título cambiada a: ${alignment}`);
+        console.log(`📐 Title alignment changed to: ${alignment}`);
     });
 }
 
-// 🎨 Color del recuadro
 if (titleBoxColor) {
     titleBoxColor.addEventListener('input', function() {
         const color = titleBoxColor.value;
@@ -439,7 +388,6 @@ if (titleBoxColor) {
     });
 }
 
-// ✏️ Contorno del título
 if (titleBoxStroke) {
     titleBoxStroke.addEventListener('change', function() {
         const enabled = titleBoxStroke.checked;
@@ -448,7 +396,6 @@ if (titleBoxStroke) {
     });
 }
 
-// 👻 Opacidad del recuadro
 if (titleBoxOpacity) {
     titleBoxOpacity.addEventListener('input', function() {
         const opacity = titleBoxOpacity.value;
@@ -458,7 +405,6 @@ if (titleBoxOpacity) {
     });
 }
 
-// 🔳 Borde del recuadro
 if (titleBoxBorder) {
     titleBoxBorder.addEventListener('input', function() {
         const border = titleBoxBorder.value;
@@ -468,7 +414,6 @@ if (titleBoxBorder) {
     });
 }
 
-// 🎨 Color del borde del recuadro
 if (titleBoxBorderColor) {
     titleBoxBorderColor.addEventListener('input', function() {
         const borderColor = titleBoxBorderColor.value;
@@ -477,7 +422,6 @@ if (titleBoxBorderColor) {
     });
 }
 
-// 🔘 Radio del recuadro
 if (titleBoxRadius) {
     titleBoxRadius.addEventListener('input', function() {
         const radius = titleBoxRadius.value;
@@ -487,7 +431,6 @@ if (titleBoxRadius) {
     });
 }
 
-// 🌊 Blur del recuadro
 if (titleBoxBlur) {
     titleBoxBlur.addEventListener('change', function() {
         const blur = titleBoxBlur.checked;
@@ -504,10 +447,8 @@ if (titleBoxBlur) {
    🎨 ESTILOS BÁSICOS GUARDADOS
    ------------------------------------------ */
 
-// Cargar colores básicos
 const savedBgColor = localStorage.getItem('bgColor');
 if (bgColorInput) {
-    bgColorInput.value = savedBgColor || '#ffffff'; // Blanco por defecto
     if (!savedBgColor) {
         localStorage.setItem('bgColor', 'rgba(255, 255, 255, 1)');
     }
@@ -515,28 +456,23 @@ if (bgColorInput) {
 
 const savedFontColor = localStorage.getItem('fontColor');
 if (fontColorInput) {
-    fontColorInput.value = savedFontColor || '#000000'; // Negro por defecto
     if (!savedFontColor) {
         localStorage.setItem('fontColor', '#000000');
     }
 }
 
-// Cargar color del título
 const savedTitleColor = localStorage.getItem('titleColor');
 if (titleColor) {
-    titleColor.value = savedTitleColor || '#000000'; // Negro por defecto
     if (!savedTitleColor) {
         localStorage.setItem('titleColor', '#000000');
     }
 }
 
-// Cargar fuente
 const savedFontFamily = localStorage.getItem('fontFamily');
 if (fontElement) {
     if (savedFontFamily) {
         fontElement.value = savedFontFamily;
     } else {
-        fontElement.value = 'Poppins'; // Poppins por defecto
         localStorage.setItem('fontFamily', 'Poppins');
     }
 }
@@ -545,7 +481,6 @@ if (fontElement) {
    🏷️ CONFIGURACIÓN DEL TÍTULO GUARDADA
    ------------------------------------------ */
 
-// Obtener valores guardados del título con valores por defecto
 const savedTitleFontSize = localStorage.getItem('titleFontSize') || '20';
 const savedTitlePositionX = localStorage.getItem('titlePositionX') || '10';
 const savedTitlePositionY = localStorage.getItem('titlePositionY') || '10';
@@ -558,7 +493,6 @@ const savedTitleStroke = localStorage.getItem('titleStroke') === 'true';
 const savedTitleStrokeColor = localStorage.getItem('titleStrokeColor') || '#000000';
 const savedTitleStrokeWidth = localStorage.getItem('titleStrokeWidth') || '1';
 
-// Aplicar configuraciones del título
 if (titleFontSize) {
     titleFontSize.value = savedTitleFontSize;
     document.getElementById('titleFontSizeDisplay').textContent = savedTitleFontSize + 'px';
@@ -586,11 +520,9 @@ if (titleFontWeight) {
 if (titleShadow) {
     titleShadow.checked = savedTitleShadow;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTitleShadowControls(savedTitleShadow);
     } else {
-        // Fallback al método tradicional
         if (titleShadowColorGroup) titleShadowColorGroup.style.display = savedTitleShadow ? 'block' : 'none';
         if (titleShadowSizeGroup) titleShadowSizeGroup.style.display = savedTitleShadow ? 'block' : 'none';
     }
@@ -605,7 +537,6 @@ if (titleShadowSize) {
     document.getElementById('titleShadowSizeDisplay').textContent = savedTitleShadowSize + 'px';
 }
 
-// Aplicar contorno del título
 if (titleStroke) {
     titleStroke.checked = savedTitleStroke;
     
@@ -637,7 +568,6 @@ if (titleAlignment) {
    📦 RECUADRO DEL TÍTULO GUARDADO
    ------------------------------------------ */
 
-// Obtener valores guardados del recuadro con valores por defecto
 const savedTitleBoxEnabled = localStorage.getItem('titleBoxEnabled') === 'true';
 const savedTitleBoxSize = localStorage.getItem('titleBoxSize') || 'medium';
 const savedTitleBoxPadding = localStorage.getItem('titleBoxPadding') || '8';
@@ -652,16 +582,13 @@ const savedTitleBoxBorderColor = localStorage.getItem('titleBoxBorderColor') || 
 const savedTitleBoxRadius = localStorage.getItem('titleBoxRadius') || '6';
 const savedTitleBoxBlur = localStorage.getItem('titleBoxBlur') === 'true';
 
-// Aplicar configuraciones del recuadro
 if (titleBoxEnabled) {
     titleBoxEnabled.checked = savedTitleBoxEnabled;
     
-    // Mostrar/ocultar los controles del recuadro según el estado inicial
     if (titleBoxControls) {
         titleBoxControls.style.display = savedTitleBoxEnabled ? 'grid' : 'none';
     }
     
-    // Mostrar/ocultar el control de alineación según el estado inicial del recuadro
     if (titleAlignmentNoBoxGroup) {
         titleAlignmentNoBoxGroup.style.display = savedTitleBoxEnabled ? 'none' : 'block';
     }
@@ -671,11 +598,9 @@ if (titleBoxSize) {
     titleBoxSize.value = savedTitleBoxSize;
     document.getElementById('titleBoxSizeDisplay').textContent = savedTitleBoxSize.charAt(0).toUpperCase() + savedTitleBoxSize.slice(1);
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTitleBoxCustomSize(savedTitleBoxSize === 'custom');
     } else {
-        // Fallback al método tradicional
         if (customBoxSize) {
             customBoxSize.style.display = savedTitleBoxSize === 'custom' ? 'block' : 'none';
         }
@@ -690,11 +615,9 @@ if (titleBoxPadding) {
 if (titleBoxFullWidth) {
     titleBoxFullWidth.checked = savedTitleBoxFullWidth;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTitleBoxFullWidthControls(savedTitleBoxFullWidth);
     } else {
-        // Fallback al método tradicional
         if (titleBoxWidthGroup) {
             titleBoxWidthGroup.style.display = savedTitleBoxFullWidth ? 'block' : 'none';
         }
@@ -749,14 +672,11 @@ if (titleBoxBlur) {
    📦 CONFIGURACIÓN DEL CONTENEDOR
    ------------------------------------------ */
 
-// Aplicar valores por defecto del contenedor si no existen
 if (!localStorage.getItem('opacity')) {
-    localStorage.setItem('opacity', '5'); // 50% opacidad
     if (opacityRange) opacityRange.value = '5';
 }
 
 if (!localStorage.getItem('borderRadius')) {
-    localStorage.setItem('borderRadius', '5'); // 5px esquinas
     if (roundedCorner) {
         roundedCorner.value = '5';
         document.getElementById('cornerDisplay').textContent = '5px';
@@ -764,7 +684,6 @@ if (!localStorage.getItem('borderRadius')) {
 }
 
 if (!localStorage.getItem('containerPadding')) {
-    localStorage.setItem('containerPadding', '20'); // 20px padding por defecto
     if (containerPadding) {
         containerPadding.value = '20';
         document.getElementById('paddingDisplay').textContent = '20px';
@@ -772,7 +691,6 @@ if (!localStorage.getItem('containerPadding')) {
 }
 
 if (!localStorage.getItem('containerMargin')) {
-    localStorage.setItem('containerMargin', '0'); // 0px margin por defecto
     if (containerMargin) {
         containerMargin.value = '0';
         document.getElementById('marginDisplay').textContent = '0px';
@@ -783,7 +701,6 @@ if (!localStorage.getItem('containerMargin')) {
    🌈 EFECTOS AVANZADOS Y DEGRADADOS
    ------------------------------------------ */
 
-// Obtener valores guardados de degradados con valores por defecto
 const savedBackgroundType = localStorage.getItem('backgroundType') || 'solid';
 const savedGradientColor2 = localStorage.getItem('gradientColor2') || '#ff6b6b';
 const savedGradientColor3 = localStorage.getItem('gradientColor3') || '#4ecdc4';
@@ -791,16 +708,13 @@ const savedGradientAngle = localStorage.getItem('gradientAngle') || '45';
 const savedTextColorType = localStorage.getItem('textColorType') || 'solid';
 const savedTextGradientColor2 = localStorage.getItem('textGradientColor2') || '#ff9a9a';
 
-// 🎨 Obtener valores guardados de efectos de texto
 const savedTextShadow = localStorage.getItem('textShadow');
 const savedTextStroke = localStorage.getItem('textStroke');
 const savedTextGlow = localStorage.getItem('textGlow');
 
-// 🎭 Obtener valores guardados de animaciones
 const savedTextAnimation = localStorage.getItem('textAnimation');
 const savedAnimationDuration = localStorage.getItem('animationDuration');
 
-// Aplicar configuraciones de degradados
 if (backgroundTypeSelect) {
     backgroundTypeSelect.value = savedBackgroundType;
     const gradientControls = document.getElementById('gradientControls');
@@ -837,11 +751,9 @@ if (gradientAngle) {
 if (textColorType) {
     textColorType.value = savedTextColorType;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTextGradientColor2Container(savedTextColorType === 'gradient');
     } else {
-        // Fallback al método tradicional
         const container = document.getElementById('textGradientColor2Container');
         if (container) {
             container.style.display = savedTextColorType === 'gradient' ? 'block' : 'none';
@@ -853,7 +765,6 @@ if (textGradientColor2) {
     textGradientColor2.value = savedTextGradientColor2;
 }
 
-// 🎨 Aplicar configuraciones guardadas de efectos de texto
 if (savedTextShadow) {
     const shadowParts = savedTextShadow.match(/(-?\d+)px\s+(-?\d+)px\s+(\d+)px\s+(#[0-9a-f]{6}|rgb\([^)]+\)|rgba\([^)]+\))/i);
     if (shadowParts) {
@@ -870,15 +781,12 @@ if (savedTextShadow) {
         if (textShadowY) textShadowY.value = shadowParts[2];
         if (textShadowBlur) textShadowBlur.value = shadowParts[3];
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTextShadowControls(true);
         } else {
-            // Fallback al método tradicional
             if (textShadowControls) textShadowControls.style.display = 'block';
         }
         
-        // Actualizar displays
         const shadowXDisplay = document.getElementById('shadowXDisplay');
         const shadowYDisplay = document.getElementById('shadowYDisplay');
         const shadowBlurDisplay = document.getElementById('shadowBlurDisplay');
@@ -900,15 +808,12 @@ if (savedTextStroke) {
         if (textStrokeColor) textStrokeColor.value = strokeData.color;
         if (textStrokeWidth) textStrokeWidth.value = parseFloat(strokeData.width);
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTextStrokeControls(true);
         } else {
-            // Fallback al método tradicional
             if (textStrokeControls) textStrokeControls.style.display = 'block';
         }
         
-        // Actualizar display
         const strokeWidthDisplay = document.getElementById('strokeWidthDisplay');
         if (strokeWidthDisplay) strokeWidthDisplay.textContent = strokeData.width;
     } catch (e) {
@@ -928,21 +833,17 @@ if (savedTextGlow) {
         if (textGlowColor) textGlowColor.value = glowMatch[2];
         if (textGlowIntensity) textGlowIntensity.value = glowMatch[1];
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleTextGlowControls(true);
         } else {
-            // Fallback al método tradicional
             if (textGlowControls) textGlowControls.style.display = 'block';
         }
         
-        // Actualizar display
         const glowIntensityDisplay = document.getElementById('glowIntensityDisplay');
         if (glowIntensityDisplay) glowIntensityDisplay.textContent = glowMatch[1] + 'px';
     }
 }
 
-// 🎭 Aplicar configuraciones guardadas de animaciones
 if (savedTextAnimation && textAnimation) {
     textAnimation.value = savedTextAnimation;
 }
@@ -955,11 +856,7 @@ if (savedAnimationDuration && animationDuration) {
     }
 }
 
-// ========================================
-//   🎨 PRESETS DE ESTILO PREDEFINIDOS
-// ========================================
 
-// 📦 Definición de presets - Nombres descriptivos del estilo
 const presets = {
     sombra: {
         background: {
@@ -1174,7 +1071,6 @@ const presets = {
     }
 };
 
-// 🎯 Aplicar presets
 document.querySelectorAll('.preset-btn[data-preset]').forEach(btn => {
     btn.addEventListener('click', () => {
         const presetName = btn.dataset.preset;
@@ -1186,43 +1082,33 @@ document.querySelectorAll('.preset-btn[data-preset]').forEach(btn => {
     });
 });
 
-// 🔄 Botón Reset Todo
 const resetAllSettingsBtn = document.getElementById('resetAllSettings');
 if (resetAllSettingsBtn) {
     resetAllSettingsBtn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres resetear TODAS las configuraciones? Esta acción no se puede deshacer.')) {
-            // Limpiar todo el localStorage
             localStorage.clear();
             
-            // ⚙️ VALORES POR DEFECTO DESPUÉS DEL RESET
             
-            // Visibilidad
             localStorage.setItem('titleShow', 'true');
             
-            // Colores - Texto y título en negro
             localStorage.setItem('fontColor', '#000000');
             localStorage.setItem('titleColor', '#000000');
             
-            // Fondo blanco
             localStorage.setItem('bgColor', 'rgba(255, 255, 255, 1)');
             
-            // Fuente Poppins
             localStorage.setItem('fontFamily', 'Poppins');
             
-            // Enviar configuraciones al browser source
             settingsChannel.postMessage({ titleShow: true });
             settingsChannel.postMessage({ selectedFontColor: '#000000' });
             settingsChannel.postMessage({ selectedTitleColor: '#000000' });
             settingsChannel.postMessage({ selectedBgColor: 'rgba(255, 255, 255, 1)' });
             settingsChannel.postMessage({ selectedFont: 'Poppins' });
             
-            // Recargar la página para aplicar valores por defecto
             window.location.reload();
         }
     });
 }
 
-// 🔧 Función para aplicar un preset completo
 function applyPreset(preset) {
     if (!preset) return;
 
@@ -1238,9 +1124,6 @@ function applyPreset(preset) {
         }
     };
 
-    // ===============================
-    // 🎨 Fondo y contenedor
-    // ===============================
     if (preset.background) {
         const { type, color, color2, color3, angle } = preset.background;
 
@@ -1304,9 +1187,6 @@ function applyPreset(preset) {
         }
     }
 
-    // ===============================
-    // 📝 Texto principal
-    // ===============================
     if (preset.text) {
         const {
             fontFamily,
@@ -1404,9 +1284,6 @@ function applyPreset(preset) {
         }
     }
 
-    // ===============================
-    // 🏷️ Configuración del título
-    // ===============================
     if (preset.title) {
         const {
             color,
@@ -1543,18 +1420,15 @@ function applyPreset(preset) {
     }
 }
 
-// 🔧 Función auxiliar para alternar controles de degradado
 function toggleGradientControls() {
     if (!backgroundTypeSelect) return;
     
     const type = backgroundTypeSelect.value;
     const enabled = type !== 'solid';
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleGradientControls(enabled);
     } else {
-        // Fallback al método tradicional
         const gradientControls = document.getElementById('gradientControls');
         const color2Container = document.getElementById('gradientColor2Container');
         const color3Container = document.getElementById('gradientColor3Container');
@@ -1577,7 +1451,6 @@ function toggleGradientControls() {
    📦 EVENT LISTENERS DEL CONTENEDOR
    ------------------------------------------ */
 
-// 📏 Padding del contenedor
 if (containerPadding) {
     containerPadding.addEventListener('input', function() {
         const padding = containerPadding.value;
@@ -1606,10 +1479,8 @@ if (containerMargin) {
    🕰️ FORMATO DE TEXTO (ESTILOS)
    ------------------------------------------ */
 
-// 💪 Botón de texto en negrita
 const boldButton = document.getElementById("bold");
 if (boldButton) {
-    // Inicializar estado visual del botón
     const initialBoldState = localStorage.getItem('boldState') || 'normal';
     boldButton.style.fontWeight = initialBoldState;
     boldButton.style.backgroundColor = (initialBoldState === 'bold') ? '#55a' : '#555';
@@ -1618,7 +1489,6 @@ if (boldButton) {
         let currentBoldState = localStorage.getItem('boldState') || 'normal';
         const newBoldState = (currentBoldState === 'bold') ? 'normal' : 'bold';
         
-        // Actualizar estilo del botón
         boldButton.style.fontWeight = newBoldState;
         if (newBoldState === 'bold'){
             boldButton.style.backgroundColor = '#55a';
@@ -1626,16 +1496,13 @@ if (boldButton) {
             boldButton.style.backgroundColor = '#555';
         }
         
-        // Guardar y enviar el nuevo estado
         localStorage.setItem('boldState', newBoldState);
         settingsChannel.postMessage({ currentBoldState: newBoldState });
     });
 }
 
-// 🕰️ Botón de texto en cursiva
 const italicButton = document.getElementById("italic");
 if (italicButton) {
-    // Inicializar estado visual del botón
     const initialItalicState = localStorage.getItem('italicState') || 'normal';
     italicButton.style.fontStyle = initialItalicState;
     italicButton.style.backgroundColor = (initialItalicState === 'italic') ? '#55a' : '#555';
@@ -1644,7 +1511,6 @@ if (italicButton) {
         let currentItalicState = localStorage.getItem('italicState') || 'normal';
         const newItalicState = (currentItalicState === 'italic') ? 'normal' : 'italic';
         
-        // Actualizar estilo del botón
         if (newItalicState === 'italic'){
             italicButton.style.backgroundColor = '#55a';
             italicButton.style.fontStyle = 'italic';
@@ -1653,16 +1519,13 @@ if (italicButton) {
             italicButton.style.fontStyle = 'normal';
         }
         
-        // Guardar y enviar el nuevo estado
         localStorage.setItem('italicState', newItalicState);
         settingsChannel.postMessage({ currentItalicState: newItalicState });
     });
 }
 
-// 📝 Botón de texto subrayado
 const underlineButton = document.getElementById("underline");
 if (underlineButton) {
-    // Inicializar estado visual del botón
     const initialUnderlineState = localStorage.getItem('underlineState') || 'none';
     underlineButton.style.textDecoration = initialUnderlineState;
     underlineButton.style.backgroundColor = (initialUnderlineState === 'underline') ? '#55a' : '#555';
@@ -1671,7 +1534,6 @@ if (underlineButton) {
         let currentUnderlineState = localStorage.getItem('underlineState') || 'none';
         const newUnderlineState = (currentUnderlineState === 'underline') ? 'none' : 'underline';
         
-        // Actualizar estilo del botón
         if (newUnderlineState === 'underline'){
             underlineButton.style.backgroundColor = '#55a';
             underlineButton.style.textDecoration = 'underline';
@@ -1680,16 +1542,13 @@ if (underlineButton) {
             underlineButton.style.textDecoration = 'none';
         }
         
-        // Guardar y enviar el nuevo estado
         localStorage.setItem('underlineState', newUnderlineState);
         settingsChannel.postMessage({ currentUnderlineState: newUnderlineState });
     });
 }
 
-// 📏 Alineación de texto
 const textAlignElement = document.getElementById("textAlign");
 if (textAlignElement) {
-    // Inicializar valor del selector desde localStorage
     const savedTextAlign = localStorage.getItem('textAlign');
     if (savedTextAlign) {
         textAlignElement.value = savedTextAlign;
@@ -1706,7 +1565,6 @@ if (textAlignElement) {
    🌈 EVENT LISTENERS PARA DEGRADADOS
    ------------------------------------------ */
 
-// 🎨 Tipo de fondo (sólido o degradado)
 if (backgroundTypeSelect) {
     backgroundTypeSelect.addEventListener('change', function() {
         const type = backgroundTypeSelect.value;
@@ -1730,7 +1588,6 @@ if (backgroundTypeSelect) {
     });
 }
 
-// 🌈 Color 2 del degradado
 if (gradientColor2) {
     gradientColor2.addEventListener('input', function() {
         localStorage.setItem('gradientColor2', gradientColor2.value);
@@ -1738,7 +1595,6 @@ if (gradientColor2) {
     });
 }
 
-// 🌈 Color 3 del degradado
 if (gradientColor3) {
     gradientColor3.addEventListener('input', function() {
         localStorage.setItem('gradientColor3', gradientColor3.value);
@@ -1746,7 +1602,6 @@ if (gradientColor3) {
     });
 }
 
-// 🔄 Ángulo del degradado
 if (gradientAngle) {
     gradientAngle.addEventListener('input', function() {
         const angleDisplay = document.getElementById('gradientAngleDisplay');
@@ -1762,7 +1617,6 @@ if (gradientAngle) {
    🔧 FUNCIONES DE DEGRADADO
    ------------------------------------------ */
 
-// 🌈 Función para actualizar el degradado de fondo
 function updateBackgroundGradient() {
     if (!backgroundTypeSelect) return;
     
@@ -1785,17 +1639,14 @@ function updateBackgroundGradient() {
     settingsChannel.postMessage({ backgroundGradient: gradient });
 }
 
-// 🕰️ Tipo de degradado de texto
 if (textColorType) {
     textColorType.addEventListener('change', function() {
         const isGradient = textColorType.value === 'gradient';
         const container = document.getElementById('textGradientColor2Container');
         
-        // Usar el gestor de estilos si está disponible
         if (window.panelStyleManager) {
             window.panelStyleManager.toggleElement(container, isGradient);
         } else {
-            // Fallback al método tradicional
             if (container) {
                 container.style.display = isGradient ? 'block' : 'none';
             }
@@ -1806,7 +1657,6 @@ if (textColorType) {
     });
 }
 
-// 🌈 Color 2 del degradado de texto
 if (textGradientColor2) {
     textGradientColor2.addEventListener('input', function() {
         localStorage.setItem('textGradientColor2', textGradientColor2.value);
@@ -1814,7 +1664,6 @@ if (textGradientColor2) {
     });
 }
 
-// 🕰️ Función para actualizar el degradado de texto
 function updateTextGradient() {
     if (!textColorType) return;
     
@@ -1832,11 +1681,7 @@ function updateTextGradient() {
     }
 }
 
-// ========================================
-//   ✨ EFECTOS DE TEXTO AVANZADOS
-// ========================================
 
-// 🌑 SOMBRA DE TEXTO
 const textShadowEnabled = document.getElementById('textShadowEnabled');
 if (textShadowEnabled) {
     textShadowEnabled.addEventListener('change', toggleTextShadowControls);
@@ -1845,11 +1690,9 @@ if (textShadowEnabled) {
 function toggleTextShadowControls() {
     const enabled = document.getElementById('textShadowEnabled').checked;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTextShadowControls(enabled);
     } else {
-        // Fallback al método tradicional
         const controls = document.getElementById('textShadowControls');
         if (controls) {
             controls.style.display = enabled ? 'block' : 'none';
@@ -1874,7 +1717,6 @@ function updateTextShadow() {
     localStorage.setItem('textShadow', shadow);
     settingsChannel.postMessage({ textShadow: shadow });
     
-    // Actualizar displays
     const shadowXDisplay = document.getElementById('shadowXDisplay');
     const shadowYDisplay = document.getElementById('shadowYDisplay');
     const shadowBlurDisplay = document.getElementById('shadowBlurDisplay');
@@ -1884,7 +1726,6 @@ function updateTextShadow() {
     if (shadowBlurDisplay) shadowBlurDisplay.textContent = blur + 'px';
 }
 
-// Event listeners para controles de sombra
 ['textShadowColor', 'textShadowX', 'textShadowY', 'textShadowBlur'].forEach(id => {
     const element = document.getElementById(id);
     if (element) {
@@ -1892,7 +1733,6 @@ function updateTextShadow() {
     }
 });
 
-// 🔳 BORDE DE TEXTO
 const textStrokeEnabled = document.getElementById('textStrokeEnabled');
 if (textStrokeEnabled) {
     textStrokeEnabled.addEventListener('change', toggleTextStrokeControls);
@@ -1901,11 +1741,9 @@ if (textStrokeEnabled) {
 function toggleTextStrokeControls() {
     const enabled = document.getElementById('textStrokeEnabled').checked;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTextStrokeControls(enabled);
     } else {
-        // Fallback al método tradicional
         const controls = document.getElementById('textStrokeControls');
         if (controls) {
             controls.style.display = enabled ? 'block' : 'none';
@@ -1915,7 +1753,6 @@ function toggleTextStrokeControls() {
     if (enabled) {
         updateTextStroke();
     } else {
-        // Limpiar completamente el localStorage y enviar mensaje para remover el borde
         localStorage.removeItem('textStroke');
         settingsChannel.postMessage({ textStroke: null });
     }
@@ -1935,7 +1772,6 @@ function updateTextStroke() {
     }
 }
 
-// Event listeners para controles de borde
 ['textStrokeColor', 'textStrokeWidth'].forEach(id => {
     const element = document.getElementById(id);
     if (element) {
@@ -1943,7 +1779,6 @@ function updateTextStroke() {
     }
 });
 
-// 💡 RESPLANDOR DE TEXTO
 const textGlowEnabled = document.getElementById('textGlowEnabled');
 if (textGlowEnabled) {
     textGlowEnabled.addEventListener('change', toggleTextGlowControls);
@@ -1952,11 +1787,9 @@ if (textGlowEnabled) {
 function toggleTextGlowControls() {
     const enabled = document.getElementById('textGlowEnabled').checked;
     
-    // Usar el gestor de estilos si está disponible
     if (window.panelStyleManager) {
         window.panelStyleManager.toggleTextGlowControls(enabled);
     } else {
-        // Fallback al método tradicional
         const controls = document.getElementById('textGlowControls');
         if (controls) {
             controls.style.display = enabled ? 'block' : 'none';
@@ -1975,7 +1808,6 @@ function updateTextGlow() {
     const color = document.getElementById('textGlowColor')?.value || '#ffffff';
     const intensity = document.getElementById('textGlowIntensity')?.value || '10';
     
-    // Crear múltiples sombras para el efecto de resplandor
     const glow = `0 0 ${intensity}px ${color}, 0 0 ${intensity * 2}px ${color}`;
     localStorage.setItem('textGlow', glow);
     settingsChannel.postMessage({ textGlow: glow });
@@ -1986,7 +1818,6 @@ function updateTextGlow() {
     }
 }
 
-// Event listeners para controles de resplandor
 ['textGlowColor', 'textGlowIntensity'].forEach(id => {
     const element = document.getElementById(id);
     if (element) {
@@ -1994,11 +1825,7 @@ function updateTextGlow() {
     }
 });
 
-// ========================================
-//   🎭 ANIMACIONES DE TEXTO
-// ========================================
 
-// 🎬 Tipo de animación
 if (textAnimation) {
     textAnimation.addEventListener('change', function() {
         const animation = textAnimation.value;
@@ -2014,7 +1841,6 @@ if (textAnimation) {
     });
 }
 
-// ⏱️ Duración de animación
 if (animationDuration) {
     animationDuration.addEventListener('input', function() {
         const duration = animationDuration.value;
