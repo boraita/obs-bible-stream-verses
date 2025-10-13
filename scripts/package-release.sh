@@ -47,18 +47,15 @@ cp -r dist "${RELEASE_DIR}/"
 echo -e "${GREEN}✓ dist/ folder copied${NC}"
 echo ""
 
-# Step 4: Copy documentation files
-echo -e "${YELLOW}[4/7] Copying documentation...${NC}"
-cp README.md "${RELEASE_DIR}/"
-if [ -f "INSTALLATION.md" ]; then
-    cp INSTALLATION.md "${RELEASE_DIR}/"
-fi
-cp SECURITY.md "${RELEASE_DIR}/"
-cp CONTRIBUTING.md "${RELEASE_DIR}/"
+# Step 4: Copy LICENSE file only (no .md files)
+echo -e "${YELLOW}[4/7] Copying LICENSE file...${NC}"
 if [ -f "LICENSE" ]; then
     cp LICENSE "${RELEASE_DIR}/"
+    echo -e "${GREEN}✓ LICENSE copied${NC}"
+else
+    echo -e "${YELLOW}⚠ LICENSE file not found${NC}"
 fi
-echo -e "${GREEN}✓ Documentation copied${NC}"
+echo -e "${GREEN}✓ No .md files included (production build)${NC}"
 echo ""
 
 # Step 5: Verify critical files
@@ -68,8 +65,6 @@ REQUIRED_FILES=(
     "dist/browser.html"
     "dist/panel.js"
     "dist/browser.js"
-    "README.md"
-    "SECURITY.md"
 )
 
 ALL_PRESENT=true
@@ -118,12 +113,12 @@ echo -e "${GREEN}✓ Release package created successfully!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo -e "${BLUE}Next steps:${NC}"
-echo -e "  1. Test the package by extracting and following INSTALLATION.md"
+echo -e "  1. Test the package by extracting and verifying the dist/ folder"
 echo -e "  2. Create a GitHub Release at: ${YELLOW}https://github.com/boraita/obs-bible-plugin/releases/new${NC}"
 echo -e "  3. Upload ${ZIP_FILE} as a release asset"
-echo -e "  4. Submit to OBS Forum using OBS_FORUM_SUBMISSION.md"
+echo -e "  4. Include installation instructions in the GitHub Release notes"
 echo ""
 echo -e "${BLUE}To test locally:${NC}"
 echo -e "  cd releases && unzip ${PACKAGE_NAME}.zip && cd ${PACKAGE_NAME}"
-echo -e "  # Then follow the README.md instructions"
+echo -e "  # Then verify dist/ folder contents"
 echo ""
