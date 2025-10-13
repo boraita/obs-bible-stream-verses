@@ -2,7 +2,8 @@
 
 /dist/
 /testing/
-db/
+src/db/*
+!src/db/RVR60.sqlite
 
 # Ignore dependencies
 /node_modules/

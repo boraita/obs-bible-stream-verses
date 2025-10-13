@@ -43,7 +43,7 @@ class PanelStyleManager {
         tabElement.classList.remove('tab-area-inactive');
         tabElement.classList.add('tab-area-active');
         
-        console.log(`👁️ Pestaña mostrada: ${tabElement.id}`);
+        console.log(`👁️ Tab shown: ${tabElement.id}`);
     }
 
     hideTab(tabElement) {
@@ -55,7 +55,7 @@ class PanelStyleManager {
         tabElement.classList.remove('tab-area-active');
         tabElement.classList.add('tab-area-inactive');
         
-        console.log(`🙈 Pestaña ocultada: ${tabElement.id}`);
+        console.log(`🙈 Tab hidden: ${tabElement.id}`);
     }
 
     /**
@@ -250,10 +250,10 @@ class PanelStyleManager {
 // Crear instancia global del gestor de estilos del panel
 const panelStyleManager = new PanelStyleManager();
 
-// Exponer para uso global
+// Expose for global use
 window.panelStyleManager = panelStyleManager;
 
-// Exportar para uso en módulos
+// Export for module use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = PanelStyleManager;
 }

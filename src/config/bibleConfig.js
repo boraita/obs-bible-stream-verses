@@ -2,8 +2,8 @@
 // Files are loaded dynamically when needed, not bundled upfront
 const BIBLE_CONFIG = {
   kdsh: {
-    name: "kdsh",
-    displayName: "Kadosh",
+    name: "Kadosh Israelita",
+    displayName: "Kadosh Israelita",
     fullName: "Kadosh Israelita Mesiánica",
     requiresTagCleaning: false,
     loader: () => import("../db/KDSH.sqlite")
@@ -86,7 +86,7 @@ export function getBibleMap() {
   return Object.keys(BIBLE_CONFIG).reduce((map, key) => {
     map[key] = { 
       loader: BIBLE_CONFIG[key].loader, 
-      name: key 
+      name: BIBLE_CONFIG[key].name 
     };
     return map;
   }, {});

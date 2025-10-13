@@ -138,6 +138,16 @@ function handleBgContent() {
   bgContentBtn.innerHTML = isShowed ? "Ocultar" : "Mostrar";
 }
 
+
+function initializeBrowserVisibility() {
+  bgContent.postMessage("hidden");
+  
+  if (bgContentBtn) {
+    bgContentBtn.innerHTML = "Mostrar";
+    console.log('✅ Browser overlay initialized as hidden');
+  }
+}
+
 loadInitialVerses();
 
 function clearInlineStyles(tabs) {
@@ -205,6 +215,8 @@ function initializePanel() {
   }
   
   initializeTabs();
+  
+  initializeBrowserVisibility();
   
   console.log('✅ Panel fully initialized');
 }

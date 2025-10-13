@@ -25,18 +25,3 @@ webpack.config.js
 .github/
 .travis.yml
 .circleci/
-
-# Documentation for developers (keep user-facing docs)
-AGENTS.md
-BUILD_INFO.md
-RELEASE_CHECKLIST.md
-OBS_FORUM_SUBMISSION.md
-NUEVAS_FUNCIONALIDADES.md
-
-# Keep only these files in distribution:
-# - dist/ folder (all built files)
-# - DISTRIBUTION_README.md (rename to README.md in package)
-# - INSTALLATION.md
-# - SECURITY.md
-# - LICENSE
-# - package.json

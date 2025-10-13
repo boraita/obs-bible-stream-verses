@@ -36,6 +36,8 @@ Perfect for church services, Bible studies, Christian content creators, and wors
 
 Detailed installation instructions: **[INSTALLATION.md](INSTALLATION.md)**
 
+> 📖 **Note**: The plugin includes **RVR60 (Reina-Valera 1960)** as the reference Bible version. This is a public domain Spanish translation included for testing and immediate use. You can add more Bible versions following the instructions below.
+
 ### For Developers
 
 ```bash

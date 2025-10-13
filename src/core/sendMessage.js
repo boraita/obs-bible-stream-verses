@@ -1,182 +1,184 @@
-const channel = new BroadcastChannel("myChannel");
+import { processVerseText } from "../api/getData.js";
+import { getBibleMap } from "../config/bibleConfig.js";
 
-const btnHistory = document.getElementById("history");
+const messageChannel = new BroadcastChannel("myChannel");
+const historyButton = document.getElementById("history");
+const CLICK_DEBOUNCE_MS = 300;
+const BIBLE_MAP = getBibleMap();
 
-var historyOfBibleVerse = [];
+let verseHistory = [];
 
-document.getElementById("sendButton").addEventListener("click", () => {
+/**
+ * Sends free-form text message to browser overlay
+ * Font size will be pre-calculated automatically on receive
+ */
+function sendFreeTextMessage() {
   const message = document.getElementById("messageInput").value;
-  channel.postMessage(message);
-  
-  // Ajustar tamaño INMEDIATAMENTE después de enviar texto libre
-  setTimeout(() => {
-    const adjustChannel = new BroadcastChannel("adjustFont");
-    adjustChannel.postMessage("adjust");
-    adjustChannel.close();
-  }, 50); // Reducido a 50ms para aplicación más rápida
-});
+  messageChannel.postMessage(message);
+  console.log('📤 Free text sent (font size will be pre-calculated)');
+}
 
-function doc_keyUp(e) {
-  // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
-  if (e.ctrlKey && e.code === "ArrowDown") {
-    // call your function to do the thing
+document.getElementById("sendButton").addEventListener("click", sendFreeTextMessage);
+
+/**
+ * Handles keyboard shortcut for sending message (Ctrl + ArrowDown)
+ */
+function handleKeyboardShortcut(event) {
+  if (event.ctrlKey && event.code === "ArrowDown") {
     const message = document.getElementById("messageInput").value;
-    channel.postMessage(message);
+    messageChannel.postMessage(message);
   }
 }
 
-document.getElementById("sendList").addEventListener("click", () => {
+/**
+ * Creates HTML list from input and sends to browser overlay
+ */
+function sendListMessage() {
   const listTitle = document.getElementById("listTitle").value;
   const listItems = document.getElementById("listItems").value;
+  const itemsArray = listItems.split("\n");
 
-  const listArray = listItems.split("\n");
-
-  // Create a new unordered list (<ul>)
-  const ulElement = document.createElement("ul");
-
-  listArray.forEach((itemText) => {
-    // Create a list item (<li>)
-    const liElement = document.createElement("li");
-
-    // Set the text content of the list item
-    liElement.textContent = itemText;
-
-    // Append the list item to the unordered list
-    ulElement.appendChild(liElement);
+  const listElement = document.createElement("ul");
+  itemsArray.forEach((itemText) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = itemText;
+    listElement.appendChild(listItem);
   });
 
-  const ulHtml = ulElement.outerHTML;
+  const message = `<span>${listTitle}</span>\n${listElement.outerHTML}`;
+  messageChannel.postMessage(message);
+  console.log('📤 List sent (font size will be pre-calculated)');
+}
 
-  // Create a string to represent the entire message
-  const message = `<span>${listTitle}</span>\n${ulHtml}`;
-  channel.postMessage(message);
-  
-  // Ajustar tamaño INMEDIATAMENTE después de enviar lista
-  setTimeout(() => {
-    const adjustChannel = new BroadcastChannel("adjustFont");
-    adjustChannel.postMessage("adjust");
-    adjustChannel.close();
-  }, 50); // Reducido a 50ms para aplicación más rápida
-});
+document.getElementById("sendList").addEventListener("click", sendListMessage);
+document.addEventListener("keyup", handleKeyboardShortcut, false);
 
-document.addEventListener("keyup", doc_keyUp, false);
-
-// Función para manejar la selección visual de versículos
+/**
+ * Updates visual selection state of verses in the panel
+ * Highlights the selected verse and deselects all others
+ */
 function updateVerseSelection(selectedVerse, selectedIndex) {
-  const bibleVerseDiv = document.getElementById("bible-verse");
-  const pElements = bibleVerseDiv.querySelectorAll("p");
+  const bibleVerseContainer = document.getElementById("bible-verse");
+  const allVerses = bibleVerseContainer.querySelectorAll("p");
   
-  // Remover selección de todos los versículos
-  pElements.forEach((verse, i) => {
+  allVerses.forEach((verse, index) => {
     verse.classList.remove('selected');
-    if (i !== selectedIndex) {
+    if (index !== selectedIndex) {
       verse.style.backgroundColor = "#222222";
     }
   });
   
-  // Aplicar selección al versículo actual
   selectedVerse.classList.add('selected');
   selectedVerse.style.backgroundColor = "#222255";
   
-  console.log(`✨ Versículo seleccionado: ${selectedVerse.id}`);
+  console.log(`✨ Verse selected: ${selectedVerse.id}`);
 }
 
+/**
+ * Attaches click event handler to a verse element
+ * Sends the verse to the browser overlay when clicked
+ */
 function displayBible(verse, index) {
-
+  let lastClickTime = 0;
+  
   verse.addEventListener("click", (event) => {
-    // Encontrar el elemento P clickeado, sin importar dónde se hizo click dentro del área
+    const currentTime = Date.now();
+    if (currentTime - lastClickTime < CLICK_DEBOUNCE_MS) {
+      console.log('⏭️ Click ignored (too rapid)');
+      return;
+    }
+    lastClickTime = currentTime;
+    
     const clickedVerse = event.target.tagName === "P" ? event.target : event.target.closest('p');
     
-    if (clickedVerse) {
-      console.log(`📖 Versículo seleccionado: ${clickedVerse.id}`);
-      
-      // Obtener la versión de Biblia seleccionada
-      const bibleVersionSelect = document.getElementById('bible-version');
-      const selectedVersion = bibleVersionSelect ? bibleVersionSelect.value.toUpperCase() : '';
-      
-      // Obtener el mensaje original
-      const originalMessage = clickedVerse.innerHTML;
-      
-      // Modificar el título para incluir la versión
-      let enhancedMessage = originalMessage;
-      if (selectedVersion && originalMessage.includes('<span>')) {
-        enhancedMessage = originalMessage.replace(
-          /(<span>)([^<]+)(<\/span>)/,
-          `$1$2 - ${selectedVersion}$3`
-        );
-      }
-      
-      // Efecto visual de click
-      clickedVerse.classList.add('clicked');
-      setTimeout(() => {
-        clickedVerse.classList.remove('clicked');
-      }, 300);
-      
-      // Enviar el mensaje con la versión incluida
-      channel.postMessage(enhancedMessage);
-      
-      console.log(`📚 Enviando versículo con versión: ${selectedVersion}`);
-      
-      // Enviar señal para ajustar tamaño INMEDIATAMENTE después de mostrar el texto
-      setTimeout(() => {
-        const adjustChannel = new BroadcastChannel("adjustFont");
-        adjustChannel.postMessage("adjust");
-        adjustChannel.close();
-      }, 50); // Reducido para aplicación más rápida del tamaño fijo
-      
-      // Actualizar selección visual
-      updateVerseSelection(clickedVerse, index);
-
-      historyOfBibleVerse.push({ name: clickedVerse.id, verse: originalMessage });
-
-      const maxHistorySize = 20;
-      if (historyOfBibleVerse.length > maxHistorySize) {
-        historyOfBibleVerse.shift();
-      }
+    if (!clickedVerse) return;
+    
+    console.log(`📖 Verse selected: ${clickedVerse.id}`);
+    
+    const bibleVersionSelect = document.getElementById('bible-version');
+    const versionCode = bibleVersionSelect ? bibleVersionSelect.value.toLowerCase() : '';
+    const versionName = versionCode && BIBLE_MAP[versionCode] 
+      ? BIBLE_MAP[versionCode].name.toUpperCase() 
+      : '';
+    
+    const titleSpan = clickedVerse.querySelector('span');
+    const verseTextDiv = clickedVerse.querySelector('.verse-text');
+    const title = titleSpan ? titleSpan.textContent : '';
+    
+    let verseText = '';
+    if (verseTextDiv) {
+      verseText = verseTextDiv.textContent;
+    } else {
+      const fullText = clickedVerse.textContent;
+      verseText = title ? fullText.replace(title, '').trim() : fullText;
     }
+
+    const cleanedText = processVerseText(verseText);
+
+    let messageHtml = '';
+    if (title) {
+      messageHtml += `<span>${title}${versionName ? ' - ' + versionName : ''}</span>`;
+    }
+    messageHtml += cleanedText;
+
+    clickedVerse.classList.add('clicked');
+    setTimeout(() => clickedVerse.classList.remove('clicked'), 300);
+
+    messageChannel.postMessage(messageHtml);
+    console.log(`📚 Sending verse with version: ${versionName}`);
+    console.log('ℹ️ Font size will be pre-calculated automatically');
+
+    updateVerseSelection(clickedVerse, index);
+
+    addToHistory(clickedVerse.id, messageHtml);
   });
   
-  // Mejorar accesibilidad
   verse.setAttribute('role', 'button');
   verse.setAttribute('tabindex', '0');
-  verse.setAttribute('aria-label', `Seleccionar versículo ${verse.textContent.substring(0, 50)}...`);
+  verse.setAttribute('aria-label', `Select verse ${verse.textContent.substring(0, 50)}...`);
   
-  // Soporte para teclado
   verse.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       verse.click();
     }
   });
-
 }
 
-btnHistory.addEventListener("click", function () {
-  const bblVerseDiv = document.getElementById("bible-verse");
-  bblVerseDiv.innerHTML = "";
+/**
+ * Adds a verse to the history with size limit
+ */
+function addToHistory(verseName, verseText) {
+  const MAX_HISTORY_SIZE = 20;
   
-  // Obtener la versión actual para mostrar en el historial
-  const bibleVersionSelect = document.getElementById('bible-version');
-  const currentVersionDisplay = getVersionDisplayName(bibleVersionSelect ? bibleVersionSelect.value : 'kdsh');
-  
-  historyOfBibleVerse.forEach((entry, index) => {
-    const pElement = document.createElement("p");
-    pElement.id = entry.name;
-    pElement.innerHTML = entry.verse;
-    bblVerseDiv.appendChild(pElement);
-    displayBible(pElement, index);
+  verseHistory.push({ 
+    name: verseName, 
+    verse: verseText 
   });
-});
 
-// Función helper para obtener nombres descriptivos de las versiones
-function getVersionDisplayName(versionCode) {
-  const versionNames = {
-    'kdsh': 'KADOSH',
-    'lbla': 'LBLA', 
-    'nvi': 'NVI',
-    'btx': 'BTX',
-  };
-  return versionNames[versionCode] || versionCode.toUpperCase();
+  if (verseHistory.length > MAX_HISTORY_SIZE) {
+    verseHistory.shift();
+  }
 }
+
+/**
+ * Displays verse history when history button is clicked
+ */
+function showHistory() {
+  const verseContainer = document.getElementById("bible-verse");
+  verseContainer.innerHTML = "";
+  
+  verseHistory.forEach((entry, index) => {
+    const verseElement = document.createElement("p");
+    verseElement.id = entry.name;
+    verseElement.innerHTML = entry.verse;
+    verseContainer.appendChild(verseElement);
+    displayBible(verseElement, index);
+  });
+}
+
+
+
+historyButton.addEventListener("click", showHistory);
 
 export { displayBible };
