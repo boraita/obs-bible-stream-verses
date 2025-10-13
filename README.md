@@ -2,7 +2,7 @@
 # 📖 OBS Bible Stream Verses
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/boraita/obs-bible-plugin/releases)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/boraita/obs-bible-plugin/releases)
 [![OBS Studio](https://img.shields.io/badge/OBS%20Studio-27.0%2B-blueviolet.svg)](https://obsproject.com/)
 
 Display Bible verses beautifully in your OBS streams with an easy-to-use control panel and customizable overlay.
