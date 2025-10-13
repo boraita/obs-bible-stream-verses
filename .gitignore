@@ -4,6 +4,7 @@
 /testing/
 src/db/*
 !src/db/RVR60.sqlite
+/releases/
 
 # Ignore dependencies
 /node_modules/
