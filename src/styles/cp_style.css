@@ -105,6 +105,72 @@ body {
   width: 100%;
 }
 
+.settings-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.settings-map-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: rgba(48, 54, 61, 0.75);
+  border: 1px solid #3b3f46;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #e2e8f0;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.settings-map-item:hover,
+.settings-map-item:focus-visible {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.settings-map-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #f1f5f9;
+}
+
+.settings-map-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.settings-section--focus {
+  border-left-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.15);
+}
+
+.settings-description--compact {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+#textSettings,
+#titleSettings,
+#backgroundSettings,
+#animationSettings,
+#quickSettings {
+  scroll-margin-top: 52px;
+}
+
+@media (min-width: 960px) {
+  .settings-grid {
+    grid-template-columns: minmax(360px, 1.3fr) minmax(300px, 1fr);
+  }
+}
+
 .settings-column {
   display: flex;
   flex-direction: column;

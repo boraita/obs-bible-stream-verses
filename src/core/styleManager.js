@@ -1,6 +1,6 @@
 /**
- * MÓDULO DE GESTIÓN DE ESTILOS DINÁMICOS
- * Centraliza toda la aplicación de estilos CSS desde JavaScript
+ * DYNAMIC STYLE MANAGEMENT MODULE
+ * Centralizes all CSS style application from JavaScript
  */
 
 class StyleManager {
@@ -10,7 +10,7 @@ class StyleManager {
     }
 
     /**
-     * Inicializa las referencias a los elementos DOM
+     * Initializes references to DOM elements
      */
     init() {
         this.messageDisplay = document.getElementById('messageDisplay');
@@ -18,21 +18,19 @@ class StyleManager {
     }
 
     /**
-     * Aplica estilos base al messageDisplay
+     * Applies base styles to messageDisplay
      */
     applyBaseMessageStyles() {
         if (!this.messageDisplay) return;
 
-        // Aplicar clase CSS base
         this.messageDisplay.classList.add('message-display-base');
         
-        // Estilos que necesitan ser dinámicos
         this.messageDisplay.style.visibility = 'visible';
         this.messageDisplay.style.opacity = '1';
     }
 
     /**
-     * Aplica estilos específicos para el estado de cache
+     * Applies specific styles for cached state
      */
     applyCachedStyles(fontSize) {
         if (!this.messageDisplay) return;
@@ -42,22 +40,19 @@ class StyleManager {
     }
 
     /**
-     * Aplica estilos del título de manera organizada
+     * Applies title styles in an organized way
      */
     applyTitleStyles() {
         if (!this.titleSpan) return;
 
-        // Aplicar clase CSS base
         this.titleSpan.classList.add('title-span-base');
 
-        // Estilos dinámicos desde localStorage
         const titleFontSize = localStorage.getItem('titleFontSize') || 24;
         const titleColor = localStorage.getItem('titleColor') || '#ffffff';
         
         this.titleSpan.style.fontSize = titleFontSize + 'px';
         this.titleSpan.style.color = titleColor;
 
-        // Manejar fondo del título si está habilitado
         const titleBoxEnabled = localStorage.getItem('titleBoxEnabled');
         if (titleBoxEnabled === 'true') {
             this.titleSpan.classList.add('title-with-box', 'title-span-with-background');
@@ -70,7 +65,7 @@ class StyleManager {
     }
 
     /**
-     * Aplica espaciado según si hay título o no
+     * Applies spacing depending on whether there is a title or not
      */
     applySpacing(hasTitle) {
         if (!this.messageDisplay) return;
@@ -89,7 +84,7 @@ class StyleManager {
     }
 
     /**
-     * Previene el solapamiento del título con el texto
+     * Prevents title overlapping with text
      */
     preventTitleOverlap() {
         if (this.titleSpan) {
@@ -104,7 +99,7 @@ class StyleManager {
     }
 
     /**
-     * Aplica estilos de word-wrap cuando es necesario
+     * Applies word-wrap styles when necessary
      */
     enableWordWrap() {
         if (!this.messageDisplay) return;
@@ -114,12 +109,11 @@ class StyleManager {
     }
 
     /**
-     * Remueve todos los estilos dinámicos y clases aplicadas
+     * Removes all dynamic styles and applied classes
      */
     resetStyles() {
         if (!this.messageDisplay) return;
 
-        // Remover todas las clases dinámicas
         const classesToRemove = [
             'message-display-cached',
             'message-display-calculating', 
@@ -137,7 +131,7 @@ class StyleManager {
     }
 
     /**
-     * Aplica un tamaño de fuente específico
+     * Applies a specific font size
      */
     setFontSize(fontSize) {
         if (!this.messageDisplay) return;
@@ -145,7 +139,7 @@ class StyleManager {
     }
 
     /**
-     * Fuerza un reflow del DOM
+     * Forces a DOM reflow
      */
     forceReflow() {
         if (!this.messageDisplay) return;
@@ -153,7 +147,7 @@ class StyleManager {
     }
 
     /**
-     * Obtiene las dimensiones actuales del elemento
+     * Gets the current dimensions of the element
      */
     getDimensions() {
         if (!this.messageDisplay) return null;
@@ -167,13 +161,10 @@ class StyleManager {
     }
 }
 
-// Crear instancia global del gestor de estilos
 const styleManager = new StyleManager();
 
-// Exponer para uso global
 window.styleManager = styleManager;
 
-// Exportar para uso en módulos
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = StyleManager;
 }

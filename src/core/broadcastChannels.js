@@ -8,7 +8,7 @@ const visibilityChannel = new BroadcastChannel("bgContent");
 const settingsChannel = new BroadcastChannel("settings");
 const fontAdjustChannel = new BroadcastChannel("adjustFont");
 
-const DEFAULT_PADDING = 15;
+const DEFAULT_PADDING = 0;
 const DEFAULT_TITLE_PADDING = 60;
 const TITLE_STROKE_WIDTH = '1.5px';
 
@@ -217,7 +217,9 @@ settingsChannel.onmessage = (event) => {
     case 'selectedFontColor':
       const selectedFontColor = event.data['selectedFontColor'];
       if (!localStorage.getItem('textGradient')) {
-        containerElement.style.color = selectedFontColor;
+        if (messageDisplay) {
+          messageDisplay.style.color = selectedFontColor;
+        }
       }
       localStorage.setItem('fontColor', selectedFontColor);
       break;
@@ -410,7 +412,11 @@ settingsChannel.onmessage = (event) => {
         applyTextEffectToContent('webkitTextStroke', `${textStroke.width} ${textStroke.color}`);
         localStorage.setItem('textStroke', JSON.stringify(textStroke));
       } else {
-        applyTextEffectToContent('webkitTextStroke', 'none');
+        applyTextEffectToContent('webkitTextStroke', '');
+        if (messageDisplay) {
+          messageDisplay.style.webkitTextStroke = '';
+          messageDisplay.style.textStroke = '';
+        }
         localStorage.removeItem('textStroke');
       }
       break;
@@ -514,9 +520,10 @@ function applyTitleBoxStyles(titleSpan) {
     size: localStorage.getItem('titleBoxSize') || 'medium',
     padding: localStorage.getItem('titleBoxPadding') || '12',
     fullWidth: localStorage.getItem('titleBoxFullWidth') === 'true',
-    color: localStorage.getItem('titleBoxColor') || '#000000',
+    color: localStorage.getItem('titleBoxColor') || '#ffffff',
     opacity: localStorage.getItem('titleBoxOpacity') || '70',
     border: localStorage.getItem('titleBoxBorder') || '2',
+    borderColor: localStorage.getItem('titleBoxBorderColor') || '#000000',
     radius: localStorage.getItem('titleBoxRadius') || '6',
     blur: localStorage.getItem('titleBoxBlur') !== 'false',
     stroke: localStorage.getItem('titleBoxStroke') !== 'false'
@@ -540,7 +547,7 @@ function applyTitleBoxStyles(titleSpan) {
   titleSpan.style.backgroundColor = bgColor;
 
   if (configs.border > 0) {
-    titleSpan.style.border = `${configs.border}px solid currentColor`;
+    titleSpan.style.border = `${configs.border}px solid ${configs.borderColor}`;
   } else {
     titleSpan.style.border = 'none';
   }
@@ -655,7 +662,7 @@ function updateTitleBoxOpacity(opacity) {
 }
 
 function updateTitleBoxBorder(border) {
-  const borderColor = localStorage.getItem('titleBoxBorderColor') || '#ffffff';
+  const borderColor = localStorage.getItem('titleBoxBorderColor') || '#000000';
   const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
   titleSpans.forEach(span => {
     if (border > 0) {
