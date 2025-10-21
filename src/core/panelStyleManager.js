@@ -1,6 +1,6 @@
 /**
- * MÓDULO DE GESTIÓN DE ESTILOS PARA PANEL DE CONTROL
- * Centraliza toda la aplicación de estilos CSS del panel desde JavaScript
+ * PANEL STYLE MANAGEMENT MODULE
+ * Centralizes all panel CSS style application from JavaScript
  */
 
 class PanelStyleManager {
@@ -9,7 +9,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Inicializa el gestor de estilos del panel
+     * Initializes the panel style manager
      */
     init() {
         this.initialized = true;
@@ -17,7 +17,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Muestra u oculta un elemento usando clases CSS
+     * Shows or hides an element using CSS classes
      */
     toggleElement(element, visible) {
         if (!element) return;
@@ -32,12 +32,12 @@ class PanelStyleManager {
     }
 
     /**
-     * Maneja la visibilidad de tabs
+     * Handles tab visibility
      */
     showTab(tabElement) {
         if (!tabElement) return;
         
-        // Remover estilo inline que bloquea las clases CSS
+    
         tabElement.style.display = '';
         
         tabElement.classList.remove('tab-area-inactive');
@@ -49,7 +49,7 @@ class PanelStyleManager {
     hideTab(tabElement) {
         if (!tabElement) return;
         
-        // Remover estilo inline que bloquea las clases CSS
+    
         tabElement.style.display = '';
         
         tabElement.classList.remove('tab-area-active');
@@ -59,7 +59,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Alterna tabs de manera organizada
+     * Switches tabs in an organized way
      */
     switchTabs(tabs, selectedIndex) {
         if (!tabs) return;
@@ -74,7 +74,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Maneja grupos de configuración de título
+     * Handles title shadow control groups
      */
     toggleTitleShadowControls(enabled) {
         const titleShadowColorGroup = document.getElementById('titleShadowColorGroup');
@@ -97,7 +97,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Maneja controles del recuadro del título
+     * Handles title box custom size controls
      */
     toggleTitleBoxCustomSize(isCustom) {
         const customBoxSize = document.getElementById('customBoxSize');
@@ -127,7 +127,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Maneja controles de gradiente
+     * Handles gradient controls
      */
     toggleGradientControls(enabled) {
         const gradientControls = document.getElementById('gradientControls');
@@ -146,7 +146,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Maneja controles de efectos de texto
+     * Handles text effect controls
      */
     toggleTextEffectControls(elementId, enabled) {
         const element = document.getElementById(elementId);
@@ -160,7 +160,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Métodos específicos para efectos de texto
+     * Specific methods for text effects
      */
     toggleTextShadowControls(enabled) {
         this.toggleTextEffectControls('textShadowControls', enabled);
@@ -175,7 +175,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Resetea todos los estados de elementos
+     * Resets all panel element states and classes
      */
     resetAllStyles() {
         const elements = document.querySelectorAll('.element-visible, .element-hidden, .tab-area-active, .tab-area-inactive');
@@ -194,7 +194,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Aplica transiciones suaves a elementos
+     * Applies smooth transitions to elements
      */
     addSmoothTransitions(elements) {
         if (!elements) return;
@@ -209,7 +209,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Activa/desactiva un control de configuración
+     * Activates or deactivates a setting control
      */
     toggleSettingControl(element, active) {
         if (!element) return;
@@ -224,7 +224,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Alterna la visibilidad del contenedor de color de degradado de texto
+     * Toggles visibility of the text gradient color2 container
      */
     toggleTextGradientColor2Container(show) {
         const container = document.getElementById('textGradientColor2Container');
@@ -232,7 +232,7 @@ class PanelStyleManager {
     }
 
     /**
-     * Utilidades para responsive design
+     * Utilities for responsive design
      */
     handleResponsiveVisibility(element, condition) {
         if (!element) return;
@@ -247,13 +247,10 @@ class PanelStyleManager {
     }
 }
 
-// Crear instancia global del gestor de estilos del panel
 const panelStyleManager = new PanelStyleManager();
 
-// Expose for global use
 window.panelStyleManager = panelStyleManager;
 
-// Export for module use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = PanelStyleManager;
 }

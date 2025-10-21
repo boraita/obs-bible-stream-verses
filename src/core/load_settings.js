@@ -1,4 +1,4 @@
-// Check if a background color is saved in localStorage
+
 const savedBgColor = localStorage.getItem('bgColor');
 const savedFontFamily = localStorage.getItem('fontFamily');
 const savedFontColor = localStorage.getItem('fontColor');
@@ -10,20 +10,20 @@ var savedItalicState = localStorage.getItem('italicState');
 var savedUnderlineState = localStorage.getItem('underlineState');
 var savedTextAlign = localStorage.getItem('textAlign');
 
-// Obtener elementos del DOM primero
+
 const bgContainer = document.getElementById("bg-container");
 const messageDisplay = document.getElementById("messageDisplay");
 
-// Función para aplicar efectos de texto solo al contenido (no a los títulos)
+
 function applyTextEffectToContent(styleProperty, value) {
-  // Aplicar al contenedor principal para el texto base
+  
   messageDisplay.style[styleProperty] = value;
   
-  // Remover el efecto de todos los spans de título para que no se vean afectados
+  
   const titleSpans = document.querySelectorAll("#messageDisplay span");
   titleSpans.forEach(span => {
     if (styleProperty === 'textShadow') {
-      // Para títulos, mantener solo su propia sombra si la tienen configurada
+      
       const titleShadowEnabled = localStorage.getItem('titleShadow') === 'true';
       if (titleShadowEnabled) {
         const shadowSize = localStorage.getItem('titleShadowSize') || '1';
@@ -33,10 +33,10 @@ function applyTextEffectToContent(styleProperty, value) {
         span.style.textShadow = 'none';
       }
     } else if (styleProperty === 'webkitTextStroke') {
-      // Para títulos, mantener solo su propio borde si lo tienen
+      
       const titleColor = localStorage.getItem('titleColor') || '#ffffff';
       const strokeEnabled = localStorage.getItem('titleBoxStroke') !== 'false';
-      // Mantener el borde del título independiente de los efectos del texto
+      
       if (strokeEnabled && span.classList.contains('title-with-box')) {
         span.style.webkitTextStroke = `1.5px ${titleColor}`;
         span.style.textStroke = `1.5px ${titleColor}`;
@@ -45,7 +45,7 @@ function applyTextEffectToContent(styleProperty, value) {
         span.style.textStroke = '0px transparent';
       }
     } else {
-      // Para otros efectos, asegurar que los títulos no los hereden
+      
       span.style[styleProperty] = 'initial';
     }
   });
@@ -63,7 +63,7 @@ function setTitleStroke(span, enabled) {
   }
 }
 
-// Nuevas configuraciones avanzadas
+
 const savedBackgroundGradient = localStorage.getItem('backgroundGradient');
 const savedTextGradient = localStorage.getItem('textGradient');
 const savedTextShadow = localStorage.getItem('textShadow');
@@ -76,23 +76,23 @@ const savedRoundedCorner = localStorage.getItem('roundedCorner');
 const savedTextAnimation = localStorage.getItem('textAnimation');
 const savedAnimationDuration = localStorage.getItem('animationDuration');
 
-// Aplicar valores por defecto si no existen configuraciones guardadas
+
 if (!localStorage.getItem('bgColor')) {
-    // Fondo blanco por defecto
+    
     const defaultBgColor = 'rgba(255, 255, 255, 1)';
     if (bgContainer) bgContainer.style.backgroundColor = defaultBgColor;
     localStorage.setItem('bgColor', defaultBgColor);
 }
 
 if (!localStorage.getItem('fontColor')) {
-    // Texto negro por defecto
+    
     const defaultFontColor = '#000000';
     if (bgContainer) bgContainer.style.color = defaultFontColor;
     localStorage.setItem('fontColor', defaultFontColor);
 }
 
 if (!localStorage.getItem('titleColor')) {
-    // Título negro por defecto
+    
     const defaultTitleColor = '#000000';
     const titleSpans = document.querySelectorAll("#messageDisplay span");
     titleSpans.forEach(span => {
@@ -102,24 +102,23 @@ if (!localStorage.getItem('titleColor')) {
 }
 
 if (!localStorage.getItem('fontFamily')) {
-    // Fuente Poppins por defecto
+    
     const defaultFont = 'Poppins';
     if (bgContainer) bgContainer.style.fontFamily = defaultFont;
     localStorage.setItem('fontFamily', defaultFont);
 }
 
 if (!localStorage.getItem('borderRadius')) {
-    // Esquinas por defecto 5px
+    
     if (bgContainer) bgContainer.style.borderRadius = '5px';
 }
 
 if (!localStorage.getItem('containerPadding')) {
-    // Padding por defecto 20px
-    if (messageDisplay) messageDisplay.style.padding = '20px';
+    if (messageDisplay) messageDisplay.style.padding = '0px';
 }
 
 if (!localStorage.getItem('containerMargin')) {
-    // Margin por defecto 0px
+    
     if (messageDisplay) messageDisplay.style.margin = '0px';
 }
 
@@ -127,11 +126,11 @@ if (savedMessage) {
     messageDisplay.innerHTML = savedMessage;
 }
 
-// Aplicar fondo (degradado o sólido)
+
 if (savedBackgroundGradient) {
     bgContainer.style.background = savedBackgroundGradient;
 } else if (savedBgColor) {
-    // Si hay opacidad guardada, aplicarla al color
+    
     if (savedContainerOpacity) {
         let bgColor = savedBgColor;
         if (bgColor.startsWith('#')) {
@@ -151,7 +150,7 @@ if (savedFontFamily) {
     bgContainer.style.fontFamily = savedFontFamily;
 }
 
-// Aplicar color de texto o degradado
+
 if (savedTextGradient) {
     messageDisplay.style.background = savedTextGradient;
     messageDisplay.style.webkitBackgroundClip = 'text';
@@ -165,7 +164,7 @@ if (savedBorderRadius) {
     bgContainer.style.borderRadius = savedBorderRadius + 'px';
 }
 
-// Aplicar configuraciones del título
+
 const savedTitleShow = localStorage.getItem('titleShow');
 const savedTitleFontSize = localStorage.getItem('titleFontSize');
 const savedTitlePositionX = localStorage.getItem('titlePositionX');
@@ -181,22 +180,22 @@ const savedTitleStrokeWidth = localStorage.getItem('titleStrokeWidth');
 const savedTitleBoxMargin = localStorage.getItem('titleBoxMargin');
 const savedTitleBoxStroke = localStorage.getItem('titleBoxStroke') === 'true';
 
-// Aplicar visibilidad del título (por defecto: visible)
+
 if (savedTitleShow !== null) {
     messageDisplay.style.display = savedTitleShow === 'true' ? 'block' : 'none';
 } else {
-    // Si no hay valor guardado, mostrar por defecto
+    
     messageDisplay.style.display = 'block';
 }
 
-// Aplicar posición del título a los spans
+
 const titleSpans = document.querySelectorAll("#messageDisplay span");
 if (savedTitlePositionX && titleSpans.length > 0) {
     titleSpans.forEach(span => {
         span.style.left = `${savedTitlePositionX}px`;
     });
 } else if (titleSpans.length > 0) {
-    // Aplicar posición por defecto si no hay configuración guardada
+    
     titleSpans.forEach(span => {
         span.style.left = '10px';
     });
@@ -207,18 +206,18 @@ if (savedTitlePositionY && titleSpans.length > 0) {
         span.style.top = `${savedTitlePositionY}px`;
     });
 } else if (titleSpans.length > 0) {
-    // Aplicar posición por defecto si no hay configuración guardada
+    
     titleSpans.forEach(span => {
         span.style.top = '10px';
     });
 }
 
-// Aplicar color del título (guardado o por defecto)
-const titleColor = savedTitleColor || '#ffffff'; // Blanco por defecto
+
+const titleColor = savedTitleColor || '#ffffff'; 
 const dspans = document.querySelectorAll("#messageDisplay span");
 dspans.forEach(dspan => {
     dspan.style.color = titleColor;
-    // Aplicar color al stroke si tiene recuadro
+    
     if (dspan.classList.contains('title-with-box')) {
         setTitleStroke(dspan, savedTitleBoxStroke);
     } else {
@@ -226,7 +225,7 @@ dspans.forEach(dspan => {
     }
 });
 
-// Aplicar configuraciones adicionales del título
+
 if (savedTitleFontSize || savedTitleSpacing || savedTitleFontWeight || savedTitleShadow || savedTitleBoxMargin) {
     const titleSpans = document.querySelectorAll("#messageDisplay span");
     titleSpans.forEach(span => {
@@ -243,14 +242,14 @@ if (savedTitleFontSize || savedTitleSpacing || savedTitleFontWeight || savedTitl
             span.style.marginBottom = `${savedTitleBoxMargin}px`;
         }
         
-        // Aplicar sombra del título
+        
         if (savedTitleShadow === 'true') {
             const shadowColor = savedTitleShadowColor || '#000000';
             const shadowSize = savedTitleShadowSize || '2';
             span.style.textShadow = `${shadowSize}px ${shadowSize}px 2px ${shadowColor}`;
         }
         
-        // Aplicar contorno del título
+        
         if (savedTitleStroke === 'true') {
             const strokeColor = savedTitleStrokeColor || '#000000';
             const strokeWidth = savedTitleStrokeWidth || '1';
@@ -259,13 +258,13 @@ if (savedTitleFontSize || savedTitleSpacing || savedTitleFontWeight || savedTitl
     });
 }
 
-// Aplicar estado del recuadro del título
+
 const savedTitleBox = localStorage.getItem('titleBoxEnabled');
 if (savedTitleBox === 'true') {
     const titleSpans = document.querySelectorAll("#messageDisplay span");
     titleSpans.forEach(span => {
         span.classList.add('title-with-box');
-        // Aplicar configuraciones avanzadas del recuadro
+        
         applyInitialTitleBoxStyles(span);
     });
 } else {
@@ -281,7 +280,7 @@ if (window.updateMessagePadding) {
     window.updateMessagePadding();
 }
 
-// Función para aplicar estilos iniciales del recuadro del título
+
 function applyInitialTitleBoxStyles(titleSpan) {
     const configs = {
         size: localStorage.getItem('titleBoxSize') || 'medium',
@@ -297,7 +296,7 @@ function applyInitialTitleBoxStyles(titleSpan) {
         stroke: localStorage.getItem('titleBoxStroke') !== 'false'
     };
 
-    // Aplicar tamaño
+    
     titleSpan.classList.remove('size-small', 'size-medium', 'size-large');
     if (configs.size === 'custom') {
         titleSpan.style.padding = `${configs.padding}px ${parseInt(configs.padding) * 1.5}px`;
@@ -305,19 +304,19 @@ function applyInitialTitleBoxStyles(titleSpan) {
         titleSpan.classList.add(`size-${configs.size}`);
     }
 
-    // Aplicar ancho completo
+    
     if (configs.fullWidth) {
         titleSpan.classList.add('full-width');
     }
 
-    // Aplicar color de fondo
+    
     const r = parseInt(configs.color.slice(1, 3), 16);
     const g = parseInt(configs.color.slice(3, 5), 16);
     const b = parseInt(configs.color.slice(5, 7), 16);
     const bgColor = `rgba(${r}, ${g}, ${b}, ${configs.opacity / 100})`;
     titleSpan.style.backgroundColor = bgColor;
 
-    // Aplicar borde
+    
     if (configs.border > 0) {
         titleSpan.style.border = `${configs.border}px solid ${configs.borderColor}`;
     } else {
@@ -326,21 +325,21 @@ function applyInitialTitleBoxStyles(titleSpan) {
 
     setTitleStroke(titleSpan, configs.stroke);
 
-    // Aplicar radio de borde
+    
     if (!configs.fullWidth) {
         titleSpan.style.borderRadius = `${configs.radius}px`;
     } else {
         titleSpan.style.borderRadius = '0';
     }
 
-    // Aplicar desenfoque
+    
     if (configs.blur) {
         titleSpan.style.backdropFilter = 'blur(5px)';
     } else {
         titleSpan.style.backdropFilter = 'none';
     }
 
-    // Aplicar margen
+    
     titleSpan.style.marginBottom = `${configs.margin}px`;
 }
 
@@ -360,7 +359,7 @@ if (savedTextAlign) {
     messageDisplay.style.textAlign = savedTextAlign;
 }
 
-// Aplicar efectos de texto avanzados
+
 if (savedTextShadow || savedTextGlow) {
     let shadowEffect = '';
     if (savedTextShadow) shadowEffect += savedTextShadow;
@@ -375,21 +374,23 @@ if (savedTextStroke) {
     const strokeData = JSON.parse(savedTextStroke);
     applyTextEffectToContent('webkitTextStroke', `${strokeData.width} ${strokeData.color}`);
 } else {
-    // Limpiar cualquier borde de texto previo si no hay configuración guardada
-    applyTextEffectToContent('webkitTextStroke', 'none');
+    if (messageDisplay) {
+        messageDisplay.style.webkitTextStroke = '';
+        messageDisplay.style.textStroke = '';
+    }
 }
 
 if (savedContainerMargin) {
     messageDisplay.style.margin = savedContainerMargin + 'px';
 }
 
-// Aplicar animación si está configurada
+
 if (savedTextAnimation && savedTextAnimation !== 'none') {
     if (savedAnimationDuration) {
         messageDisplay.style.animationDuration = savedAnimationDuration;
     }
     
-    // Agregar clase de animación
+    
     switch (savedTextAnimation) {
         case 'fadeIn':
             messageDisplay.classList.add('fade-in');
@@ -419,7 +420,7 @@ if (savedTextAlign){
     messageDisplay.style.textAlign = savedTextAlign;
 }
 
-// Aplicar configuraciones del contenedor que faltaban
+
 
 if (savedRoundedCorner && bgContainer) {
     bgContainer.style.borderRadius = savedRoundedCorner + 'px';
@@ -430,9 +431,9 @@ if (savedContainerPadding && messageDisplay) {
     if (window.updateMessagePadding) {
         window.updateMessagePadding();
     } else {
-        const paddingValue = parseInt(savedContainerPadding, 10) || 15;
+        const paddingValue = parseInt(savedContainerPadding, 10) || 0;
         const hasTitle = messageDisplay.classList.contains('message-with-title');
-        const topPadding = hasTitle ? Math.max(paddingValue, 60) : Math.max(paddingValue, 15);
+        const topPadding = hasTitle ? Math.max(paddingValue, 60) : paddingValue;
         messageDisplay.style.paddingLeft = `${paddingValue}px`;
         messageDisplay.style.paddingRight = `${paddingValue}px`;
         messageDisplay.style.paddingBottom = `${paddingValue}px`;
@@ -440,7 +441,7 @@ if (savedContainerPadding && messageDisplay) {
     }
 }
 
-// Aplicar opacidad del contenedor
+
 if (savedContainerOpacity && bgContainer) {
     const currentBgColor = localStorage.getItem('bgColor') || '#000000';
     if (currentBgColor.startsWith('#')) {
@@ -452,7 +453,7 @@ if (savedContainerOpacity && bgContainer) {
     }
 }
 
-// Aplicar esquinas redondeadas
+
 if (savedRoundedCorner && bgContainer) {
     bgContainer.style.borderRadius = savedRoundedCorner + 'px';
 }

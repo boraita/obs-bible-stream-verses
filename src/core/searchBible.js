@@ -48,13 +48,17 @@ async function handleSearch(event) {
 }
 
 const submitButton = document.getElementById("bible-submit");
-submitButton.addEventListener("click", handleSearch);
+if (submitButton) {
+  submitButton.addEventListener("click", handleSearch);
+}
 
 const inputField = document.getElementById("bible-input");
-inputField.addEventListener("keydown", async function (event) {
-  if (event.key === "Enter") {
-    await handleSearch(event);
-  }
-});
+if (inputField) {
+  inputField.addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+      await handleSearch(event);
+    }
+  });
+}
 
 export { searchBible };

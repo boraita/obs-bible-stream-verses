@@ -18,7 +18,10 @@ function sendFreeTextMessage() {
   console.log('📤 Free text sent (font size will be pre-calculated)');
 }
 
-document.getElementById("sendButton").addEventListener("click", sendFreeTextMessage);
+const sendButton = document.getElementById("sendButton");
+if (sendButton) {
+  sendButton.addEventListener("click", sendFreeTextMessage);
+}
 
 /**
  * Handles keyboard shortcut for sending message (Ctrl + ArrowDown)

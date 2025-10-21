@@ -1,8 +1,8 @@
 import { hexToRgba } from "./utils";
 
 /* ==========================================
-   🎛️ ELEMENTOS DEL DOM - CONFIGURACIÓN
-   ========================================== */
+    🎛️ DOM ELEMENTS - CONFIGURATION
+    ========================================== */
 
 const settingsChannel = new BroadcastChannel("settings");
 
@@ -60,8 +60,8 @@ const textAnimation = document.getElementById("textAnimation");
 const animationDuration = document.getElementById("animationDuration");
 
 /* ==========================================
-   🔧 FUNCIONES AUXILIARES
-   ========================================== */
+    🔧 HELPER FUNCTIONS
+    ========================================== */
 
 function getOppositeColor(hexColor) {
     const hex = hexColor.replace('#', '');
@@ -76,12 +76,12 @@ function getOppositeColor(hexColor) {
 }
 
 /* ==========================================
-   🎧 EVENT LISTENERS - CONFIGURACIÓN
-   ========================================== */
+    🎧 EVENT LISTENERS - CONFIGURATION
+    ========================================== */
 
 /* ------------------------------------------
-   🎨 ESTILOS BÁSICOS
-   ------------------------------------------ */
+    🎨 BASIC STYLES
+    ------------------------------------------ */
 
 fontElement.addEventListener("change", function() {
     let selectedValue = fontElement.options[fontElement.selectedIndex].value;
@@ -578,7 +578,7 @@ const savedTitleBoxColor = localStorage.getItem('titleBoxColor') || '#ffffff';
 const savedTitleBoxStroke = localStorage.getItem('titleBoxStroke') === 'true';
 const savedTitleBoxOpacity = localStorage.getItem('titleBoxOpacity') || '80';
 const savedTitleBoxBorder = localStorage.getItem('titleBoxBorder') || '1';
-const savedTitleBoxBorderColor = localStorage.getItem('titleBoxBorderColor') || '#ffffff';
+const savedTitleBoxBorderColor = localStorage.getItem('titleBoxBorderColor') || '#000000';
 const savedTitleBoxRadius = localStorage.getItem('titleBoxRadius') || '6';
 const savedTitleBoxBlur = localStorage.getItem('titleBoxBlur') === 'true';
 
@@ -672,29 +672,35 @@ if (titleBoxBlur) {
    📦 CONFIGURACIÓN DEL CONTENEDOR
    ------------------------------------------ */
 
-if (!localStorage.getItem('opacity')) {
-    if (opacityRange) opacityRange.value = '5';
-}
-
-if (!localStorage.getItem('borderRadius')) {
-    if (roundedCorner) {
-        roundedCorner.value = '5';
-        document.getElementById('cornerDisplay').textContent = '5px';
+const savedOpacity = localStorage.getItem('opacity') || '5';
+if (opacityRange) {
+    opacityRange.value = savedOpacity;
+    const opacityDisplay = document.getElementById('opacityDisplay');
+    if (opacityDisplay) {
+        const percentage = Math.round((savedOpacity / 10) * 100);
+        opacityDisplay.textContent = percentage + '%';
     }
 }
 
-if (!localStorage.getItem('containerPadding')) {
-    if (containerPadding) {
-        containerPadding.value = '20';
-        document.getElementById('paddingDisplay').textContent = '20px';
-    }
+const savedBorderRadius = localStorage.getItem('borderRadius') || '0';
+if (roundedCorner) {
+    roundedCorner.value = savedBorderRadius;
+    const cornerDisplay = document.getElementById('cornerDisplay');
+    if (cornerDisplay) cornerDisplay.textContent = savedBorderRadius + 'px';
 }
 
-if (!localStorage.getItem('containerMargin')) {
-    if (containerMargin) {
-        containerMargin.value = '0';
-        document.getElementById('marginDisplay').textContent = '0px';
-    }
+const savedContainerPadding = localStorage.getItem('containerPadding') || '0';
+if (containerPadding) {
+    containerPadding.value = savedContainerPadding;
+    const paddingDisplay = document.getElementById('paddingDisplay');
+    if (paddingDisplay) paddingDisplay.textContent = savedContainerPadding + 'px';
+}
+
+const savedContainerMargin = localStorage.getItem('containerMargin') || '0';
+if (containerMargin) {
+    containerMargin.value = savedContainerMargin;
+    const marginDisplay = document.getElementById('marginDisplay');
+    if (marginDisplay) marginDisplay.textContent = savedContainerMargin + 'px';
 }
 
 /* ------------------------------------------
@@ -978,94 +984,6 @@ const presets = {
                 borderColor: '#0f172a',
                 radius: 10,
                 blur: false
-            }
-        }
-    },
-    grueso: {
-        background: {
-            type: 'solid',
-            color: '#101827'
-        },
-        container: {
-            padding: 16,
-            radius: 18,
-            opacity: 0.82
-        },
-        text: {
-            fontFamily: 'Inter',
-            color: '#f8fafc',
-            align: 'Left',
-            colorType: 'solid',
-            shadow: { enabled: true, color: 'rgba(0, 0, 0, 0.45)', x: 0, y: 4, blur: 14 },
-            glow: { enabled: false },
-            stroke: { enabled: false }
-        },
-        title: {
-            color: '#f9fafb',
-            weight: '700',
-            fontSize: 22,
-            spacing: 0,
-            alignment: 'left',
-            positionX: 18,
-            positionY: 18,
-            shadow: { enabled: false },
-            stroke: true,
-            box: {
-                enabled: true,
-                size: 'medium',
-                padding: 10,
-                fullWidth: false,
-                color: '#2563eb',
-                opacity: 80,
-                border: 0,
-                radius: 10,
-                blur: false
-            }
-        }
-    },
-    suave: {
-        background: {
-            type: 'linear',
-            color: '#1e293b',
-            color2: '#334155',
-            color3: '#0f172a',
-            angle: 160
-        },
-        container: {
-            padding: 20,
-            radius: 28
-        },
-        text: {
-            fontFamily: 'Georgia',
-            color: '#f8fafc',
-            align: 'Center',
-            colorType: 'solid',
-            shadow: { enabled: false },
-            glow: { enabled: true, color: '#a5b4fc', intensity: 7 },
-            stroke: { enabled: false }
-        },
-        title: {
-            color: '#f1f5f9',
-            weight: '500',
-            fontSize: 23,
-            spacing: 0.5,
-            alignment: 'center',
-            positionX: 12,
-            positionY: 18,
-            shadow: { enabled: false },
-            stroke: false,
-            box: {
-                enabled: true,
-                size: 'large',
-                padding: 14,
-                fullWidth: true,
-                width: 100,
-                color: '#0f172a',
-                opacity: 60,
-                border: 0,
-                radius: 0,
-                blur: true,
-                alignment: 'center'
             }
         }
     }
