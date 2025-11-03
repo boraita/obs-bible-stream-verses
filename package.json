@@ -1,7 +1,7 @@
 {
   "name": "obs-bible-stream-verses",
-  "version": "2.1.1",
-  "description": "Plugin to display Bible verses in streaming with OBS Studio. Real-time Bible selection and search.",
+  "version": "2.2.0",
+  "description": "Plugin to display Bible verses in streaming with OBS Studio. Real-time Bible selection and search with OBS WebSocket integration.",
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development webpack --mode development --config webpack.config.js",
@@ -9,7 +9,9 @@
     "build:analyze": "NODE_ENV=production webpack --mode production --config webpack.config.js --profile --json > stats.json",
     "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js --mode development --host localhost --port 8080 --open",
     "package": "pnpm build && ./scripts/package-release.sh",
+    "package:full": "pnpm build && ./scripts/package-release-full.sh",
     "release": "pnpm package",
+    "release:full": "pnpm package:full",
     "export:bible": "node scripts/exportBibleToXml.js"
   },
   "keywords": [
