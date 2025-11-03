@@ -59,6 +59,141 @@
             <button id="sendList">Show text</button>
           </div>
         </div>
+        <div id="obsWebSocket" class="tab-area" style="display: none">
+          <div class="container">
+            <div class="obs-websocket-panel">
+              <div class="obs-header">
+                <h2>🔌 OBS WebSocket</h2>
+                <div class="obs-status">
+                  <span id="obs-status-indicator" class="status-dot status-disconnected"></span>
+                  <span id="obs-status-text">Disconnected</span>
+                </div>
+              </div>
+
+              <div class="obs-section">
+                <h3>⚙️ Configuration</h3>
+                <div class="obs-help-text">
+                  <p style="margin: 0 0 12px 0; color: #aaa; font-size: 12px;">
+                    📝 <strong>How to find these settings in OBS:</strong><br/>
+                    1. Open OBS Studio<br/>
+                    2. Go to <strong>Tools → obs-websocket Settings</strong><br/>
+                    3. Copy the <strong>Server Port</strong> (usually 4455)<br/>
+                    4. If "Enable Authentication" is checked, copy the password
+                  </p>
+                </div>
+                <div class="obs-config-form">
+                  <div class="form-group">
+                    <label for="obs-host">Host:</label>
+                    <input type="text" id="obs-host" value="localhost" placeholder="localhost" />
+                    <small style="color: #888;">Use 'localhost' if OBS is on this computer</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="obs-port">Port:</label>
+                    <input type="number" id="obs-port" value="4455" placeholder="4455" />
+                    <small style="color: #888;">Default: 4455 (check OBS WebSocket settings)</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="obs-password">Password:</label>
+                    <input type="password" id="obs-password" placeholder="Leave empty if no password" />
+                    <small style="color: #888;">Only if authentication is enabled in OBS</small>
+                  </div>
+                  <div class="form-actions">
+                    <button id="obs-save-config-btn" class="secondary-btn">💾 Save Config</button>
+                    <button id="obs-test-connection-btn" class="secondary-btn">🧪 Test Connection</button>
+                    <button id="obs-connect-btn" class="primary-btn">🔌 Connect</button>
+                    <button id="obs-disconnect-btn" class="secondary-btn" disabled>🔌 Disconnect</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="obs-section">
+                <h3>🎬 Current Scene</h3>
+                <div class="obs-scene-info">
+                  <div class="info-box">
+                    <span class="info-label">Scene:</span>
+                    <span id="obs-current-scene" class="info-value">-</span>
+                  </div>
+                  <button id="obs-refresh-scene-btn" class="icon-btn">🔄 Refresh</button>
+                </div>
+              </div>
+
+              <div class="obs-section">
+                <h3>📋 Scenes List</h3>
+                <div class="obs-scenes-container">
+                  <ul id="obs-scenes-list" class="scenes-list">
+                    <li class="empty-state">Connect to OBS to see scenes</li>
+                  </ul>
+                  <button id="obs-refresh-scenes-btn" class="secondary-btn">🔄 Refresh Scenes</button>
+                </div>
+              </div>
+
+              <div class="obs-section">
+                <h3>🔄 Auto Scene Change</h3>
+                <div class="obs-help-text">
+                  <p style="margin: 0 0 8px 0; color: #aaa; font-size: 12px;">
+                    ⚙️ Configure automatic scene changes when showing/hiding Bible verses
+                  </p>
+                </div>
+                
+                <div class="obs-scene-config">
+                  <div class="form-group">
+                    <label>
+                      <input type="checkbox" id="obs-auto-scene-enabled" />
+                      ✅ Enable automatic scene changes
+                    </label>
+                  </div>
+
+                  <div id="obs-scene-config-content" style="display: none;">
+                    <div class="form-group">
+                      <label>📺 Scenes to monitor (when to change):</label>
+                      <div id="obs-monitor-scenes-list" class="monitor-scenes-list">
+                        <p style="color: #888; font-style: italic;">Connect to OBS to see scenes</p>
+                      </div>
+                      <small style="color: #888;">Select which scenes should trigger scene change when showing verses</small>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="obs-target-scene">🎬 Change to scene (when showing):</label>
+                      <select id="obs-target-scene" class="obs-scene-select">
+                        <option value="">-- Select Scene --</option>
+                      </select>
+                      <small style="color: #888;">Scene to switch to when showing Bible verses</small>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="obs-return-scene">↩️ Return to scene (when hiding):</label>
+                      <select id="obs-return-scene" class="obs-scene-select">
+                        <option value="">-- Keep Current Scene --</option>
+                      </select>
+                      <small style="color: #888;">Scene to return to when hiding verses (optional)</small>
+                    </div>
+
+                    <div class="form-actions">
+                      <button id="obs-save-scene-config-btn" class="secondary-btn">💾 Save Scene Config</button>
+                      <button id="obs-test-scene-change-btn" class="secondary-btn">🧪 Test Scene Change</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="obs-section">
+                <h3>🔑 Downstream Keyer Status</h3>
+                <div class="obs-dsk-info">
+                  <div class="info-box">
+                    <span class="info-label">DSK Sources:</span>
+                    <span id="obs-dsk-count" class="info-value">-</span>
+                  </div>
+                  <div class="info-box">
+                    <span class="info-label">Status:</span>
+                    <span id="obs-dsk-status" class="info-value">-</span>
+                  </div>
+                  <button id="obs-check-dsk-btn" class="icon-btn">🔍 Check DSK</button>
+                </div>
+                <div id="obs-dsk-sources-list" class="dsk-sources-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div id="setBg" class="tab-area" style="display: none">
           <div class="container settings-layout">
             <div class="settings-section settings-section--wide" id="quickSettings">
@@ -484,6 +619,7 @@
         <button class="tab-button" id="tab-text">Text</button>
         <button class="tab-button" id="tab-bibleText">Bible</button>
         <button class="tab-button" id="tab-listText">List</button>
+        <button class="tab-button" id="tab-obsWebSocket">OBS</button>
         <button class="tab-button" id="tab-setBg">Settings</button>
       </div>
     </div>

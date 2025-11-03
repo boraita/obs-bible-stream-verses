@@ -36,6 +36,13 @@ const BIBLE_CONFIG = {
     requiresTagCleaning: false,
     loader: () => import("../db/BTX.sqlite")
   },
+  tla: {
+    name: "tla",
+    displayName: "Lenguaje actual",
+    fullName: "Biblia Lenguaje actual",
+    requiresTagCleaning: false,
+    loader: () => import("../db/tla.sqlite")
+  },
   rvr60: {
     name: "rvr60",
     displayName: "Reina Valera 60",
