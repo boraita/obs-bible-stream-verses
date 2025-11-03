@@ -41,9 +41,20 @@ mkdir -p "${RELEASE_DIR}"
 echo -e "${GREEN}✓ Release directory created: ${RELEASE_DIR}${NC}"
 echo ""
 
-# Step 3: Copy dist/ folder
-echo -e "${YELLOW}[3/7] Copying dist/ folder...${NC}"
-cp -r dist "${RELEASE_DIR}/"
+# Step 3: Copy dist/ folder (excluding non-sample bibles)
+echo -e "${YELLOW}[3/7] Copying dist/ folder (excluding large bible files)...${NC}"
+mkdir -p "${RELEASE_DIR}/dist"
+
+# Copy all files except bible-*.js files first
+rsync -av --exclude='bible-*.js' dist/ "${RELEASE_DIR}/dist/"
+
+# Only copy the sample bible (RVR60)
+if [ -f dist/bible-rvr60.*.js ]; then
+    cp dist/bible-rvr60.*.js "${RELEASE_DIR}/dist/"
+    echo -e "${GREEN}✓ Sample bible (RVR60) included${NC}"
+fi
+
+echo -e "${YELLOW}⚠ Other bible files excluded (users must download separately)${NC}"
 echo -e "${GREEN}✓ dist/ folder copied${NC}"
 echo ""
 
