@@ -43,10 +43,9 @@ function removeTags(str) {
   if (!str || str === "") return "";
   
   const text = str.toString();
-  return text.replace(
-    /<(?!\/?i>)(?!i>).*?<\/(?!\/?i>)(?!i>).*?>|<i>|<\/i>/g,
-    ""
-  );
+  // Remove all HTML/XML tags including <J>, <i>, <br/>, etc.
+  // This simpler approach removes ALL tags without exceptions
+  return text.replace(/<[^>]+>/g, "");
 }
 
 /**
@@ -60,23 +59,24 @@ function processVerseText(text, requiresCleaning = true) {
   const textWithoutTags = requiresCleaning ? removeTags(text) : text;
   
   return textWithoutTags
-    .replace(/<\/?br\s*\/?>/gi, " ")                     // HTML line breaks
+    .replace(/<\/?br\s*\/?>/gi, " ")                     // HTML line breaks (in case not removed)
     .replace(/[\r\n•°]+|\\['"][0-9a-fA-F]{2}|\[\d+†?\]/g, "")  // Line breaks, bullets, degrees, hex codes, footnotes
     .replace(/\s{2,}/g, " ")                             // Multiple spaces to single
     .trim();
 }
 
 /**
- * Escapes special XML characters
+ * Escapes special XML characters but preserves quotes for readability
  */
 function escapeXml(text) {
   if (!text) return "";
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/>/g, '&gt;');
+    // NOTE: We're NOT escaping quotes (") and apostrophes (') 
+    // because they are part of the legitimate text content
+    // and don't cause XML parsing issues when inside CDATA-like content
 }
 
 // =====================================================
@@ -84,12 +84,60 @@ function escapeXml(text) {
 // =====================================================
 
 const BIBLE_CONFIG = {
-  kdsh: { name: 'KDSH', fullName: 'Kadosh Israelita Mesiánica', requiresTagCleaning: true },
-  lbla: { name: 'LBLA', fullName: 'La Biblia de las Américas', requiresTagCleaning: false },
-  nvi: { name: 'NVI', fullName: 'Nueva Versión Internacional', requiresTagCleaning: false },
-  ntv: { name: 'NTV', fullName: 'Nueva Traducción Viviente', requiresTagCleaning: false },
-  btx: { name: 'BTX', fullName: 'Biblia Textual', requiresTagCleaning: false },
-  rvr60: { name: 'RVR60', fullName: 'Reina Valera 1960', requiresTagCleaning: false },
+  kdsh: { 
+    name: 'KDSH', 
+    fullName: 'Kadosh Israelita Mesiánica',
+    shortName: 'Kadosh',
+    publisher: 'Restauración de la Biblia',
+    description: 'Traducción mesiánica que restaura los nombres hebreos originales',
+    copyright: 'Traducción Kadosh Israelita Mesiánica',
+    requiresTagCleaning: true 
+  },
+  lbla: { 
+    name: 'LBLA', 
+    fullName: 'La Biblia de las Américas',
+    shortName: 'LBLA',
+    publisher: 'The Lockman Foundation',
+    description: 'Traducción literal moderna del español',
+    copyright: 'Copyright © 1986, 1995, 1997 by The Lockman Foundation',
+    requiresTagCleaning: false 
+  },
+  nvi: { 
+    name: 'NVI', 
+    fullName: 'Nueva Versión Internacional',
+    shortName: 'NVI',
+    publisher: 'Biblica, Inc.',
+    description: 'Traducción contemporánea de equivalencia dinámica',
+    copyright: 'Copyright © 1999, 2015 by Biblica, Inc.',
+    requiresTagCleaning: false 
+  },
+  ntv: { 
+    name: 'NTV', 
+    fullName: 'Nueva Traducción Viviente',
+    shortName: 'NTV',
+    publisher: 'Tyndale House Publishers',
+    description: 'Traducción de fácil lectura y comprensión',
+    copyright: 'Copyright © 2010 by Tyndale House Foundation',
+    requiresTagCleaning: false 
+  },
+  btx: { 
+    name: 'BTX', 
+    fullName: 'Biblia Textual',
+    shortName: 'BTX',
+    publisher: 'Sociedad Bíblica Iberoamericana',
+    description: 'Traducción literal basada en textos originales',
+    copyright: 'Copyright © 1999 by Sociedad Bíblica Iberoamericana',
+    requiresTagCleaning: false 
+  },
+  rvr60: { 
+    name: 'RVR60', 
+    fullName: 'Reina Valera 1960',
+    shortName: 'RVR60',
+    publisher: 'Sociedades Bíblicas Unidas',
+    description: 'Revisión clásica de la Biblia en español',
+    copyright: 'Copyright © 1960 by American Bible Society',
+    requiresTagCleaning: false 
+  },
 };
 
 // =====================================================
@@ -136,7 +184,30 @@ async function exportBibleToXml(bibleCode) {
     
     const startTime = Date.now();
     
-    // Step 1: Get database info
+    // Step 1: Get database metadata from info table
+    log(`\n📊 Reading database metadata...`, 'cyan');
+    
+    let dbMetadata = {};
+    try {
+      const infoQuery = `SELECT name, value FROM info`;
+      const infoResult = execSync(`sqlite3 "${dbPath}" -separator "|" "${infoQuery}"`, { 
+        encoding: 'utf-8' 
+      }).trim();
+      
+      if (infoResult) {
+        infoResult.split('\n').forEach(line => {
+          const [name, value] = line.split('|');
+          if (name && value) {
+            dbMetadata[name] = value;
+          }
+        });
+        log(`   Found metadata: ${Object.keys(dbMetadata).length} fields`, 'green');
+      }
+    } catch (error) {
+      log(`   No metadata table found, using config defaults`, 'yellow');
+    }
+    
+    // Step 2: Get database statistics
     log(`\n📊 Reading database structure...`, 'cyan');
     const countQuery = `SELECT COUNT(*) FROM verses`;
     const totalVerses = parseInt(
@@ -151,7 +222,7 @@ async function exportBibleToXml(bibleCode) {
     log(`   Books: ${totalBooks}`, 'green');
     log(`   Verses: ${totalVerses}`, 'green');
     
-    // Step 2: Get all books
+    // Step 3: Get all books
     log(`\n📚 Loading books...`, 'cyan');
     const booksQuery = `
       SELECT book_number, long_name, short_name 
@@ -171,28 +242,39 @@ async function exportBibleToXml(bibleCode) {
     
     log(`   Loaded ${books.length} books`, 'green');
     
-    // Step 3: Start building XML
+    // Step 4: Start building XML
     log(`\n📝 Generating XML...`, 'yellow');
     
+    // Merge database metadata with config, prioritizing database info
+    const bibleTitle = dbMetadata.description || config.fullName;
+    const bibleDescription = dbMetadata.detailed_info 
+      ? dbMetadata.detailed_info.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+      : config.description;
+    const bibleLanguage = dbMetadata.language || 'es';
+    const bibleLanguageISO = dbMetadata['language_iso639-2b'] || 'spa';
+    const bibleCopyright = dbMetadata.detailed_info 
+      ? dbMetadata.detailed_info.match(/©[^<]*/g)?.join(' ') || config.copyright
+      : config.copyright;
+    
     let xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
-    xml += '<XMLBIBLE xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" biblename="Spanish">\n';
+    xml += `<XMLBIBLE xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" biblename="${escapeXml(config.shortName)}">\n`;
     
     // Information section (Zefania XML Bible Markup Language standard)
     xml += '  <INFORMATION>\n';
-    xml += `    <title>${escapeXml(config.fullName)}</title>\n`;
-    xml += `    <creator>OBS Bible Stream Verses Plugin</creator>\n`;
-    xml += `    <subject>The Holy Bible</subject>\n`;
-    xml += `    <description>${escapeXml(config.fullName)} - Clean export with processVerseText()</description>\n`;
-    xml += `    <publisher>OBS Bible Plugin</publisher>\n`;
-    xml += `    <contributors>Rafael Montaño - github.com/boraita</contributors>\n`;
+    xml += `    <title>${escapeXml(bibleTitle)}</title>\n`;
+    xml += `    <creator>${escapeXml(config.publisher)}</creator>\n`;
+    xml += `    <subject>La Santa Biblia</subject>\n`;
+    xml += `    <description>${escapeXml(bibleDescription)}</description>\n`;
+    xml += `    <publisher>${escapeXml(config.publisher)}</publisher>\n`;
+    xml += `    <contributors>Exportado con OBS Bible Stream Verses Plugin por Rafael Montaño</contributors>\n`;
     xml += `    <date>${new Date().toISOString().split('T')[0]}</date>\n`;
-    xml += `    <type>Bible text</type>\n`;
+    xml += `    <type>Bible</type>\n`;
     xml += `    <format>Zefania XML Bible Markup Language</format>\n`;
     xml += `    <identifier>${config.name}</identifier>\n`;
     xml += `    <source>https://github.com/boraita/obs-bible-plugin</source>\n`;
-    xml += `    <language>ESP</language>\n`;
-    xml += `    <coverage>Provide Bible verses for streaming and presentation</coverage>\n`;
-    xml += `    <rights>Check specific Bible translation rights</rights>\n`;
+    xml += `    <language>${bibleLanguageISO.toUpperCase()}</language>\n`;
+    xml += `    <coverage>Biblia completa - ${totalBooks} libros, ${totalVerses} versículos</coverage>\n`;
+    xml += `    <rights>${escapeXml(bibleCopyright)}</rights>\n`;
     xml += '  </INFORMATION>\n';
     
     // Process each book
