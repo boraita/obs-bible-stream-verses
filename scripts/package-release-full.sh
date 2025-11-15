@@ -40,13 +40,13 @@ echo ""
 # Step 2: Create release directory
 echo -e "${YELLOW}[2/7] Creating release directory...${NC}"
 rm -rf "${RELEASE_DIR}"
-mkdir -p "${RELEASE_DIR}"
+mkdir -p "${RELEASE_DIR}/v${VERSION}-FULL"
 echo -e "${GREEN}✓ Release directory created: ${RELEASE_DIR}${NC}"
 echo ""
 
 # Step 3: Copy COMPLETE dist/ folder with ALL bibles
 echo -e "${YELLOW}[3/7] Copying COMPLETE dist/ folder (ALL BIBLES)...${NC}"
-cp -r dist "${RELEASE_DIR}/"
+cp -r dist/* "${RELEASE_DIR}/v${VERSION}-FULL/"
 
 # Count bible files
 BIBLE_COUNT=$(ls -1 dist/bible-*.js 2>/dev/null | wc -l | tr -d ' ')
@@ -93,17 +93,25 @@ for bible in dist/bible-*.js; do
     echo "  - ${BIBLE_NAME}" >> "${RELEASE_DIR}/VERSION_INFO.txt"
 done
 
+# Create RELEASE_TYPE file
+cat > "${RELEASE_DIR}/RELEASE_TYPE.txt" << EOF
+Release Type: FULL
+Version: ${VERSION}
+Build Date: $(date +"%Y-%m-%d %H:%M:%S")
+Includes: All Bible versions
+EOF
+
 echo -e "${GREEN}✓ Version info created${NC}"
 echo ""
 
 # Step 5: Verify critical files
 echo -e "${YELLOW}[5/7] Verifying critical files...${NC}"
 REQUIRED_FILES=(
-    "dist/panel.html"
-    "dist/browser.html"
-    "dist/panel.js"
-    "dist/browser.js"
-    "dist/sql-library.js"
+    "v${VERSION}-FULL/panel.html"
+    "v${VERSION}-FULL/browser.html"
+    "v${VERSION}-FULL/panel.js"
+    "v${VERSION}-FULL/browser.js"
+    "v${VERSION}-FULL/sql-library.js"
 )
 
 ALL_PRESENT=true

@@ -41,7 +41,7 @@ const BIBLE_CONFIG = {
     displayName: "Lenguaje actual",
     fullName: "Biblia Lenguaje actual",
     requiresTagCleaning: false,
-    loader: () => import("../db/tla.sqlite")
+    loader: () => import("../db/TLA.sqlite")
   },
   rvr60: {
     name: "rvr60",
