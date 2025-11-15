@@ -37,20 +37,19 @@ echo ""
 # Step 2: Create release directory
 echo -e "${YELLOW}[2/7] Creating release directory...${NC}"
 rm -rf "${RELEASE_DIR}"
-mkdir -p "${RELEASE_DIR}"
+mkdir -p "${RELEASE_DIR}/v${VERSION}"
 echo -e "${GREEN}✓ Release directory created: ${RELEASE_DIR}${NC}"
 echo ""
 
 # Step 3: Copy dist/ folder (excluding non-sample bibles)
 echo -e "${YELLOW}[3/7] Copying dist/ folder (excluding large bible files)...${NC}"
-mkdir -p "${RELEASE_DIR}/dist"
 
 # Copy all files except bible-*.js files first
-rsync -av --exclude='bible-*.js' dist/ "${RELEASE_DIR}/dist/"
+rsync -av --exclude='bible-*.js' dist/ "${RELEASE_DIR}/v${VERSION}/"
 
 # Only copy the sample bible (RVR60)
 if [ -f dist/bible-rvr60.*.js ]; then
-    cp dist/bible-rvr60.*.js "${RELEASE_DIR}/dist/"
+    cp dist/bible-rvr60.*.js "${RELEASE_DIR}/v${VERSION}/"
     echo -e "${GREEN}✓ Sample bible (RVR60) included${NC}"
 fi
 
@@ -66,16 +65,27 @@ if [ -f "LICENSE" ]; then
 else
     echo -e "${YELLOW}⚠ LICENSE file not found${NC}"
 fi
+
+# Create RELEASE_TYPE file
+cat > "${RELEASE_DIR}/RELEASE_TYPE.txt" << EOF
+Release Type: STANDARD
+Version: ${VERSION}
+Build Date: $(date +"%Y-%m-%d %H:%M:%S")
+Includes: Sample Bible (RVR60 only)
+Note: Additional Bible versions must be downloaded separately
+EOF
+
+echo -e "${GREEN}✓ Release type info created${NC}"
 echo -e "${GREEN}✓ No .md files included (production build)${NC}"
 echo ""
 
 # Step 5: Verify critical files
 echo -e "${YELLOW}[5/7] Verifying critical files...${NC}"
 REQUIRED_FILES=(
-    "dist/panel.html"
-    "dist/browser.html"
-    "dist/panel.js"
-    "dist/browser.js"
+    "v${VERSION}/panel.html"
+    "v${VERSION}/browser.html"
+    "v${VERSION}/panel.js"
+    "v${VERSION}/browser.js"
 )
 
 ALL_PRESENT=true
