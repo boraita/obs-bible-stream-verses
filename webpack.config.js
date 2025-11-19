@@ -6,8 +6,8 @@ const buildPath = path.resolve(__dirname, "dist");
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
-    browser: "./src/public/browser/browser.js",
-    panel: "./src/public/panel/panel.js",
+    browser: "./src/public/browser/browser.ts",
+    panel: "./src/public/panel/panel.ts",
   },
   output: {
     filename: "[name].js",
@@ -47,12 +47,12 @@ module.exports = {
     runtimeChunk: 'single', // Separate runtime code
     moduleIds: 'deterministic', // Better for long-term caching
   },
-  resolve: {
+    resolve: {
     fallback: {
       fs: false,
       path: false,
     },
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.ts', '.json', '.scss', '.css'],
   },
   module: {
     rules: [
@@ -68,6 +68,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.js$/,
@@ -89,6 +93,16 @@ module.exports = {
             cacheDirectory: true, // Cache babel compilations
           },
         },
+      },
+      {
+        test: /\.ts$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
+        exclude: /node_modules/,
       },
     ],
   },
