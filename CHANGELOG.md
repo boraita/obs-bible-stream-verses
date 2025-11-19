@@ -5,6 +5,68 @@ All notable changes to the OBS Bible Plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-11-19
+
+### Added
+- **Complete Linting & Formatting System**:
+  - ESLint 8.57.1 with TypeScript support for code quality validation
+  - Prettier 3.6.2 for consistent code formatting across the entire codebase
+  - Stylelint 16.25.0 with SCSS support for style validation
+  - Pre-configured VS Code settings for automatic formatting on save
+  - VS Code extensions recommendations for optimal development experience
+- **SCSS Migration**: Converted all CSS files to SCSS for better maintainability
+  - `browser_style.scss` - Browser source overlay styles
+  - `cp_style.scss` - Control panel styles
+  - `dynamic-styles.scss` - Dynamic browser styles
+  - `panel-dynamic-styles.scss` - Dynamic panel styles
+- **TypeScript Type Definitions**: Added `src/types/styles.d.ts` for SCSS module imports
+- **NPM Scripts**:
+  - `lint` / `lint:fix` - ESLint validation and auto-fix
+  - `lint:style` / `lint:style:fix` - Stylelint validation and auto-fix
+  - `format` / `format:check` - Prettier formatting
+  - `format:all` - Run all formatters and fixers in one command
+- **Comprehensive Documentation**:
+  - `LINTING.md` - Complete guide for linting and formatting tools
+  - `SETUP_SUMMARY.md` - Detailed setup and configuration summary
+
+### Changed
+- **Code Style Standardization**: Entire codebase formatted with single quotes convention
+  - 35+ JavaScript files reformatted
+  - 4 TypeScript files reformatted
+  - All HTML, JSON, and Markdown files formatted consistently
+- **Webpack Configuration**: Updated to support SCSS compilation with sass-loader
+- **TypeScript Configuration**: Enhanced `tsconfig.json` for better type checking
+- **Build Pipeline**: Integrated SCSS compilation into webpack build process
+
+### Technical
+- Installed and configured `sass` and `sass-loader` for SCSS support
+- Configured ESLint with TypeScript parser and recommended rules
+- Set up Prettier with single quote preference and trailing commas
+- Configured Stylelint with SCSS standard configuration
+- Separated linting concerns: ESLint for logic, Prettier for formatting, Stylelint for styles
+- Added proper ignore files for each tool (.eslintignore, .prettierignore)
+- Created workspace settings for consistent VS Code behavior
+
+### Developer Experience
+- Automatic code formatting on save in VS Code
+- Clear separation of concerns between linting tools
+- Consistent code style across all file types
+- Better error detection during development
+- Improved code maintainability with SCSS features ready to use (variables, mixins, nesting)
+
+### Documentation
+- Updated `AGENTS.md` with linting and formatting guidelines
+- Added detailed tool usage examples in `LINTING.md`
+- Created comprehensive setup documentation in `SETUP_SUMMARY.md`
+- Included troubleshooting guide for common linting issues
+
+### Infrastructure
+- Added `.eslintrc.json` with TypeScript-aware configuration
+- Added `.prettierrc` with single quote and formatting preferences
+- Added `.stylelintrc.json` with SCSS linting rules
+- Added `.vscode/settings.json` for consistent editor behavior
+- Added `.vscode/extensions.json` with recommended extensions
+
 ## [2.2.0] - 2025-11-03
 
 ### Added

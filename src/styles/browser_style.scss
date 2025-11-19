@@ -9,7 +9,7 @@
 }
 
 body {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgb(0, 0, 0, 0);
     color: #fff;
     display: flex;
     justify-content: center;
@@ -69,7 +69,7 @@ body {
     height: 100%;
     white-space: pre-wrap;
     overflow: hidden;
-    word-wrap: normal;
+    overflow-wrap: normal;
     overflow-wrap: normal;
     hyphens: none;
     word-break: normal;
@@ -94,24 +94,24 @@ body {
 
 /* Efectos de texto especiales - Minimalistas para streaming */
 .glow-effect {
-    filter: drop-shadow(0 0 3px currentColor);
+    filter: drop-shadow(0 0 3px currentcolor);
 }
 
 .neon-effect {
     text-shadow: 
-        0 0 2px currentColor,
-        0 0 4px currentColor;
+        0 0 2px currentcolor,
+        0 0 4px currentcolor;
 }
 
 .gradient-text {
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .text-outline {
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #000000;
+    -webkit-text-stroke-color: #000;
 }
 
 /* ========================================
@@ -138,14 +138,14 @@ body {
     border-radius: 4px;
     transition: all 0.3s ease;
     background: transparent;
-    color: #ffffff;
+    color: #fff;
     text-shadow: none;
 }
 
 /* Título con recuadro activado */
 #messageDisplay span.title-with-box {
-    background: rgba(0, 0, 0, 0.75);
-    color: #ffffff;
+    background: rgb(0, 0, 0, 0.75);
+    color: #fff;
     border: none;
     backdrop-filter: none;
     box-shadow: none;
@@ -176,6 +176,7 @@ body {
     border-left: none !important;
     transform-origin: left center;
     box-sizing: border-box;
+
     /* El ancho y transform se aplican via JavaScript */
 }
 
@@ -218,7 +219,7 @@ body {
             1px -1px 0 #000,
             -1px 1px 0 #000,
             1px 1px 0 #000,
-            2px 2px 4px rgba(0, 0, 0, 0.8);
+            2px 2px 4px rgb(0, 0, 0, 0.8);
     }
 }
 
@@ -246,6 +247,7 @@ body {
         transform: translateX(-100%);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;
@@ -261,6 +263,7 @@ body {
         transform: translateX(100%);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;
@@ -276,6 +279,7 @@ body {
         transform: translateY(-100%);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0);
         opacity: 1;
@@ -291,6 +295,7 @@ body {
         transform: translateY(100%);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0);
         opacity: 1;
@@ -307,6 +312,7 @@ body {
         transform: scale(0.5);
         opacity: 0;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -325,6 +331,7 @@ body {
 @keyframes typewriter {
     0% { width: 0; }
     99% { border-right: 2px solid; }
+
     100% {
         width: 100%;
         border-right: none;
@@ -335,14 +342,14 @@ body {
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
     #messageDisplay {
         font-size: 3em;
         padding: 30px 50px;
     }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     #messageDisplay {
         font-size: 2em;
         padding: 20px 30px;
@@ -361,21 +368,21 @@ body {
 body[data-bg-light="true"] #messageDisplay {
     color: #2a2a2a !important;
     text-shadow: 
-        1px 1px 2px rgba(255, 255, 255, 0.9),
-        -0.5px -0.5px 1px rgba(255, 255, 255, 0.8),
-        0 0 3px rgba(255, 255, 255, 0.6) !important;
-    -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.15);
+        1px 1px 2px rgb(255, 255, 255, 0.9),
+        -0.5px -0.5px 1px rgb(255, 255, 255, 0.8),
+        0 0 3px rgb(255, 255, 255, 0.6) !important;
+    -webkit-text-stroke: 0.3px rgb(0, 0, 0, 0.15);
 }
 
 /* Título sin recuadro en fondo claro: blanco sin sombra por defecto */
 body[data-bg-light="true"] #messageDisplay span:not(.title-with-box) {
-    color: #ffffff;
+    color: #fff;
 }
 
 /* Título con recuadro en fondo claro: solo fondo y color, sin efectos por defecto */
 body[data-bg-light="true"] #messageDisplay span.title-with-box {
-    background: rgba(0, 0, 0, 0.88) !important;
-    color: #ffffff;
+    background: rgb(0, 0, 0, 0.88) !important;
+    color: #fff;
 }
 
 /* ========================================
@@ -384,20 +391,20 @@ body[data-bg-light="true"] #messageDisplay span.title-with-box {
 
 /* Texto del contenido en fondo oscuro: blanco con sombra negra intensa */
 body[data-bg-dark="true"] #messageDisplay {
-    color: #ffffff;
+    color: #fff;
     text-shadow: 
-        2px 2px 5px rgba(0, 0, 0, 0.95),
-        -1px -1px 3px rgba(0, 0, 0, 0.8),
-        0 0 10px rgba(0, 0, 0, 0.7) !important;
+        2px 2px 5px rgb(0, 0, 0, 0.95),
+        -1px -1px 3px rgb(0, 0, 0, 0.8),
+        0 0 10px rgb(0, 0, 0, 0.7) !important;
 }
 
 /* Título sin recuadro en fondo oscuro: blanco sin sombra por defecto */
 body[data-bg-dark="true"] #messageDisplay span:not(.title-with-box) {
-    color: #ffffff;
+    color: #fff;
 }
 
 /* Título con recuadro en fondo oscuro: solo fondo y color, sin efectos por defecto */
 body[data-bg-dark="true"] #messageDisplay span.title-with-box {
-    background: rgba(0, 0, 0, 0.92) !important;
-    color: #ffffff;
+    background: rgb(0, 0, 0, 0.92) !important;
+    color: #fff;
 }

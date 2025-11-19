@@ -1,29 +1,29 @@
-import { getBibleChapterBooksList } from "../api/getData";
+import { getBibleChapterBooksList } from '../api/getData';
 
 let selectedBibleVersion;
 let bookOfBibles;
-const bibleInput = document.getElementById("bible-input");
-const suggestionsList = document.getElementById("suggestions");
+const bibleInput = document.getElementById('bible-input');
+const suggestionsList = document.getElementById('suggestions');
 let selectedSuggestionIndex = -1;
 
 function removeAccents(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 async function getBooksOfTheBible() {
-  const currentVersion = document.getElementById("bible-version").value;
-  
+  const currentVersion = document.getElementById('bible-version').value;
+
   if (currentVersion !== selectedBibleVersion) {
     bookOfBibles = await getBibleChapterBooksList();
     selectedBibleVersion = currentVersion;
   }
-  
+
   return bookOfBibles;
 }
 
 function resetSuggestionsStyles() {
-  Array.from(suggestionsList.children).forEach(child => {
-    child.style.backgroundColor = "#222";
+  Array.from(suggestionsList.children).forEach((child) => {
+    child.style.backgroundColor = '#222';
   });
 }
 
@@ -42,23 +42,23 @@ function updateInput(index) {
 
   const selectedSuggestion = suggestionsList.children[index];
   bibleInput.value = selectedSuggestion.textContent;
-  selectedSuggestion.style.backgroundColor = "#444";
+  selectedSuggestion.style.backgroundColor = '#444';
 
   scrollToSuggestion(selectedSuggestion);
 }
 
 function createSuggestionItem(book, index) {
-  const listItem = document.createElement("li");
+  const listItem = document.createElement('li');
   listItem.textContent = book;
-  listItem.addEventListener("click", () => {
+  listItem.addEventListener('click', () => {
     updateInput(index);
-    document.getElementById("bible-submit").click();
-    suggestionsList.innerHTML = "";
+    document.getElementById('bible-submit').click();
+    suggestionsList.innerHTML = '';
   });
   return listItem;
 }
 
-bibleInput.addEventListener("input", async function () {
+bibleInput.addEventListener('input', async function () {
   const inputValue = bibleInput.value.toLowerCase();
   const inputSearch = removeAccents(inputValue);
   const books = await getBooksOfTheBible();
@@ -66,7 +66,7 @@ bibleInput.addEventListener("input", async function () {
     removeAccents(book).toLowerCase().includes(inputSearch)
   );
 
-  suggestionsList.innerHTML = "";
+  suggestionsList.innerHTML = '';
 
   filteredBooks.forEach((book, index) => {
     const listItem = createSuggestionItem(book, index);
@@ -92,14 +92,14 @@ function handleArrowUp(event) {
 
 function handleEnterKey(event) {
   event.preventDefault();
-  suggestionsList.innerHTML = "";
+  suggestionsList.innerHTML = '';
 }
 
-bibleInput.addEventListener("keydown", function (event) {
+bibleInput.addEventListener('keydown', function (event) {
   const keyHandlers = {
-    "ArrowDown": handleArrowDown,
-    "ArrowUp": handleArrowUp,
-    "Enter": handleEnterKey
+    ArrowDown: handleArrowDown,
+    ArrowUp: handleArrowUp,
+    Enter: handleEnterKey,
   };
 
   const handler = keyHandlers[event.key];

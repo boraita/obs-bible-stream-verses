@@ -1,11 +1,9 @@
-import "../../styles/cp_style.scss";
-import "../../styles/panel-dynamic-styles.scss";
-import "../../core/control_app.js";
-import "../../core/sendMessage.js";
-import "../../core/utils.js";
-import "../../core/searchBible.js";
-import "../../core/suggestBibleBooks.js";
-import "../../core/panelStyleManager.js";
-import "../../core/settings.js";
-
-
+import '../../styles/cp_style.scss';
+import '../../styles/panel-dynamic-styles.scss';
+import '../../core/control_app.js';
+import '../../core/sendMessage.js';
+import '../../core/utils.js';
+import '../../core/searchBible.js';
+import '../../core/suggestBibleBooks.js';
+import '../../core/panelStyleManager.js';
+import '../../core/settings.js';

@@ -1,4 +1,3 @@
-
 # 📖 OBS Bible Stream Verses
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -10,6 +9,7 @@ Display Bible verses beautifully in your OBS streams with an easy-to-use control
 ## 🎯 What is it?
 
 **OBS Bible Stream Verses** is a modern tool for streamers who want to display Bible passages during their broadcasts. It provides:
+
 - **Control Panel**: Custom Browser Dock for searching and selecting verses
 - **Overlay**: Browser Source that displays verses on your stream
 - **Offline**: No internet connection required
@@ -65,21 +65,23 @@ pnpm release
    - Required tables: `book`, `verse` (standard Bible database schema)
 
 2. **Copy** the file to `src/db/` folder:
+
    ```bash
    cp /path/to/BIBLE.sqlite src/db/
    ```
 
 3. **Configure** in `src/config/bibleConfig.js`:
+
    ```javascript
    export const BIBLE_CONFIG = {
      // ... existing Bibles
      newBible: {
-       name: "newBible",
-       displayName: "NB",              // Short name for UI
-       fullName: "New Bible Version",  // Full name
-       requiresTagCleaning: false,     // Set true if contains HTML tags
-       loader: () => import("../db/BIBLE.sqlite")
-     }
+       name: 'newBible',
+       displayName: 'NB', // Short name for UI
+       fullName: 'New Bible Version', // Full name
+       requiresTagCleaning: false, // Set true if contains HTML tags
+       loader: () => import('../db/BIBLE.sqlite'),
+     },
    };
    ```
 
@@ -129,6 +131,7 @@ For maintainers creating a new release:
 ## 🤝 Contributing
 
 Contributions are welcome! Whether it's:
+
 - 🐛 Bug reports
 - 💡 Feature suggestions
 - 📖 Documentation improvements
@@ -161,6 +164,7 @@ See [LICENSE](LICENSE) for details.
 ## 📜 Project History
 
 This project was originally forked from [Tosin-JD/obs-bible-plugin](https://github.com/Tosin-JD/obs-bible-plugin) but has been **completely rewritten** for version 2.0.0 with:
+
 - New Clean Code architecture
 - Performance optimization (lazy loading)
 - Centralized configuration system

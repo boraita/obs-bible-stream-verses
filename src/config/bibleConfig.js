@@ -2,54 +2,54 @@
 // Files are loaded dynamically when needed, not bundled upfront
 const BIBLE_CONFIG = {
   kdsh: {
-    name: "Kadosh Israelita",
-    displayName: "Kadosh Israelita",
-    fullName: "Kadosh Israelita Mesiánica",
+    name: 'Kadosh Israelita',
+    displayName: 'Kadosh Israelita',
+    fullName: 'Kadosh Israelita Mesiánica',
     requiresTagCleaning: false,
-    loader: () => import("../db/KDSH.sqlite")
+    loader: () => import('../db/KDSH.sqlite'),
   },
   lbla: {
-    name: "lbla",
-    displayName: "Americas",
-    fullName: "La Biblia de las Américas",
+    name: 'lbla',
+    displayName: 'Americas',
+    fullName: 'La Biblia de las Américas',
     requiresTagCleaning: true,
-    loader: () => import("../db/LBLA.sqlite")
+    loader: () => import('../db/LBLA.sqlite'),
   },
   nvi: {
-    name: "nvi",
-    displayName: "Nueva V. Inter",
-    fullName: "Nueva Versión Internacional",
+    name: 'nvi',
+    displayName: 'Nueva V. Inter',
+    fullName: 'Nueva Versión Internacional',
     requiresTagCleaning: false,
-    loader: () => import("../db/NVI.sqlite")
+    loader: () => import('../db/NVI.sqlite'),
   },
   ntv: {
-    name: "ntv",
-    displayName: "Nueva Trad. Viv.",
-    fullName: "Nueva Traducción Viviente",
+    name: 'ntv',
+    displayName: 'Nueva Trad. Viv.',
+    fullName: 'Nueva Traducción Viviente',
     requiresTagCleaning: false,
-    loader: () => import("../db/NTV.sqlite")
+    loader: () => import('../db/NTV.sqlite'),
   },
   btx: {
-    name: "btx",
-    displayName: "Textual",
-    fullName: "Biblia Textual",
+    name: 'btx',
+    displayName: 'Textual',
+    fullName: 'Biblia Textual',
     requiresTagCleaning: false,
-    loader: () => import("../db/BTX.sqlite")
+    loader: () => import('../db/BTX.sqlite'),
   },
   tla: {
-    name: "tla",
-    displayName: "Lenguaje actual",
-    fullName: "Biblia Lenguaje actual",
+    name: 'tla',
+    displayName: 'Lenguaje actual',
+    fullName: 'Biblia Lenguaje actual',
     requiresTagCleaning: false,
-    loader: () => import("../db/TLA.sqlite")
+    loader: () => import('../db/TLA.sqlite'),
   },
   rvr60: {
-    name: "rvr60",
-    displayName: "Reina Valera 60",
-    fullName: "Reina Valera 1960",
+    name: 'rvr60',
+    displayName: 'Reina Valera 60',
+    fullName: 'Reina Valera 1960',
     requiresTagCleaning: false,
-    loader: () => import("../db/RVR60.sqlite")
-  }
+    loader: () => import('../db/RVR60.sqlite'),
+  },
 };
 
 export function getBibleList() {
@@ -71,7 +71,7 @@ export function requiresTagCleaning(code) {
 export async function getBibleFile(code) {
   const config = BIBLE_CONFIG[code];
   if (!config?.loader) return null;
-  
+
   const module = await config.loader();
   return module.default;
 }
@@ -83,7 +83,7 @@ export function getBibleLoader(code) {
 export function getBibleOptions() {
   return Object.entries(BIBLE_CONFIG).map(([code, config]) => ({
     value: code,
-    label: config.displayName
+    label: config.displayName,
   }));
 }
 
@@ -91,9 +91,9 @@ export function getBibleOptions() {
 // Note: file is loaded lazily via loader function
 export function getBibleMap() {
   return Object.keys(BIBLE_CONFIG).reduce((map, key) => {
-    map[key] = { 
-      loader: BIBLE_CONFIG[key].loader, 
-      name: BIBLE_CONFIG[key].name 
+    map[key] = {
+      loader: BIBLE_CONFIG[key].loader,
+      name: BIBLE_CONFIG[key].name,
     };
     return map;
   }, {});

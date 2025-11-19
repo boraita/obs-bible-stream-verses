@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Build output
+dist/
+*.js.map
+
+# Database files
+*.sqlite
+
+# Libraries
+src/lib/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.min.js
+*.min.css
+
+# Documentation
+CHANGELOG.md

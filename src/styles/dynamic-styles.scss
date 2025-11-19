@@ -9,7 +9,7 @@
     opacity: 1;
     display: flex;
     white-space: pre-wrap;
-    word-wrap: normal;
+    overflow-wrap: normal;
     overflow-wrap: normal;
     hyphens: none;
     word-break: normal;
@@ -35,7 +35,7 @@
 
 .title-span-base {
     /* Estilos base del título */
-    color: #ffffff;
+    color: #fff;
 }
 
 .title-span-with-background {
@@ -79,6 +79,6 @@
    ======================================== */
 
 .message-word-wrap-enabled {
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow-wrap: break-word;
 }

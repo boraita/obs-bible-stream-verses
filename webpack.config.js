@@ -1,22 +1,22 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const path = require("path");
-const buildPath = path.resolve(__dirname, "dist");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const path = require('path');
+const buildPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    browser: "./src/public/browser/browser.ts",
-    panel: "./src/public/panel/panel.ts",
+    browser: './src/public/browser/browser.ts',
+    panel: './src/public/panel/panel.ts',
   },
   output: {
-    filename: "[name].js",
+    filename: '[name].js',
     path: buildPath,
-    chunkFilename: "[name].[contenthash:8].js",
-    clean: true, // Clean dist folder before each build
+    chunkFilename: '[name].[contenthash:8].js',
+    clean: true,
   },
   performance: {
-    hints: false, // Disable performance hints for large chunks
+    hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
@@ -24,13 +24,12 @@ module.exports = {
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
-        // Separate SQL.js library
         sqljs: {
           test: /[\\/]src[\\/]lib[\\/]sql-asm\.js$/,
           name: 'sql-library',
           priority: 20,
         },
-        // Bible database chunks (already handled by dynamic imports)
+
         bibles: {
           test: /[\\/]src[\\/]db[\\/].*\.sqlite$/,
           name: (module) => {
@@ -39,15 +38,15 @@ module.exports = {
           },
           priority: 10,
         },
-        // Exclude vendors chunk - inline everything
+
         default: false,
         defaultVendors: false,
       },
     },
-    runtimeChunk: 'single', // Separate runtime code
-    moduleIds: 'deterministic', // Better for long-term caching
+    runtimeChunk: 'single',
+    moduleIds: 'deterministic',
   },
-    resolve: {
+  resolve: {
     fallback: {
       fs: false,
       path: false,
@@ -58,39 +57,39 @@ module.exports = {
     rules: [
       {
         test: /\.sqlite$/i,
-        use: "arraybuffer-loader",
+        use: 'arraybuffer-loader',
       },
       {
         test: /strings\.json$/,
-        use: ["webpack-json-access-optimizer"],
-        type: "json",
+        use: ['webpack-json-access-optimizer'],
+        type: 'json',
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: [
               [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
                   targets: {
-                    chrome: "88", // OBS Browser uses Chromium
+                    chrome: '88',
                   },
-                  modules: false, // Let webpack handle modules
+                  modules: false,
                 },
               ],
             ],
-            cacheDirectory: true, // Cache babel compilations
+            cacheDirectory: true,
           },
         },
       },
@@ -110,32 +109,38 @@ module.exports = {
     new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       hash: true,
-      title: "Browser source",
-      template: "./src/public/browser/index.html",
-      filename: "./browser.html",
-      chunks: ["browser", "runtime"],
+      title: 'Browser source',
+      template: './src/public/browser/index.html',
+      filename: './browser.html',
+      chunks: ['browser', 'runtime'],
       inject: true,
-      minify: process.env.NODE_ENV === "production" ? {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-      } : false,
+      minify:
+        process.env.NODE_ENV === 'production'
+          ? {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+            }
+          : false,
     }),
     new HtmlWebpackPlugin({
       hash: true,
-      title: "Control panel",
-      template: "./src/public/panel/index.html",
-      filename: "./panel.html",
-      chunks: ["panel", "runtime"],
+      title: 'Control panel',
+      template: './src/public/panel/index.html',
+      filename: './panel.html',
+      chunks: ['panel', 'runtime'],
       inject: true,
-      minify: process.env.NODE_ENV === "production" ? {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-      } : false,
+      minify:
+        process.env.NODE_ENV === 'production'
+          ? {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+            }
+          : false,
     }),
   ],
-  devtool: process.env.NODE_ENV === "production" ? false : "eval-source-map",
+  devtool: process.env.NODE_ENV === 'production' ? false : 'eval-source-map',
   devServer: {
     static: {
       directory: buildPath,
