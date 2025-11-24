@@ -4,20 +4,17 @@
  */
 
 export const OBS_WEBSOCKET_CONFIG = {
-
   host: 'localhost',
   port: 4455,
   password: '',
-  
 
   reconnectInterval: 5000,
   maxReconnectAttempts: 5,
-  
 
   downstreamKeyer: {
     enabled: true,
     sourceNamePrefix: 'DSK',
-  }
+  },
 };
 
 /**
@@ -35,7 +32,7 @@ export function loadWebSocketConfig() {
   const savedHost = localStorage.getItem('obsWebSocketHost');
   const savedPort = localStorage.getItem('obsWebSocketPort');
   const savedPassword = localStorage.getItem('obsWebSocketPassword');
-  
+
   if (savedHost) OBS_WEBSOCKET_CONFIG.host = savedHost;
   if (savedPort) OBS_WEBSOCKET_CONFIG.port = parseInt(savedPort, 10);
   if (savedPassword) OBS_WEBSOCKET_CONFIG.password = savedPassword;
@@ -48,7 +45,7 @@ export function saveWebSocketConfig(host, port, password) {
   localStorage.setItem('obsWebSocketHost', host);
   localStorage.setItem('obsWebSocketPort', port.toString());
   localStorage.setItem('obsWebSocketPassword', password);
-  
+
   OBS_WEBSOCKET_CONFIG.host = host;
   OBS_WEBSOCKET_CONFIG.port = port;
   OBS_WEBSOCKET_CONFIG.password = password;

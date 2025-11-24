@@ -1,8 +1,8 @@
-import { processVerseText } from "../api/getData.js";
-import { getBibleMap } from "../config/bibleConfig.js";
+import { processVerseText } from '../api/getData.js';
+import { getBibleMap } from '../config/bibleConfig.js';
 
-const messageChannel = new BroadcastChannel("myChannel");
-const historyButton = document.getElementById("history");
+const messageChannel = new BroadcastChannel('myChannel');
+const historyButton = document.getElementById('history');
 const CLICK_DEBOUNCE_MS = 300;
 const BIBLE_MAP = getBibleMap();
 
@@ -13,22 +13,22 @@ let verseHistory = [];
  * Font size will be pre-calculated automatically on receive
  */
 function sendFreeTextMessage() {
-  const message = document.getElementById("messageInput").value;
+  const message = document.getElementById('messageInput').value;
   messageChannel.postMessage(message);
   console.log('📤 Free text sent (font size will be pre-calculated)');
 }
 
-const sendButton = document.getElementById("sendButton");
+const sendButton = document.getElementById('sendButton');
 if (sendButton) {
-  sendButton.addEventListener("click", sendFreeTextMessage);
+  sendButton.addEventListener('click', sendFreeTextMessage);
 }
 
 /**
  * Handles keyboard shortcut for sending message (Ctrl + ArrowDown)
  */
 function handleKeyboardShortcut(event) {
-  if (event.ctrlKey && event.code === "ArrowDown") {
-    const message = document.getElementById("messageInput").value;
+  if (event.ctrlKey && event.code === 'ArrowDown') {
+    const message = document.getElementById('messageInput').value;
     messageChannel.postMessage(message);
   }
 }
@@ -37,13 +37,13 @@ function handleKeyboardShortcut(event) {
  * Creates HTML list from input and sends to browser overlay
  */
 function sendListMessage() {
-  const listTitle = document.getElementById("listTitle").value;
-  const listItems = document.getElementById("listItems").value;
-  const itemsArray = listItems.split("\n");
+  const listTitle = document.getElementById('listTitle').value;
+  const listItems = document.getElementById('listItems').value;
+  const itemsArray = listItems.split('\n');
 
-  const listElement = document.createElement("ul");
+  const listElement = document.createElement('ul');
   itemsArray.forEach((itemText) => {
-    const listItem = document.createElement("li");
+    const listItem = document.createElement('li');
     listItem.textContent = itemText;
     listElement.appendChild(listItem);
   });
@@ -53,27 +53,27 @@ function sendListMessage() {
   console.log('📤 List sent (font size will be pre-calculated)');
 }
 
-document.getElementById("sendList").addEventListener("click", sendListMessage);
-document.addEventListener("keyup", handleKeyboardShortcut, false);
+document.getElementById('sendList').addEventListener('click', sendListMessage);
+document.addEventListener('keyup', handleKeyboardShortcut, false);
 
 /**
  * Updates visual selection state of verses in the panel
  * Highlights the selected verse and deselects all others
  */
 function updateVerseSelection(selectedVerse, selectedIndex) {
-  const bibleVerseContainer = document.getElementById("bible-verse");
-  const allVerses = bibleVerseContainer.querySelectorAll("p");
-  
+  const bibleVerseContainer = document.getElementById('bible-verse');
+  const allVerses = bibleVerseContainer.querySelectorAll('p');
+
   allVerses.forEach((verse, index) => {
     verse.classList.remove('selected');
     if (index !== selectedIndex) {
-      verse.style.backgroundColor = "#222222";
+      verse.style.backgroundColor = '#222222';
     }
   });
-  
+
   selectedVerse.classList.add('selected');
-  selectedVerse.style.backgroundColor = "#222255";
-  
+  selectedVerse.style.backgroundColor = '#222255';
+
   console.log(`✨ Verse selected: ${selectedVerse.id}`);
 }
 
@@ -83,31 +83,30 @@ function updateVerseSelection(selectedVerse, selectedIndex) {
  */
 function displayBible(verse, index) {
   let lastClickTime = 0;
-  
-  verse.addEventListener("click", (event) => {
+
+  verse.addEventListener('click', (event) => {
     const currentTime = Date.now();
     if (currentTime - lastClickTime < CLICK_DEBOUNCE_MS) {
       console.log('⏭️ Click ignored (too rapid)');
       return;
     }
     lastClickTime = currentTime;
-    
-    const clickedVerse = event.target.tagName === "P" ? event.target : event.target.closest('p');
-    
+
+    const clickedVerse = event.target.tagName === 'P' ? event.target : event.target.closest('p');
+
     if (!clickedVerse) return;
-    
+
     console.log(`📖 Verse selected: ${clickedVerse.id}`);
-    
+
     const bibleVersionSelect = document.getElementById('bible-version');
     const versionCode = bibleVersionSelect ? bibleVersionSelect.value.toLowerCase() : '';
-    const versionName = versionCode && BIBLE_MAP[versionCode] 
-      ? BIBLE_MAP[versionCode].name.toUpperCase() 
-      : '';
-    
+    const versionName =
+      versionCode && BIBLE_MAP[versionCode] ? BIBLE_MAP[versionCode].name.toUpperCase() : '';
+
     const titleSpan = clickedVerse.querySelector('span');
     const verseTextDiv = clickedVerse.querySelector('.verse-text');
     const title = titleSpan ? titleSpan.textContent : '';
-    
+
     let verseText = '';
     if (verseTextDiv) {
       verseText = verseTextDiv.textContent;
@@ -135,11 +134,11 @@ function displayBible(verse, index) {
 
     addToHistory(clickedVerse.id, messageHtml);
   });
-  
+
   verse.setAttribute('role', 'button');
   verse.setAttribute('tabindex', '0');
   verse.setAttribute('aria-label', `Select verse ${verse.textContent.substring(0, 50)}...`);
-  
+
   verse.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -153,10 +152,10 @@ function displayBible(verse, index) {
  */
 function addToHistory(verseName, verseText) {
   const MAX_HISTORY_SIZE = 20;
-  
-  verseHistory.push({ 
-    name: verseName, 
-    verse: verseText 
+
+  verseHistory.push({
+    name: verseName,
+    verse: verseText,
   });
 
   if (verseHistory.length > MAX_HISTORY_SIZE) {
@@ -168,11 +167,11 @@ function addToHistory(verseName, verseText) {
  * Displays verse history when history button is clicked
  */
 function showHistory() {
-  const verseContainer = document.getElementById("bible-verse");
-  verseContainer.innerHTML = "";
-  
+  const verseContainer = document.getElementById('bible-verse');
+  verseContainer.innerHTML = '';
+
   verseHistory.forEach((entry, index) => {
-    const verseElement = document.createElement("p");
+    const verseElement = document.createElement('p');
     verseElement.id = entry.name;
     verseElement.innerHTML = entry.verse;
     verseContainer.appendChild(verseElement);
@@ -180,8 +179,6 @@ function showHistory() {
   });
 }
 
-
-
-historyButton.addEventListener("click", showHistory);
+historyButton.addEventListener('click', showHistory);
 
 export { displayBible };

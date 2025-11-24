@@ -1,12 +1,12 @@
-import { processVerseText } from "../api/getData.js";
+import { processVerseText } from '../api/getData.js';
 
-const containerElement = document.getElementById("bg-container");
-const messageDisplay = document.getElementById("messageDisplay");
+const containerElement = document.getElementById('bg-container');
+const messageDisplay = document.getElementById('messageDisplay');
 
-const messageChannel = new BroadcastChannel("myChannel");
-const visibilityChannel = new BroadcastChannel("bgContent");
-const settingsChannel = new BroadcastChannel("settings");
-const fontAdjustChannel = new BroadcastChannel("adjustFont");
+const messageChannel = new BroadcastChannel('myChannel');
+const visibilityChannel = new BroadcastChannel('bgContent');
+const settingsChannel = new BroadcastChannel('settings');
+const fontAdjustChannel = new BroadcastChannel('adjustFont');
 
 const DEFAULT_PADDING = 0;
 const DEFAULT_TITLE_PADDING = 60;
@@ -14,7 +14,7 @@ const TITLE_STROKE_WIDTH = '1.5px';
 
 function setTitleStroke(span, enabled) {
   if (!span) return;
-  
+
   if (enabled) {
     const strokeColor = localStorage.getItem('titleColor') || '#ffffff';
     span.style.webkitTextStroke = `${TITLE_STROKE_WIDTH} ${strokeColor}`;
@@ -27,11 +27,13 @@ function setTitleStroke(span, enabled) {
 
 function updateMessagePadding() {
   if (!messageDisplay) return;
-  
+
   const storedPadding = parseInt(localStorage.getItem('containerPadding') || DEFAULT_PADDING, 10);
   const paddingValue = isNaN(storedPadding) ? DEFAULT_PADDING : storedPadding;
   const hasTitle = messageDisplay.classList.contains('message-with-title');
-  const topPadding = hasTitle ? Math.max(paddingValue, DEFAULT_TITLE_PADDING) : Math.max(paddingValue, DEFAULT_PADDING);
+  const topPadding = hasTitle
+    ? Math.max(paddingValue, DEFAULT_TITLE_PADDING)
+    : Math.max(paddingValue, DEFAULT_PADDING);
 
   messageDisplay.style.paddingLeft = `${paddingValue}px`;
   messageDisplay.style.paddingRight = `${paddingValue}px`;
@@ -46,9 +48,9 @@ function updateMessagePadding() {
  */
 function applyTextEffectToContent(styleProperty, value) {
   messageDisplay.style[styleProperty] = value;
-  
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     if (styleProperty === 'textShadow') {
       const titleShadowEnabled = localStorage.getItem('titleShadow') === 'true';
       if (titleShadowEnabled) {
@@ -71,39 +73,39 @@ function applyTextEffectToContent(styleProperty, value) {
  * Applies all title configuration settings to span elements
  */
 function applyTitleConfiguration() {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
   const strokeEnabled = localStorage.getItem('titleBoxStroke') !== 'false';
-  
-  titleSpans.forEach(span => {
+
+  titleSpans.forEach((span) => {
     const titleX = localStorage.getItem('titlePositionX') || '10';
     const titleY = localStorage.getItem('titlePositionY') || '10';
     span.style.left = `${titleX}px`;
     span.style.top = `${titleY}px`;
-    
+
     const titleColor = localStorage.getItem('titleColor') || '#ffffff';
     span.style.color = titleColor;
-    
+
     if (span.classList.contains('title-with-box')) {
       setTitleStroke(span, strokeEnabled);
     } else {
       setTitleStroke(span, false);
     }
-    
+
     const titleFontSize = localStorage.getItem('titleFontSize');
     if (titleFontSize) {
       span.style.fontSize = `${titleFontSize}px`;
     }
-    
+
     const titleFontWeight = localStorage.getItem('titleFontWeight');
     if (titleFontWeight) {
       span.style.fontWeight = titleFontWeight;
     }
-    
+
     const titleSpacing = localStorage.getItem('titleSpacing');
     if (titleSpacing) {
       span.style.letterSpacing = `${titleSpacing}px`;
     }
-    
+
     const titleShadowEnabled = localStorage.getItem('titleShadow') === 'true';
     if (titleShadowEnabled) {
       const shadowColor = localStorage.getItem('titleShadowColor') || '#000000';
@@ -119,15 +121,15 @@ function applyTitleConfiguration() {
 function applyTitleBoxState() {
   const titleBoxEnabled = localStorage.getItem('titleBoxEnabled') === 'true';
   const alignment = localStorage.getItem('titleAlignment') || 'left';
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+
   if (titleBoxEnabled) {
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.classList.add('title-with-box');
       applyTitleBoxStyles(span);
     });
   } else {
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.classList.add(`title-align-${alignment}`);
       setTitleStroke(span, false);
     });
@@ -139,15 +141,13 @@ function applyTitleBoxState() {
  * This is the main message receiver for verse display
  */
 messageChannel.onmessage = (event) => {
-  const message = typeof event.data === 'string' 
-    ? processVerseText(event.data) 
-    : event.data;
-  
+  const message = typeof event.data === 'string' ? processVerseText(event.data) : event.data;
+
   console.log('📨 Message received, pre-calculating font size...');
-  
+
   const hasTitle = message.includes('<span>');
   let calculatedFontSize = null;
-  
+
   if (window.preCalculateFontSize && containerElement) {
     const analysis = window.preCalculateFontSize(
       message,
@@ -158,9 +158,9 @@ messageChannel.onmessage = (event) => {
     calculatedFontSize = analysis.fontSize;
     console.log(`✅ Pre-calculated: ${calculatedFontSize}px (before DOM injection)`);
   }
-  
+
   messageDisplay.innerHTML = '';
-  
+
   if (calculatedFontSize) {
     messageDisplay.style.fontSize = `${calculatedFontSize}px`;
     console.log(`🎨 fontSize applied BEFORE injection: ${calculatedFontSize}px`);
@@ -168,25 +168,24 @@ messageChannel.onmessage = (event) => {
     messageDisplay.style.fontSize = '';
     messageDisplay.style.removeProperty('font-size');
   }
-  
+
   messageDisplay.innerHTML = message;
   console.log('✅ Content injected with pre-calculated size (no flash)');
-  
+
   localStorage.setItem('savedMessage', message);
 
   applyTitleConfiguration();
   applyTitleBoxState();
-  
+
   updateMessagePadding();
 
   messageDisplay.style.visibility = 'visible';
   messageDisplay.style.opacity = '1';
-  
+
   console.log('✅ Text received with pre-calculated size');
 };
 
 settingsChannel.onmessage = (event) => {
-
   switch (Object.keys(event.data)?.[0]) {
     case 'selectedFont':
       const selectedFont = event.data['selectedFont'];
@@ -206,7 +205,7 @@ settingsChannel.onmessage = (event) => {
       break;
     case 'roundedCorner':
       const roundedCorner = event.data['roundedCorner'];
-      containerElement.style.borderRadius = roundedCorner + "px";
+      containerElement.style.borderRadius = roundedCorner + 'px';
       localStorage.setItem('borderRadius', roundedCorner);
       break;
     case 'selectedBgColor':
@@ -225,9 +224,9 @@ settingsChannel.onmessage = (event) => {
       break;
     case 'selectedTitleColor':
       const selectedTitleColor = event.data['selectedTitleColor'];
-      const spans = document.querySelectorAll("#messageDisplay span");
+      const spans = document.querySelectorAll('#messageDisplay span');
       const strokeEnabledFromColor = localStorage.getItem('titleBoxStroke') !== 'false';
-      spans.forEach(span => {
+      spans.forEach((span) => {
         span.style.color = selectedTitleColor;
         if (span.classList.contains('title-with-box')) {
           setTitleStroke(span, strokeEnabledFromColor);
@@ -237,8 +236,8 @@ settingsChannel.onmessage = (event) => {
       break;
     case 'titleAlignment':
       const alignment = event.data['titleAlignment'];
-      const allSpans = document.querySelectorAll("#messageDisplay span");
-      allSpans.forEach(span => {
+      const allSpans = document.querySelectorAll('#messageDisplay span');
+      allSpans.forEach((span) => {
         if (!span.classList.contains('title-with-box')) {
           span.classList.remove('title-align-left', 'title-align-center', 'title-align-right');
           span.classList.add(`title-align-${alignment}`);
@@ -249,8 +248,8 @@ settingsChannel.onmessage = (event) => {
       break;
     case 'titleBoxEnabled':
       const titleBoxEnabled = event.data['titleBoxEnabled'];
-      const titleSpans = document.querySelectorAll("#messageDisplay span");
-      titleSpans.forEach(span => {
+      const titleSpans = document.querySelectorAll('#messageDisplay span');
+      titleSpans.forEach((span) => {
         if (titleBoxEnabled) {
           span.classList.add('title-with-box');
           span.classList.remove('title-align-left', 'title-align-center', 'title-align-right');
@@ -268,7 +267,7 @@ settingsChannel.onmessage = (event) => {
       localStorage.setItem('titleBoxEnabled', titleBoxEnabled);
       updateMessagePadding();
       break;
-    
+
     case 'titleBoxSize':
       updateTitleBoxSize(event.data['titleBoxSize']);
       break;
@@ -302,7 +301,7 @@ settingsChannel.onmessage = (event) => {
     case 'titleBoxBlur':
       updateTitleBoxBlur(event.data['titleBoxBlur']);
       break;
-    
+
     case 'titleShow':
       updateTitleShow(event.data['titleShow']);
       break;
@@ -359,24 +358,23 @@ settingsChannel.onmessage = (event) => {
       messageDisplay.style.textAlign = selectedTextAlignment;
       localStorage.setItem('textAlign', selectedTextAlignment);
       break;
-    
-    
+
     case 'backgroundType':
       const backgroundType = event.data['backgroundType'];
       localStorage.setItem('backgroundType', backgroundType);
       break;
-      
+
     case 'backgroundGradient':
       const backgroundGradient = event.data['backgroundGradient'];
       containerElement.style.background = backgroundGradient;
       localStorage.setItem('backgroundGradient', backgroundGradient);
       break;
-      
+
     case 'gradientColor2':
       const gradientColor2 = event.data['gradientColor2'];
       localStorage.setItem('gradientColor2', gradientColor2);
       break;
-      
+
     case 'textGradient':
       const textGradient = event.data['textGradient'];
       if (textGradient) {
@@ -394,7 +392,7 @@ settingsChannel.onmessage = (event) => {
         localStorage.removeItem('textGradient');
       }
       break;
-      
+
     case 'textShadow':
       const textShadow = event.data['textShadow'];
       if (textShadow === 'none') {
@@ -405,7 +403,7 @@ settingsChannel.onmessage = (event) => {
         localStorage.setItem('textShadow', textShadow);
       }
       break;
-      
+
     case 'textStroke':
       const textStroke = event.data['textStroke'];
       if (textStroke) {
@@ -420,7 +418,7 @@ settingsChannel.onmessage = (event) => {
         localStorage.removeItem('textStroke');
       }
       break;
-      
+
     case 'textGlow':
       const textGlow = event.data['textGlow'];
       if (textGlow) {
@@ -434,7 +432,7 @@ settingsChannel.onmessage = (event) => {
         localStorage.removeItem('textGlow');
       }
       break;
-      
+
     case 'containerPadding':
       const containerPadding = event.data['containerPadding'];
       localStorage.setItem('containerPadding', containerPadding);
@@ -448,17 +446,24 @@ settingsChannel.onmessage = (event) => {
       localStorage.setItem('containerMargin', containerMargin);
       console.log('✅ Margin updated:', containerMargin);
       break;
-      
+
     case 'textAnimation':
       const textAnimation = event.data['textAnimation'];
       const animationDuration = event.data['animationDuration'] || '1s';
-      
-      messageDisplay.classList.remove('fade-in', 'slide-in-left', 'slide-in-right', 
-                                     'slide-in-top', 'slide-in-bottom', 'zoom-in', 'typewriter');
-      
+
+      messageDisplay.classList.remove(
+        'fade-in',
+        'slide-in-left',
+        'slide-in-right',
+        'slide-in-top',
+        'slide-in-bottom',
+        'zoom-in',
+        'typewriter'
+      );
+
       if (textAnimation && textAnimation !== 'none') {
         messageDisplay.style.animationDuration = animationDuration;
-        
+
         switch (textAnimation) {
           case 'fadeIn':
             messageDisplay.classList.add('fade-in');
@@ -483,7 +488,7 @@ settingsChannel.onmessage = (event) => {
             break;
         }
       }
-      
+
       localStorage.setItem('textAnimation', textAnimation);
       localStorage.setItem('animationDuration', animationDuration);
       break;
@@ -526,7 +531,7 @@ function applyTitleBoxStyles(titleSpan) {
     borderColor: localStorage.getItem('titleBoxBorderColor') || '#000000',
     radius: localStorage.getItem('titleBoxRadius') || '6',
     blur: localStorage.getItem('titleBoxBlur') !== 'false',
-    stroke: localStorage.getItem('titleBoxStroke') !== 'false'
+    stroke: localStorage.getItem('titleBoxStroke') !== 'false',
   };
 
   titleSpan.classList.remove('size-small', 'size-medium', 'size-large');
@@ -568,8 +573,8 @@ function applyTitleBoxStyles(titleSpan) {
 }
 
 function updateTitleBoxSize(size) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     span.classList.remove('size-small', 'size-medium', 'size-large');
     if (size !== 'custom') {
       span.classList.add(`size-${size}`);
@@ -580,10 +585,10 @@ function updateTitleBoxSize(size) {
 }
 
 function updateTitleBoxPadding(padding) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
   const size = localStorage.getItem('titleBoxSize');
   if (size === 'custom') {
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.style.padding = `${padding}px ${parseInt(padding) * 1.5}px`;
     });
   }
@@ -591,18 +596,18 @@ function updateTitleBoxPadding(padding) {
 }
 
 function updateTitleBoxFullWidth(fullWidth) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     if (fullWidth) {
       span.classList.add('full-width');
       applyFullWidthStyles(span);
     } else {
       span.classList.remove('full-width');
-      
+
       span.style.transform = '';
       span.style.width = '';
       span.style.borderLeft = '';
-      
+
       const radius = localStorage.getItem('titleBoxRadius') || '6';
       span.style.borderRadius = `${radius}px`;
     }
@@ -611,16 +616,16 @@ function updateTitleBoxFullWidth(fullWidth) {
 }
 
 function updateTitleBoxWidth(width) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box.full-width");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box.full-width');
+  titleSpans.forEach((span) => {
     applyFullWidthStyles(span);
   });
   localStorage.setItem('titleBoxWidth', width);
 }
 
 function applyFullWidthStyles(span) {
-
-  const currentLeft = parseInt(span.style.left) || parseInt(localStorage.getItem('titlePositionX')) || 10;
+  const currentLeft =
+    parseInt(span.style.left) || parseInt(localStorage.getItem('titlePositionX')) || 10;
 
   const widthPercent = parseInt(localStorage.getItem('titleBoxWidth')) || 100;
 
@@ -633,7 +638,7 @@ function applyFullWidthStyles(span) {
   span.style.borderLeft = 'none';
   span.style.borderRadius = '0';
   span.style.textAlign = titleAlignment;
-  
+
   console.log(`📐 Full-width title: alignment ${titleAlignment}`);
 }
 
@@ -641,8 +646,8 @@ function updateTitleBoxColor(color) {
   const opacity = localStorage.getItem('titleBoxOpacity') || '70';
   const bgColor = hexToRgba(color, opacity / 100);
   const strokeEnabled = localStorage.getItem('titleBoxStroke') !== 'false';
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     span.style.backgroundColor = bgColor;
     setTitleStroke(span, strokeEnabled);
   });
@@ -653,8 +658,8 @@ function updateTitleBoxOpacity(opacity) {
   const color = localStorage.getItem('titleBoxColor') || '#000000';
   const bgColor = hexToRgba(color, opacity / 100);
   const strokeEnabled = localStorage.getItem('titleBoxStroke') !== 'false';
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     span.style.backgroundColor = bgColor;
     setTitleStroke(span, strokeEnabled);
   });
@@ -663,8 +668,8 @@ function updateTitleBoxOpacity(opacity) {
 
 function updateTitleBoxBorder(border) {
   const borderColor = localStorage.getItem('titleBoxBorderColor') || '#000000';
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     if (border > 0) {
       span.style.border = `${border}px solid ${borderColor}`;
     } else {
@@ -676,8 +681,8 @@ function updateTitleBoxBorder(border) {
 
 function updateTitleBoxBorderColor(color) {
   const border = localStorage.getItem('titleBoxBorder') || '1';
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     if (border > 0) {
       span.style.border = `${border}px solid ${color}`;
     }
@@ -688,8 +693,8 @@ function updateTitleBoxBorderColor(color) {
 function updateTitleBoxRadius(radius) {
   const fullWidth = localStorage.getItem('titleBoxFullWidth') === 'true';
   if (!fullWidth) {
-    const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-    titleSpans.forEach(span => {
+    const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+    titleSpans.forEach((span) => {
       span.style.borderRadius = `${radius}px`;
     });
   }
@@ -697,8 +702,8 @@ function updateTitleBoxRadius(radius) {
 }
 
 function updateTitleBoxBlur(blur) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     if (blur) {
       span.style.backdropFilter = 'blur(5px)';
     } else {
@@ -709,15 +714,15 @@ function updateTitleBoxBlur(blur) {
 }
 
 function updateTitleBoxStroke(enabled) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span.title-with-box");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span.title-with-box');
+  titleSpans.forEach((span) => {
     setTitleStroke(span, enabled);
   });
   localStorage.setItem('titleBoxStroke', enabled);
 }
 
 function updateTitleShow(show) {
-  const messageDisplay = document.getElementById("messageDisplay");
+  const messageDisplay = document.getElementById('messageDisplay');
   if (messageDisplay) {
     messageDisplay.style.display = show ? 'block' : 'none';
   }
@@ -725,55 +730,55 @@ function updateTitleShow(show) {
 }
 
 function updateTitleFontSize(fontSize) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     span.style.fontSize = `${fontSize}px`;
   });
   localStorage.setItem('titleFontSize', fontSize);
 }
 
 function updateTitlePositionX(positionX) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     span.style.left = `${positionX}px`;
   });
   localStorage.setItem('titlePositionX', positionX);
 }
 
 function updateTitlePositionY(positionY) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     span.style.top = `${positionY}px`;
   });
   localStorage.setItem('titlePositionY', positionY);
 }
 
 function updateTitleSpacing(spacing) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     span.style.letterSpacing = `${spacing}px`;
   });
   localStorage.setItem('titleSpacing', spacing);
 }
 
 function updateTitleFontWeight(fontWeight) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  titleSpans.forEach(span => {
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+  titleSpans.forEach((span) => {
     span.style.fontWeight = fontWeight;
   });
   localStorage.setItem('titleFontWeight', fontWeight);
 }
 
 function updateTitleShadow(shadow) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
   if (shadow) {
     const shadowColor = localStorage.getItem('titleShadowColor') || '#000000';
     const shadowSize = localStorage.getItem('titleShadowSize') || '2';
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.style.textShadow = `${shadowSize}px ${shadowSize}px 4px ${shadowColor}`;
     });
   } else {
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.style.textShadow = 'none';
     });
   }
@@ -784,8 +789,8 @@ function updateTitleShadowColor(color) {
   const shadow = localStorage.getItem('titleShadow') === 'true';
   if (shadow) {
     const shadowSize = localStorage.getItem('titleShadowSize') || '2';
-    const titleSpans = document.querySelectorAll("#messageDisplay span");
-    titleSpans.forEach(span => {
+    const titleSpans = document.querySelectorAll('#messageDisplay span');
+    titleSpans.forEach((span) => {
       span.style.textShadow = `${shadowSize}px ${shadowSize}px 4px ${color}`;
     });
   }
@@ -796,8 +801,8 @@ function updateTitleShadowSize(size) {
   const shadow = localStorage.getItem('titleShadow') === 'true';
   if (shadow) {
     const shadowColor = localStorage.getItem('titleShadowColor') || '#000000';
-    const titleSpans = document.querySelectorAll("#messageDisplay span");
-    titleSpans.forEach(span => {
+    const titleSpans = document.querySelectorAll('#messageDisplay span');
+    titleSpans.forEach((span) => {
       span.style.textShadow = `${size}px ${size}px 4px ${shadowColor}`;
     });
   }
@@ -805,20 +810,20 @@ function updateTitleShadowSize(size) {
 }
 
 function updateTitleStroke(enabled) {
-  const titleSpans = document.querySelectorAll("#messageDisplay span");
-  
+  const titleSpans = document.querySelectorAll('#messageDisplay span');
+
   if (enabled) {
     const strokeColor = localStorage.getItem('titleStrokeColor') || '#000000';
     const strokeWidth = localStorage.getItem('titleStrokeWidth') || '1';
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.style.webkitTextStroke = `${strokeWidth}px ${strokeColor}`;
     });
   } else {
-    titleSpans.forEach(span => {
+    titleSpans.forEach((span) => {
       span.style.webkitTextStroke = 'none';
     });
   }
-  
+
   localStorage.setItem('titleStroke', enabled);
 }
 
@@ -826,8 +831,8 @@ function updateTitleStrokeColor(color) {
   const strokeEnabled = localStorage.getItem('titleStroke') === 'true';
   if (strokeEnabled) {
     const strokeWidth = localStorage.getItem('titleStrokeWidth') || '1';
-    const titleSpans = document.querySelectorAll("#messageDisplay span");
-    titleSpans.forEach(span => {
+    const titleSpans = document.querySelectorAll('#messageDisplay span');
+    titleSpans.forEach((span) => {
       span.style.webkitTextStroke = `${strokeWidth}px ${color}`;
     });
   }
@@ -838,8 +843,8 @@ function updateTitleStrokeWidth(width) {
   const strokeEnabled = localStorage.getItem('titleStroke') === 'true';
   if (strokeEnabled) {
     const strokeColor = localStorage.getItem('titleStrokeColor') || '#000000';
-    const titleSpans = document.querySelectorAll("#messageDisplay span");
-    titleSpans.forEach(span => {
+    const titleSpans = document.querySelectorAll('#messageDisplay span');
+    titleSpans.forEach((span) => {
       span.style.webkitTextStroke = `${width}px ${strokeColor}`;
     });
   }
@@ -865,7 +870,7 @@ function initializeBrowserState() {
     containerElement.style.display = 'none';
     console.log('🔒 Browser overlay initialized as hidden');
   }
-  
+
   if (messageDisplay) {
     messageDisplay.innerHTML = '';
     console.log('🧹 Message display cleared');
@@ -878,9 +883,9 @@ if (document.readyState === 'loading') {
   initializeBrowserState();
 }
 
-export { 
-  messageChannel as channel, 
-  visibilityChannel as bgContent, 
-  settingsChannel, 
-  fontAdjustChannel as adjustFontChannel 
+export {
+  messageChannel as channel,
+  visibilityChannel as bgContent,
+  settingsChannel,
+  fontAdjustChannel as adjustFontChannel,
 };

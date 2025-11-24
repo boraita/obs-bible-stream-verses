@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,10 +10,7 @@
       <div class="tab-item">
         <div id="text" class="tab-area" style="display: none">
           <div class="container">
-            <textarea
-              id="messageInput"
-              placeholder="Type a message"
-            ></textarea>
+            <textarea id="messageInput" placeholder="Type a message"></textarea>
             <button id="sendButton">Show text</button>
           </div>
         </div>
@@ -21,10 +18,7 @@
           <div class="container">
             <div class="bible-search">
               <div class="input-suggest">
-                <input
-                  id="bible-input"
-                  placeholder="Psalm 1:1 or any verse content"
-                />
+                <input id="bible-input" placeholder="Psalm 1:1 or any verse content" />
                 <div id="suggestions"></div>
               </div>
               <select class="select-bible-version" id="bible-version">
@@ -39,23 +33,14 @@
               </div>
             </div>
             <div class="handle-container-button">
-              <button id="bg-container-btn">
-                Show
-              </button>
+              <button id="bg-container-btn">Show</button>
             </div>
           </div>
         </div>
         <div id="listText" class="tab-area" style="display: none">
           <div class="container">
-            <input
-              type="text"
-              id="listTitle"
-              placeholder="List title"
-            />
-            <textarea
-              id="listItems"
-              placeholder="Type a message"
-            ></textarea>
+            <input type="text" id="listTitle" placeholder="List title" />
+            <textarea id="listItems" placeholder="Type a message"></textarea>
             <button id="sendList">Show text</button>
           </div>
         </div>
@@ -73,11 +58,11 @@
               <div class="obs-section">
                 <h3>⚙️ Configuration</h3>
                 <div class="obs-help-text">
-                  <p style="margin: 0 0 12px 0; color: #aaa; font-size: 12px;">
-                    📝 <strong>How to find these settings in OBS:</strong><br/>
-                    1. Open OBS Studio<br/>
-                    2. Go to <strong>Tools → obs-websocket Settings</strong><br/>
-                    3. Copy the <strong>Server Port</strong> (usually 4455)<br/>
+                  <p style="margin: 0 0 12px 0; color: #aaa; font-size: 12px">
+                    📝 <strong>How to find these settings in OBS:</strong><br />
+                    1. Open OBS Studio<br />
+                    2. Go to <strong>Tools → obs-websocket Settings</strong><br />
+                    3. Copy the <strong>Server Port</strong> (usually 4455)<br />
                     4. If "Enable Authentication" is checked, copy the password
                   </p>
                 </div>
@@ -85,23 +70,31 @@
                   <div class="form-group">
                     <label for="obs-host">Host:</label>
                     <input type="text" id="obs-host" value="localhost" placeholder="localhost" />
-                    <small style="color: #888;">Use 'localhost' if OBS is on this computer</small>
+                    <small style="color: #888">Use 'localhost' if OBS is on this computer</small>
                   </div>
                   <div class="form-group">
                     <label for="obs-port">Port:</label>
                     <input type="number" id="obs-port" value="4455" placeholder="4455" />
-                    <small style="color: #888;">Default: 4455 (check OBS WebSocket settings)</small>
+                    <small style="color: #888">Default: 4455 (check OBS WebSocket settings)</small>
                   </div>
                   <div class="form-group">
                     <label for="obs-password">Password:</label>
-                    <input type="password" id="obs-password" placeholder="Leave empty if no password" />
-                    <small style="color: #888;">Only if authentication is enabled in OBS</small>
+                    <input
+                      type="password"
+                      id="obs-password"
+                      placeholder="Leave empty if no password"
+                    />
+                    <small style="color: #888">Only if authentication is enabled in OBS</small>
                   </div>
                   <div class="form-actions">
                     <button id="obs-save-config-btn" class="secondary-btn">💾 Save Config</button>
-                    <button id="obs-test-connection-btn" class="secondary-btn">🧪 Test Connection</button>
+                    <button id="obs-test-connection-btn" class="secondary-btn">
+                      🧪 Test Connection
+                    </button>
                     <button id="obs-connect-btn" class="primary-btn">🔌 Connect</button>
-                    <button id="obs-disconnect-btn" class="secondary-btn" disabled>🔌 Disconnect</button>
+                    <button id="obs-disconnect-btn" class="secondary-btn" disabled>
+                      🔌 Disconnect
+                    </button>
                   </div>
                 </div>
               </div>
@@ -123,18 +116,20 @@
                   <ul id="obs-scenes-list" class="scenes-list">
                     <li class="empty-state">Connect to OBS to see scenes</li>
                   </ul>
-                  <button id="obs-refresh-scenes-btn" class="secondary-btn">🔄 Refresh Scenes</button>
+                  <button id="obs-refresh-scenes-btn" class="secondary-btn">
+                    🔄 Refresh Scenes
+                  </button>
                 </div>
               </div>
 
               <div class="obs-section">
                 <h3>🔄 Auto Scene Change</h3>
                 <div class="obs-help-text">
-                  <p style="margin: 0 0 8px 0; color: #aaa; font-size: 12px;">
+                  <p style="margin: 0 0 8px 0; color: #aaa; font-size: 12px">
                     ⚙️ Configure automatic scene changes when showing/hiding Bible verses
                   </p>
                 </div>
-                
+
                 <div class="obs-scene-config">
                   <div class="form-group">
                     <label>
@@ -143,13 +138,15 @@
                     </label>
                   </div>
 
-                  <div id="obs-scene-config-content" style="display: none;">
+                  <div id="obs-scene-config-content" style="display: none">
                     <div class="form-group">
                       <label>📺 Scenes to monitor (when to change):</label>
                       <div id="obs-monitor-scenes-list" class="monitor-scenes-list">
-                        <p style="color: #888; font-style: italic;">Connect to OBS to see scenes</p>
+                        <p style="color: #888; font-style: italic">Connect to OBS to see scenes</p>
                       </div>
-                      <small style="color: #888;">Select which scenes should trigger scene change when showing verses</small>
+                      <small style="color: #888"
+                        >Select which scenes should trigger scene change when showing verses</small
+                      >
                     </div>
 
                     <div class="form-group">
@@ -157,7 +154,9 @@
                       <select id="obs-target-scene" class="obs-scene-select">
                         <option value="">-- Select Scene --</option>
                       </select>
-                      <small style="color: #888;">Scene to switch to when showing Bible verses</small>
+                      <small style="color: #888"
+                        >Scene to switch to when showing Bible verses</small
+                      >
                     </div>
 
                     <div class="form-group">
@@ -165,12 +164,18 @@
                       <select id="obs-return-scene" class="obs-scene-select">
                         <option value="">-- Keep Current Scene --</option>
                       </select>
-                      <small style="color: #888;">Scene to return to when hiding verses (optional)</small>
+                      <small style="color: #888"
+                        >Scene to return to when hiding verses (optional)</small
+                      >
                     </div>
 
                     <div class="form-actions">
-                      <button id="obs-save-scene-config-btn" class="secondary-btn">💾 Save Scene Config</button>
-                      <button id="obs-test-scene-change-btn" class="secondary-btn">🧪 Test Scene Change</button>
+                      <button id="obs-save-scene-config-btn" class="secondary-btn">
+                        💾 Save Scene Config
+                      </button>
+                      <button id="obs-test-scene-change-btn" class="secondary-btn">
+                        🧪 Test Scene Change
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -199,13 +204,20 @@
             <div class="settings-section settings-section--wide" id="quickSettings">
               <h3>⚡ Quick Settings</h3>
               <p class="settings-description">
-                Pick a minimalist preset as a starting point and tweak the basics before fine-tuning.
+                Pick a minimalist preset as a starting point and tweak the basics before
+                fine-tuning.
               </p>
               <div class="preset-buttons">
                 <button class="preset-btn" data-preset="sombra">🌫️ Shadow</button>
                 <button class="preset-btn" data-preset="claro">☀️ Light</button>
                 <button class="preset-btn" data-preset="blanco">⚪ White</button>
-                <button class="preset-btn" id="resetAllSettings" style="background: #dc2626; color: white;">🔄 Reset All</button>
+                <button
+                  class="preset-btn"
+                  id="resetAllSettings"
+                  style="background: #dc2626; color: white"
+                >
+                  🔄 Reset All
+                </button>
               </div>
             </div>
 
@@ -281,7 +293,11 @@
                           <label for="fontColor">Primary color</label>
                           <input type="color" id="fontColor" />
                         </div>
-                        <div class="color-picker" id="textGradientColor2Container" style="display: none;">
+                        <div
+                          class="color-picker"
+                          id="textGradientColor2Container"
+                          style="display: none"
+                        >
                           <label for="textGradientColor2">Color 2</label>
                           <input type="color" id="textGradientColor2" value="#ff9a9a" />
                         </div>
@@ -296,52 +312,92 @@
                     </p>
                     <div class="text-effects">
                       <div class="effect-toggle">
-                        <label><input type="checkbox" id="textShadowEnabled" /> 🌑 Text shadow</label>
+                        <label
+                          ><input type="checkbox" id="textShadowEnabled" /> 🌑 Text shadow</label
+                        >
                       </div>
-                      <div id="textShadowControls" style="display: none;">
+                      <div id="textShadowControls" style="display: none">
                         <div class="color-picker">
                           <label for="textShadowColor">Shadow color</label>
                           <input type="color" id="textShadowColor" value="#000000" />
                         </div>
                         <div class="slidecontainer">
                           <label>↔️ Offset X: <span id="shadowXDisplay">2px</span></label>
-                          <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowX" />
+                          <input
+                            type="range"
+                            min="-10"
+                            max="10"
+                            value="2"
+                            class="slider"
+                            id="textShadowX"
+                          />
                         </div>
                         <div class="slidecontainer">
                           <label>↕️ Offset Y: <span id="shadowYDisplay">2px</span></label>
-                          <input type="range" min="-10" max="10" value="2" class="slider" id="textShadowY" />
+                          <input
+                            type="range"
+                            min="-10"
+                            max="10"
+                            value="2"
+                            class="slider"
+                            id="textShadowY"
+                          />
                         </div>
                         <div class="slidecontainer">
                           <label>🌫️ Blur: <span id="shadowBlurDisplay">4px</span></label>
-                          <input type="range" min="0" max="20" value="4" class="slider" id="textShadowBlur" />
+                          <input
+                            type="range"
+                            min="0"
+                            max="20"
+                            value="4"
+                            class="slider"
+                            id="textShadowBlur"
+                          />
                         </div>
                       </div>
 
                       <div class="effect-toggle">
-                        <label><input type="checkbox" id="textStrokeEnabled" /> 🖊️ Text outline</label>
+                        <label
+                          ><input type="checkbox" id="textStrokeEnabled" /> 🖊️ Text outline</label
+                        >
                       </div>
-                      <div id="textStrokeControls" style="display: none;">
+                      <div id="textStrokeControls" style="display: none">
                         <div class="color-picker">
                           <label for="textStrokeColor">Outline color</label>
                           <input type="color" id="textStrokeColor" value="#000000" />
                         </div>
                         <div class="slidecontainer">
                           <label>📏 Width: <span id="strokeWidthDisplay">1px</span></label>
-                          <input type="range" min="0" max="5" value="1" step="0.5" class="slider" id="textStrokeWidth" />
+                          <input
+                            type="range"
+                            min="0"
+                            max="5"
+                            value="1"
+                            step="0.5"
+                            class="slider"
+                            id="textStrokeWidth"
+                          />
                         </div>
                       </div>
 
                       <div class="effect-toggle">
                         <label><input type="checkbox" id="textGlowEnabled" /> 💡 Glow</label>
                       </div>
-                      <div id="textGlowControls" style="display: none;">
+                      <div id="textGlowControls" style="display: none">
                         <div class="color-picker">
                           <label for="textGlowColor">Glow color</label>
                           <input type="color" id="textGlowColor" value="#ffffff" />
                         </div>
                         <div class="slidecontainer">
                           <label>⚡ Intensity: <span id="glowIntensityDisplay">10px</span></label>
-                          <input type="range" min="0" max="30" value="10" class="slider" id="textGlowIntensity" />
+                          <input
+                            type="range"
+                            min="0"
+                            max="30"
+                            value="10"
+                            class="slider"
+                            id="textGlowIntensity"
+                          />
                         </div>
                       </div>
                     </div>
@@ -370,19 +426,34 @@
                           <label for="bgColor">Base color</label>
                           <input type="color" id="bgColor" />
                         </div>
-                        <div class="color-picker" id="gradientColor2Container" style="display: none;">
+                        <div
+                          class="color-picker"
+                          id="gradientColor2Container"
+                          style="display: none"
+                        >
                           <label for="gradientColor2">Color 2</label>
                           <input type="color" id="gradientColor2" value="#ff6b6b" />
                         </div>
-                        <div class="color-picker" id="gradientColor3Container" style="display: none;">
+                        <div
+                          class="color-picker"
+                          id="gradientColor3Container"
+                          style="display: none"
+                        >
                           <label for="gradientColor3">Color 3</label>
                           <input type="color" id="gradientColor3" value="#4ecdc4" />
                         </div>
                       </div>
-                      <div id="gradientControls" style="display: none;">
+                      <div id="gradientControls" style="display: none">
                         <div class="slidecontainer">
                           <label>🔄 Direction: <span id="gradientAngleDisplay">90°</span></label>
-                          <input type="range" min="0" max="360" value="90" class="slider" id="gradientAngle" />
+                          <input
+                            type="range"
+                            min="0"
+                            max="360"
+                            value="90"
+                            class="slider"
+                            id="gradientAngle"
+                          />
                         </div>
                       </div>
                     </div>
@@ -392,7 +463,14 @@
                     <h4>📦 Container</h4>
                     <div class="slidecontainer">
                       <label>🔄 Rounded corners: <span id="roundedCornerDisplay">0px</span></label>
-                      <input type="range" min="0" max="120" value="5" class="slider" id="rounded-corner" />
+                      <input
+                        type="range"
+                        min="0"
+                        max="120"
+                        value="5"
+                        class="slider"
+                        id="rounded-corner"
+                      />
                     </div>
                     <div class="slidecontainer">
                       <label>👻 Opacity: <span id="opacityDisplay">100%</span></label>
@@ -400,11 +478,25 @@
                     </div>
                     <div class="slidecontainer">
                       <label>📏 Inner padding: <span id="paddingDisplay">20px</span></label>
-                      <input type="range" min="0" max="100" value="20" class="slider" id="containerPadding" />
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="20"
+                        class="slider"
+                        id="containerPadding"
+                      />
                     </div>
                     <div class="slidecontainer">
                       <label>📐 Outer margin: <span id="marginDisplay">0px</span></label>
-                      <input type="range" min="0" max="200" value="0" class="slider" id="containerMargin" />
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value="0"
+                        class="slider"
+                        id="containerMargin"
+                      />
                     </div>
                   </div>
                 </div>
@@ -428,8 +520,17 @@
                         </div>
                       </div>
                       <div class="config-group">
-                        <label for="titleFontSize">📏 Size: <span id="titleFontSizeDisplay">20px</span></label>
-                        <input type="range" id="titleFontSize" min="12" max="48" value="20" step="1" />
+                        <label for="titleFontSize"
+                          >📏 Size: <span id="titleFontSizeDisplay">20px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleFontSize"
+                          min="12"
+                          max="48"
+                          value="20"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group">
                         <label for="titleFontWeight">💪 Weight:</label>
@@ -447,16 +548,43 @@
                     <h4>🧭 Position & spacing</h4>
                     <div class="config-grid">
                       <div class="config-group">
-                        <label for="titlePositionX">↔️ Position X: <span id="titlePositionXDisplay">10px</span></label>
-                        <input type="range" id="titlePositionX" min="0" max="200" value="10" step="1" />
+                        <label for="titlePositionX"
+                          >↔️ Position X: <span id="titlePositionXDisplay">10px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titlePositionX"
+                          min="0"
+                          max="200"
+                          value="10"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group">
-                        <label for="titlePositionY">↕️ Position Y: <span id="titlePositionYDisplay">10px</span></label>
-                        <input type="range" id="titlePositionY" min="0" max="200" value="10" step="1" />
+                        <label for="titlePositionY"
+                          >↕️ Position Y: <span id="titlePositionYDisplay">10px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titlePositionY"
+                          min="0"
+                          max="200"
+                          value="10"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group">
-                        <label for="titleSpacing">📝 Spacing: <span id="titleSpacingDisplay">0px</span></label>
-                        <input type="range" id="titleSpacing" min="-2" max="10" value="0" step="0.5" />
+                        <label for="titleSpacing"
+                          >📝 Spacing: <span id="titleSpacingDisplay">0px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleSpacing"
+                          min="-2"
+                          max="10"
+                          value="0"
+                          step="0.5"
+                        />
                       </div>
                       <div class="config-group" id="titleAlignmentNoBoxGroup">
                         <label for="titleAlignment">📐 Alignment:</label>
@@ -478,13 +606,22 @@
                       </label>
                     </div>
                     <div class="config-grid" id="titleShadowAdvanced">
-                      <div class="config-group" id="titleShadowColorGroup" style="display: none;">
+                      <div class="config-group" id="titleShadowColorGroup" style="display: none">
                         <label for="titleShadowColor">🎨 Shadow color:</label>
                         <input type="color" id="titleShadowColor" value="#000000" />
                       </div>
-                      <div class="config-group" id="titleShadowSizeGroup" style="display: none;">
-                        <label for="titleShadowSize">📐 Size: <span id="titleShadowSizeDisplay">2px</span></label>
-                        <input type="range" id="titleShadowSize" min="1" max="10" value="2" step="1" />
+                      <div class="config-group" id="titleShadowSizeGroup" style="display: none">
+                        <label for="titleShadowSize"
+                          >📐 Size: <span id="titleShadowSizeDisplay">2px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleShadowSize"
+                          min="1"
+                          max="10"
+                          value="2"
+                          step="1"
+                        />
                       </div>
                     </div>
                   </div>
@@ -497,14 +634,23 @@
                         Enable outline
                       </label>
                     </div>
-                    <div class="config-grid" id="titleStrokeAdvanced" style="display: none;">
+                    <div class="config-grid" id="titleStrokeAdvanced" style="display: none">
                       <div class="config-group">
                         <label for="titleStrokeColor">🎨 Outline color:</label>
                         <input type="color" id="titleStrokeColor" value="#000000" />
                       </div>
                       <div class="config-group">
-                        <label for="titleStrokeWidth">📏 Width: <span id="titleStrokeWidthDisplay">1px</span></label>
-                        <input type="range" id="titleStrokeWidth" min="1" max="5" value="1" step="0.5" />
+                        <label for="titleStrokeWidth"
+                          >📏 Width: <span id="titleStrokeWidthDisplay">1px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleStrokeWidth"
+                          min="1"
+                          max="5"
+                          value="1"
+                          step="0.5"
+                        />
                       </div>
                     </div>
                   </div>
@@ -517,9 +663,11 @@
                         ✅ Enable title box
                       </label>
                     </div>
-                    <div class="config-grid" id="titleBoxControls" style="display: none;">
+                    <div class="config-grid" id="titleBoxControls" style="display: none">
                       <div class="config-group">
-                        <label for="titleBoxSize">📐 Size: <span id="titleBoxSizeDisplay">Medium</span></label>
+                        <label for="titleBoxSize"
+                          >📐 Size: <span id="titleBoxSizeDisplay">Medium</span></label
+                        >
                         <select id="titleBoxSize">
                           <option value="small">🔸 S</option>
                           <option value="medium" selected>🔹 M</option>
@@ -527,9 +675,18 @@
                           <option value="custom">⚙️ Custom</option>
                         </select>
                       </div>
-                      <div class="config-group" id="customBoxSize" style="display: none;">
-                        <label for="titleBoxPadding">🎚️ Padding: <span id="titleBoxPaddingDisplay">8px</span></label>
-                        <input type="range" id="titleBoxPadding" min="4" max="30" value="8" step="1" />
+                      <div class="config-group" id="customBoxSize" style="display: none">
+                        <label for="titleBoxPadding"
+                          >🎚️ Padding: <span id="titleBoxPaddingDisplay">8px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleBoxPadding"
+                          min="4"
+                          max="30"
+                          value="8"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group">
                         <label for="titleBoxFullWidth">
@@ -537,11 +694,20 @@
                           ↔️ Full width
                         </label>
                       </div>
-                      <div class="config-group" id="titleBoxWidthGroup" style="display: none;">
-                        <label for="titleBoxWidth">📏 Width: <span id="titleBoxWidthDisplay">100%</span></label>
-                        <input type="range" id="titleBoxWidth" min="20" max="100" value="100" step="5" />
+                      <div class="config-group" id="titleBoxWidthGroup" style="display: none">
+                        <label for="titleBoxWidth"
+                          >📏 Width: <span id="titleBoxWidthDisplay">100%</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleBoxWidth"
+                          min="20"
+                          max="100"
+                          value="100"
+                          step="5"
+                        />
                       </div>
-                      <div class="config-group" id="titleAlignmentGroup" style="display: none;">
+                      <div class="config-group" id="titleAlignmentGroup" style="display: none">
                         <label for="titleFullWidthAlignment">📐 Text alignment:</label>
                         <select id="titleFullWidthAlignment">
                           <option value="left">⬅️ Left</option>
@@ -560,20 +726,47 @@
                         </label>
                       </div>
                       <div class="config-group">
-                        <label for="titleBoxOpacity">👻 Opacity: <span id="titleBoxOpacityDisplay">80%</span></label>
-                        <input type="range" id="titleBoxOpacity" min="0" max="100" value="80" step="5" />
+                        <label for="titleBoxOpacity"
+                          >👻 Opacity: <span id="titleBoxOpacityDisplay">80%</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleBoxOpacity"
+                          min="0"
+                          max="100"
+                          value="80"
+                          step="5"
+                        />
                       </div>
                       <div class="config-group">
-                        <label for="titleBoxBorder">🔳 Border: <span id="titleBoxBorderDisplay">1px</span></label>
-                        <input type="range" id="titleBoxBorder" min="0" max="5" value="1" step="1" />
+                        <label for="titleBoxBorder"
+                          >🔳 Border: <span id="titleBoxBorderDisplay">1px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleBoxBorder"
+                          min="0"
+                          max="5"
+                          value="1"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group">
                         <label for="titleBoxBorderColor">🎨 Border color:</label>
                         <input type="color" id="titleBoxBorderColor" value="#ffffff" />
                       </div>
                       <div class="config-group">
-                        <label for="titleBoxRadius">🔘 Corners: <span id="titleBoxRadiusDisplay">6px</span></label>
-                        <input type="range" id="titleBoxRadius" min="0" max="20" value="6" step="1" />
+                        <label for="titleBoxRadius"
+                          >🔘 Corners: <span id="titleBoxRadiusDisplay">6px</span></label
+                        >
+                        <input
+                          type="range"
+                          id="titleBoxRadius"
+                          min="0"
+                          max="20"
+                          value="6"
+                          step="1"
+                        />
                       </div>
                       <div class="config-group config-group--inline">
                         <label for="titleBoxBlur">🌊 Blur effect</label>
@@ -605,7 +798,15 @@
                       </select>
                       <div class="slidecontainer">
                         <label>⏱️ Duration: <span id="animationDurationDisplay">1s</span></label>
-                        <input type="range" min="0.5" max="5" value="1" step="0.1" class="slider" id="animationDuration" />
+                        <input
+                          type="range"
+                          min="0.5"
+                          max="5"
+                          value="1"
+                          step="0.1"
+                          class="slider"
+                          id="animationDuration"
+                        />
                       </div>
                     </div>
                   </div>

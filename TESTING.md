@@ -14,6 +14,7 @@
 ### Location
 
 The RVR60 Bible database is located at:
+
 ```
 src/db/RVR60.sqlite
 ```
@@ -23,6 +24,7 @@ This is the **only** Bible database included in the repository. All other Bible 
 ### Git Configuration
 
 The `.gitignore` file is configured to:
+
 - Ignore all files in `src/db/*`
 - Make an exception for `src/db/RVR60.sqlite`
 
@@ -71,6 +73,7 @@ node testing/testSnapshot.js --update
 ### Test Coverage
 
 All tests are configured to use RVR60 exclusively, ensuring:
+
 - Consistent test results across different environments
 - No dependency on user-installed Bibles
 - Reproducible test outcomes
@@ -84,6 +87,7 @@ To add additional Bible databases:
 3. Your Bibles will **not** be committed to the repository (they're ignored by git)
 
 This approach ensures:
+
 - Only RVR60 is distributed with the repository
 - Users can add their preferred translations
 - Copyright and licensing are respected

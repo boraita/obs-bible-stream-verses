@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Database files
+*.sqlite
+
+# Libraries (external code)
+src/lib/
+
+# Generated files
+*.min.js
+*.js.map
